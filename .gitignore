@@ -102,3 +102,10 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Vim's configuration directory
+.vim/
+
+# Vim's backup files
+*.swp
+*.swo
