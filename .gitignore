@@ -109,3 +109,6 @@ dist
 # Vim's backup files
 *.swp
 *.swo
+
+# Output directory
+out/
