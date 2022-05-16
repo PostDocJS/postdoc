@@ -1,0 +1,23 @@
+{
+  "name": "postdoc",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "Build enhanced static documentation websites with ease.",
+  "bin": {
+    "postdoc": "./bin/postdoc.js"
+  },
+  "engines": {
+    "node": ">= 12.0.0"
+  },
+  "scripts": {
+    "eslint": "eslint lib bin --quiet"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^9.2.0"
+  }
+}
