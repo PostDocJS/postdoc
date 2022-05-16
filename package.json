@@ -2,7 +2,7 @@
   "name": "postdoc",
   "version": "0.0.1",
   "license": "See LICENSE file",
-  "description": "A library that helps building enhanced static websites",
+  "description": "Build enhanced static documentation websites with ease.",
   "bin": {
     "postdoc": "./bin/postdoc.js"
   },
