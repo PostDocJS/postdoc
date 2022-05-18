@@ -13,6 +13,7 @@
     "eslint": "eslint lib bin --quiet"
   },
   "devDependencies": {
+    "@types/node": "^17.0.34",
     "eslint": "^8.15.0",
     "rimraf": "^3.0.2"
   },
