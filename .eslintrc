@@ -109,6 +109,7 @@
     "Promise": true,
     "Proxy": true,
     "Set": true,
+    "Map": true,
     "Reflect": true,
     "element": "readonly",
     "by": "readonly",
