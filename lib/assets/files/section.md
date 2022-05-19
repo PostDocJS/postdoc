@@ -1,3 +1,3 @@
-# A ${section} section of the ${page} page
+# A first section of the ${page} page
 
 Happy writing ☺️
