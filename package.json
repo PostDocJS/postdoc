@@ -9,6 +9,9 @@
   "engines": {
     "node": ">= 12.0.0"
   },
+  "exports": {
+    "./client": "./lib/assets/files/client/index.js"
+  },
   "scripts": {
     "eslint": "eslint lib bin --quiet"
   },
