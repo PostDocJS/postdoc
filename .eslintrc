@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "eslint:recommended"
-  ],
+  "extends": ["eslint:recommended"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
@@ -10,29 +8,19 @@
     }
   },
   "env": {
+    "node": true,
     "mocha": true,
-    "node": true
+    "browser": true
   },
   "rules": {
-    "eqeqeq": [
-      "error",
-      "smart"
-    ],
+    "eqeqeq": ["error", "smart"],
     "no-extra-boolean-cast": 0,
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "curly": [
-      "error",
-      "all"
-    ],
+    "quotes": ["error", "single"],
+    "curly": ["error", "all"],
     "no-console": [
       "error",
       {
-        "allow": [
-          "error"
-        ]
+        "allow": ["error"]
       }
     ],
     "no-debugger": 1,
@@ -67,18 +55,9 @@
     "comma-spacing": 2,
     "comma-style": 2,
     "key-spacing": 2,
-    "one-var": [
-      "error",
-      "never"
-    ],
-    "semi-style": [
-      "error",
-      "last"
-    ],
-    "space-in-parens": [
-      "error",
-      "never"
-    ],
+    "one-var": ["error", "never"],
+    "semi-style": ["error", "last"],
+    "space-in-parens": ["error", "never"],
     "keyword-spacing": [
       2,
       {
@@ -101,9 +80,7 @@
         "SwitchCase": 1
       }
     ],
-    "prefer-const": [
-      "warn"
-    ]
+    "prefer-const": ["warn"]
   },
   "globals": {
     "Promise": true,
