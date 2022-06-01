@@ -1,14 +1,15 @@
+const {EventEmitter} = require('events');
 const {
   ok,
   throws,
   rejects,
   strictEqual,
+  doesNotThrow,
   doesNotReject,
   deepStrictEqual
 } = require('assert');
 
 const mock = require('mock-fs');
-const {EventEmitter} = require('events');
 const {describe, it, after, afterEach} = require('mocha');
 
 const {File, Directory} = require('../lib/files.js');
@@ -19,7 +20,8 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       'existed-file.md': 'content',
       inner: {
         'inner-file.md': 'inner content'
-      }
+      },
+      toMove: {}
     });
   });
 
@@ -285,13 +287,17 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
     });
 
-    describe('files', function () {
+    describe('.files', function () {
       it('should throws if directory has not a "source" path', function () {
         throws(Directory().files);
       });
 
       it('should return an array', function () {
         ok(Directory().setSource('').files() instanceof Array);
+      });
+
+      it('should throw an error while attempting to return files of the non-existent directory', function () {
+        throws(() => Directory().setSource('does-not-exist').files());
       });
 
       it('should return only direct files, by default', function () {
@@ -331,6 +337,100 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
         watcher = Directory().setSource('').watch();
 
         ok(watcher instanceof EventEmitter);
+      });
+    });
+
+    describe('.move', function () {
+      it('should rejects when the "source" and/or the "destination" paths are not set', async function () {
+        await rejects(() => Directory().setSource('toMove').move());
+        await rejects(() => Directory().move('toMoveCopy'));
+        await rejects(() => Directory().move());
+      });
+
+      it('should move the directory from the "source" path to the "destination" path', async function () {
+        await Directory().setSource('toMove').move('toMoveCopy');
+
+        const files = Directory().setSource('toMoveCopy').files();
+
+        // Moved directory exists.
+        ok(files instanceof Array);
+        ok(files.length === 0);
+
+        // Moved directory does not exist.
+        throws(() => Directory().setSource('toMove').files());
+      });
+
+      it('should return the Directory instance', async function () {
+        const directory = Directory().setSource('toMoveCopy');
+        const movedDirectory = await directory.move('toMove');
+
+        strictEqual(directory, movedDirectory);
+        strictEqual(directory.source(), 'toMove');
+      });
+    });
+
+    describe('.create', function () {
+      it('should reject if the "source" path is not defined', async function () {
+        await rejects(() => Directory().create());
+      });
+
+      it('should create a directory', async function () {
+        await Directory().setSource('new-directory').create();
+
+        doesNotThrow(() => Directory().setSource('new-directory').files());
+      });
+
+      it('should return the Directory instance', async function () {
+        const directory = Directory().setSource(
+          'single-non-existent-directory'
+        );
+        const createdDirectory = await directory.create();
+
+        strictEqual(directory, createdDirectory);
+      });
+
+      it('should recursively create directories', async function () {
+        await Directory().setSource('deep/recursive/directory').create();
+
+        doesNotThrow(() => Directory().setSource('deep').files());
+        doesNotThrow(() => Directory().setSource('deep/recursive').files());
+        doesNotThrow(() =>
+          Directory().setSource('deep/recursive/directory').files()
+        );
+      });
+
+      it('should not reject if there is a directory already', async function () {
+        await doesNotReject(() => Directory().setSource('deep').create());
+      });
+    });
+
+    describe('.remove', function () {
+      it('should reject if the "source" path is not defined', async function () {
+        await rejects(() => Directory().remove());
+      });
+
+      it('should remove a directory at the "source" path', async function () {
+        const directory = Directory().setSource(
+          'single-non-existent-directory'
+        );
+
+        const result = directory.remove();
+
+        doesNotReject(result);
+
+        throws(() => d.files());
+      });
+
+      it('should not reject while removing non-exitent directory', async function () {
+        await doesNotReject(() => Directory().setSource('blah').remove());
+      });
+
+      it('should remove nested directories also', async function () {
+        await doesNotReject(() =>
+          Directory().setSource('deep/recursive').remove()
+        );
+
+        throws(() => Directory().setSource('deep/recursive/directory').files());
       });
     });
   });
