@@ -5,7 +5,7 @@ const {it, describe} = require('mocha');
 
 const {timestamp, Duration} = require('../../lib/utils/date.js');
 
-describe('date', function () {
+describe('date module', function () {
   describe('timestamp', function () {
     it('should return the string value', function () {
       ok(typeof timestamp() === 'string');

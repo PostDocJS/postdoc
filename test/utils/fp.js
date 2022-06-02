@@ -4,7 +4,7 @@ const {it, describe} = require('mocha');
 
 const {identity} = require('../../lib/utils/fp.js');
 
-describe('fp', function () {
+describe('fp module', function () {
   describe('identity', function () {
     it('should return the parameter unchanged', function () {
       const result = identity(5);
