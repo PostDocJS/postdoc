@@ -14,7 +14,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "eslint": "eslint lib bin --quiet"
+    "eslint": "eslint lib bin --quiet",
+    "coverage": "nyc mocha"
   },
   "devDependencies": {
     "@types/marked": "^4.0.3",
@@ -22,6 +23,7 @@
     "eslint": "^8.15.0",
     "mocha": "^9.2.2",
     "mock-fs": "^5.1.2",
+    "nyc": "^15.1.0",
     "sinon": "^14.0.0"
   },
   "dependencies": {

@@ -1,10 +1,9 @@
 const {
   ok,
+  throws,
   strictEqual,
-  notStrictEqual,
-  deepStrictEqual,
   doesNotThrow,
-  throws
+  notStrictEqual
 } = require('assert');
 
 const {fake} = require('sinon');
@@ -12,9 +11,9 @@ const {it, describe} = require('mocha');
 
 const {
   Separator,
+  StatusLine,
   LineBuilder,
-  MessageBuilder,
-  StatusLine
+  MessageBuilder
 } = require('../../lib/logger/index.js');
 
 describe('Logger module', function () {
