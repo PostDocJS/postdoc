@@ -60,5 +60,11 @@ describe('date module', function () {
       deepStrictEqual(duration.toDate(), new Date(1));
       deepStrictEqual(durationOther.toDate(), new Date(3));
     });
+
+    it('should be able to set the end of the Duration object at now', function () {
+      const duration = Duration();
+
+      ok(duration.untilNow().toDate().getTime() > 0);
+    });
   });
 });
