@@ -12,7 +12,7 @@ const {
 const mock = require('mock-fs');
 const {describe, it, after, afterEach} = require('mocha');
 
-const {File, Directory} = require('../lib/files.js');
+const {File, Directory, isIgnored} = require('../lib/files.js');
 
 describe('The "files" abstraction over the Node\'s "fs" module', function () {
   before(function () {
@@ -432,6 +432,21 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
 
         throws(() => Directory().setSource('deep/recursive/directory').files());
       });
+    });
+  });
+
+  describe('isIgnored', function () {
+    it('should detect ignored file', function () {
+      ok(isIgnored(File().setSource('file.swo')));
+    });
+
+    it('should detect ignored directory', function () {
+      ok(isIgnored(Directory().setSource('file.swo')));
+    });
+
+    it('should ignore Vim swap files', function () {
+      ok(isIgnored(File().setSource('file.swo')));
+      ok(isIgnored(File().setSource('file.swp')));
     });
   });
 

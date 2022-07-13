@@ -1,8 +1,8 @@
-const {strictEqual} = require('assert');
+const {strictEqual, ok} = require('assert');
 
 const {it, describe} = require('mocha');
 
-const {identity} = require('../../lib/utils/fp.js');
+const {identity, not} = require('../../lib/utils/fp.js');
 
 describe('fp module', function () {
   describe('identity', function () {
@@ -14,6 +14,20 @@ describe('fp module', function () {
 
       strictEqual(result, 5);
       strictEqual(object, result1);
+    });
+  });
+
+  describe('not', function () {
+    it('should return the inversed result of the parameter function', function () {
+      const fn = not(() => false);
+
+      ok(fn());
+    });
+
+    it('should inverse the non-boolean values', function () {
+      const fn = not(() => 7);
+
+      ok(!fn());
     });
   });
 });
