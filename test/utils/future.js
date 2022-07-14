@@ -1,4 +1,4 @@
-const {isPromise} = require('util/types');
+const {isPromise} = require('util').types;
 const {ok, doesNotReject, notStrictEqual, strictEqual} = require('assert');
 
 const {fake} = require('sinon');
