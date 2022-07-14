@@ -88,6 +88,7 @@
     "Set": true,
     "Map": true,
     "Reflect": true,
+    "Symbol": "readonly",
     "element": "readonly",
     "by": "readonly",
     "expect": "readonly",
