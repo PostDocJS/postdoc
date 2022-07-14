@@ -12,7 +12,8 @@ const {
 const mock = require('mock-fs');
 const {describe, it, after, afterEach} = require('mocha');
 
-const {File, Directory, isIgnored} = require('../lib/files.js');
+const {isFuture} = require('../lib/utils/future.js');
+const {File, Directory} = require('../lib/files.js');
 
 describe('The "files" abstraction over the Node\'s "fs" module', function () {
   before(function () {
@@ -82,59 +83,62 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
     });
 
     describe('.content', function () {
-      it('should return a "Promise"', function () {
+      it('should return a "Future"', function () {
         const content = File().setSource('existed-file.md').content();
 
-        ok(content instanceof Promise);
+        ok(isFuture(content));
       });
 
-      it('should asyncronously return the content of the file at the source path', async function () {
-        const content = File().setSource('existed-file.md').content();
+      it('should asynchronously return the content of the file at the source path', async function () {
+        const content = await File().setSource('existed-file.md').content().run();
 
-        await doesNotReject(() => content);
-
-        strictEqual(await content, 'content');
+        ok(content.isOk());
+        strictEqual(content.extract(() => ''), 'content');
       });
 
-      it('should reject if the file at the source path does not exist', function () {
-        rejects(File().setSource('not-exist.md').content);
+      it('should reject if the file at the source path does not exist', async function () {
+        const result = await File().setSource('not-exist.md').content().run();
+
+        ok(result.isErr());
       });
 
       it('should return a mapped content when at least one transformer is provided', async function () {
         const content = await File()
           .setSource('existed-file.md')
           .map((content) => content + '!')
-          .content();
+          .content()
+          .run();
 
-        strictEqual(content, 'content!');
+        strictEqual(content.extract(() => ''), 'content!');
       });
     });
 
     describe('.write', function () {
-      it('should return a "Promise"', function () {
+      it('should return a "Future"', function () {
         const result = File().write();
 
-        ok(result instanceof Promise);
+        ok(isFuture(result));
       });
 
       it('should reject if no "destination" path is provided and the destination file existence is ignored', async function () {
-        await rejects(() => File().write({ignore: false}));
+        const result = await File().write({ignore: true}).run();
+
+        ok(result.isErr());
       });
 
       it('should reject if no "destination" path is provided and the destination file existence is not ignored', async function () {
-        await rejects(() => File().write({ignore: false}));
+        const result = await File().write({ignore: false}).run();
+
+        ok(result.isErr());
       });
 
-      it('should rejects if "destination" path is not provided and the destination file existence is not ignored', async function () {
-        await rejects(() => File().write({ignore: false}));
-      });
-
-      it('should return "false" if "destination" path is provided and the destination file existence is not ignored', async function () {
+      it('should fail if the "destination" path is provided and the destination file existence is not ignored', async function () {
         const result = await File()
           .setDestination('existed-file.md')
-          .write({ignore: false});
+          .write({ignore: false})
+          .run();
 
-        ok(!result);
+        ok(result.isErr());
       });
 
       it('should write a content from the file at the "source" path to the "destination" path if the there is no file at the "destination"', async function () {
@@ -142,27 +146,28 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
           .setSource('existed-file.md')
           .setDestination('copied-file.md');
 
-        const result = await file.write({ignore: false});
+        const result = await file.write({ignore: false}).run();
 
-        ok(result);
+        ok(result.isOk());
 
         const newFile = File().setSource('copied-file.md');
 
         ok(file.exists());
 
-        strictEqual(await newFile.content(), 'content');
+        strictEqual((await newFile.content().run()).extract(() => ''), 'content');
       });
 
-      it('should return "false" and not write a file to the "destination" path if there is a file already and the "ignore" option is "false"', async function () {
+      it('should fail and not write a file to the "destination" path if there is a file already and the "ignore" option is "false"', async function () {
         const result = await File()
           .setSource('existed-file.md')
           .setDestination('copied-file.md')
-          .write({ignore: false});
+          .write({ignore: false})
+          .run();
 
-        ok(!result);
+        ok(result.isErr());
 
         strictEqual(
-          await File().setSource('copied-file.md').content(),
+          (await File().setSource('copied-file.md').content().run()).extract(() => ''),
           'content'
         );
       });
@@ -172,12 +177,13 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
           .setSource('existed-file.md')
           .setDestination('copied-file.md')
           .map((content) => content + ' changed!')
-          .write();
+          .write()
+          .run();
 
-        ok(result);
+        ok(result.isOk());
 
         strictEqual(
-          await File().setSource('copied-file.md').content(),
+          (await File().setSource('copied-file.md').content().run()).extract(() => ''),
           'content changed!'
         );
       });
@@ -187,10 +193,11 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
           .setSource('existed-file.md')
           .setDestination('copied-file.md')
           .map((content) => 'pre-' + content)
-          .write();
+          .write()
+          .run();
 
         strictEqual(
-          await File().setSource('copied-file.md').content(),
+          (await File().setSource('copied-file.md').content().run()).extract(() => ''),
           'pre-content'
         );
       });
@@ -217,18 +224,23 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
 
     describe('.remove', function () {
       it('should reject if a file does not have a "source" path', async function () {
-        await rejects(() => File().remove());
+        const result = await File().remove().run();
+
+        ok(result.isErr());
       });
 
       it('should reject if a file at the "source" path does not exist', async function () {
-        await rejects(() => File().setSource('blah.md').remove());
+        const result = await File().setSource('blah.md').remove().run();
+
+        ok(result.isErr());
       });
 
       it('should remove a file if it exists at the "source" path', async function () {
-        const file = File().setSource('copied-file.md');
+        const file = File().setSource('copied-file.md')
 
-        await doesNotReject(() => file.remove());
+        const result = await file.remove().run();
 
+        ok(result.isOk());
         ok(!file.exists());
       });
 
@@ -236,7 +248,8 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
         await File()
           .setSource('existed-file.md')
           .setDestination('copied-file.md')
-          .write();
+          .write()
+          .run();
       });
     });
   });
@@ -342,13 +355,13 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
 
     describe('.move', function () {
       it('should rejects when the "source" and/or the "destination" paths are not set', async function () {
-        await rejects(() => Directory().setSource('toMove').move());
-        await rejects(() => Directory().move('toMoveCopy'));
-        await rejects(() => Directory().move());
+        ok((await Directory().setSource('toMove').move().run()).isErr());
+        ok((await Directory().move('toMoveCopy').run()).isErr());
+        ok((await Directory().move().run()).isErr());
       });
 
       it('should move the directory from the "source" path to the "destination" path', async function () {
-        await Directory().setSource('toMove').move('toMoveCopy');
+        await Directory().setSource('toMove').move('toMoveCopy').run();
 
         const files = Directory().setSource('toMoveCopy').files();
 
@@ -362,20 +375,20 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
 
       it('should return the Directory instance', async function () {
         const directory = Directory().setSource('toMoveCopy');
-        const movedDirectory = await directory.move('toMove');
+        const movedDirectory = await directory.move('toMove').run();
 
-        strictEqual(directory, movedDirectory);
+        strictEqual(directory, movedDirectory.extract(() => null));
         strictEqual(directory.source(), 'toMove');
       });
     });
 
     describe('.create', function () {
       it('should reject if the "source" path is not defined', async function () {
-        await rejects(() => Directory().create());
+        ok((await Directory().create().run()).isErr());
       });
 
       it('should create a directory', async function () {
-        await Directory().setSource('new-directory').create();
+        await Directory().setSource('new-directory').create().run();
 
         doesNotThrow(() => Directory().setSource('new-directory').files());
       });
@@ -384,13 +397,13 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
         const directory = Directory().setSource(
           'single-non-existent-directory'
         );
-        const createdDirectory = await directory.create();
+        const createdDirectory = await directory.create().run();
 
-        strictEqual(directory, createdDirectory);
+        strictEqual(directory, createdDirectory.extract(() => null));
       });
 
       it('should recursively create directories', async function () {
-        await Directory().setSource('deep/recursive/directory').create();
+        await Directory().setSource('deep/recursive/directory').create().run();
 
         doesNotThrow(() => Directory().setSource('deep').files());
         doesNotThrow(() => Directory().setSource('deep/recursive').files());
@@ -400,13 +413,13 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
 
       it('should not reject if there is a directory already', async function () {
-        await doesNotReject(() => Directory().setSource('deep').create());
+        ok((await Directory().setSource('deep').create().run()).isOk());
       });
     });
 
     describe('.remove', function () {
       it('should reject if the "source" path is not defined', async function () {
-        await rejects(() => Directory().remove());
+        ok((await Directory().remove().run()).isErr());
       });
 
       it('should remove a directory at the "source" path', async function () {
@@ -414,39 +427,25 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
           'single-non-existent-directory'
         );
 
-        const result = directory.remove();
+        const result = await directory.remove().run();
 
-        doesNotReject(result);
+        ok(result.isOk());
 
-        throws(() => d.files());
+        throws(() => directory.files());
       });
 
-      it('should not reject while removing non-exitent directory', async function () {
-        await doesNotReject(() => Directory().setSource('blah').remove());
+      it('should not reject while removing non-existent directory', async function () {
+        ok((await Directory().setSource('blah').remove().run()).isOk());
       });
 
       it('should remove nested directories also', async function () {
-        await doesNotReject(() =>
-          Directory().setSource('deep/recursive').remove()
+        ok(
+          (await Directory().setSource('deep/recursive').remove().run())
+            .isOk()
         );
 
         throws(() => Directory().setSource('deep/recursive/directory').files());
       });
-    });
-  });
-
-  describe('isIgnored', function () {
-    it('should detect ignored file', function () {
-      ok(isIgnored(File().setSource('file.swo')));
-    });
-
-    it('should detect ignored directory', function () {
-      ok(isIgnored(Directory().setSource('file.swo')));
-    });
-
-    it('should ignore Vim swap files', function () {
-      ok(isIgnored(File().setSource('file.swo')));
-      ok(isIgnored(File().setSource('file.swp')));
     });
   });
 

@@ -5,6 +5,8 @@ const {it, describe} = require('mocha');
 
 const {timestamp, Duration} = require('../../lib/utils/date.js');
 
+const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));
+
 describe('date module', function () {
   describe('timestamp', function () {
     it('should return the string value', function () {
@@ -61,8 +63,10 @@ describe('date module', function () {
       deepStrictEqual(durationOther.toDate(), new Date(3));
     });
 
-    it('should be able to set the end of the Duration object at now', function () {
+    it('should be able to set the end of the Duration object at now', async function () {
       const duration = Duration();
+
+      await sleep(10);
 
       ok(duration.untilNow().toDate().getTime() > 0);
     });

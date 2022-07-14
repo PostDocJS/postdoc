@@ -364,7 +364,7 @@ describe('Logger module', function () {
       ok(builder.padStart);
     });
 
-    it('should return a line in a "Date: day month hours:minutes:seconds - Time: ~millisecondsms" format', function () {
+    it('should return a line in a "Date: day month hours:minutes:seconds - Time: ~millisecondsms format', function () {
       // The line is mixed with the colors unicode characters.
       // I'm not sure how to properly test that line.
       const line = StatusLine(new Date()).build();
