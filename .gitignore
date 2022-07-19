@@ -112,3 +112,6 @@ dist
 
 # Output directory
 out/
+
+# IDEA configuration directory
+.idea/
