@@ -340,6 +340,19 @@ describe('Logger module', function () {
 
         ok(logger.notCalled);
       });
+
+      it('should execute the elseLogger if the predicate returns "false"', function () {
+        const logger = fake();
+        const elseLogger = fake();
+
+        MessageBuilder()
+          .line('hello')
+          .line('world')
+          .pipeIf(() => false, logger, elseLogger);
+
+        ok(logger.notCalled);
+        ok(elseLogger.called);
+      });
     });
   });
 
