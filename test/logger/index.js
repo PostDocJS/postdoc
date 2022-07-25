@@ -7,8 +7,10 @@ const {
 } = require('assert');
 
 const {fake} = require('sinon');
-const {it, describe} = require('mocha');
+const {it, before, after, describe} = require('mocha');
 
+const {Container} = require('../../lib/utils/container.js');
+const {CONFIGURATION_ID} = require('../../lib/configuration/index.js');
 const {
   Separator,
   StatusLine,
@@ -357,6 +359,15 @@ describe('Logger module', function () {
   });
 
   describe('StatusLine pattern', function () {
+    before(function () {
+      Container.set(CONFIGURATION_ID, {
+        logger: {
+          quiet: false,
+          noColors: false
+        }
+      });
+    });
+
     it('should be a function', function () {
       ok(typeof StatusLine === 'function');
     });
@@ -385,6 +396,10 @@ describe('Logger module', function () {
       ok(/Date:/.test(line));
       ok(/\d{1,2}\s[A-Z][a-z]{2}\s\d{2}:\d{2}:\d{2}/.test(line));
       ok(/Time:\s~/.test(line));
+    });
+
+    after(function () {
+      Container.remove(CONFIGURATION_ID);
     });
   });
 });
