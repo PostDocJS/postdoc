@@ -2,10 +2,8 @@ const {EventEmitter} = require('events');
 const {
   ok,
   throws,
-  rejects,
   strictEqual,
   doesNotThrow,
-  doesNotReject,
   deepStrictEqual
 } = require('assert');
 
@@ -236,7 +234,7 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
 
       it('should remove a file if it exists at the "source" path', async function () {
-        const file = File().setSource('copied-file.md')
+        const file = File().setSource('copied-file.md');
 
         const result = await file.remove().run();
 
@@ -285,7 +283,7 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
     });
 
     describe('.setSource', function () {
-      it("should return the directory's link", function () {
+      it('should return the directory\'s link', function () {
         const directory = Directory();
 
         strictEqual(directory.setSource(''), directory);
@@ -293,7 +291,7 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
     });
 
     describe('.recursive', function () {
-      it("should return the directory's link", function () {
+      it('should return the directory\'s link', function () {
         const directory = Directory();
 
         strictEqual(directory.recursive(false), directory);
