@@ -1,0 +1,13 @@
+{
+  "name": "${name}",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "test": "postdoc test",
+    "start": "postdoc run",
+    "build": "postdoc build"
+  },
+  "devDependencies": {
+    "postdoc": "^${version}"
+  }
+}

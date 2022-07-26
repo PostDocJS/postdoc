@@ -18,6 +18,7 @@ Implemented commands:
    3. `include <name>`
 2. `build` - runs the build in *production* mode.
 3. `run` - runs the build in *development* mode, watches for changes and serves the output directory. 
+4. `init` - creates the minimal structure of the PostDoc project.
 
 Other commands behave as mocks and do nothing.
 
