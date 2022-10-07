@@ -7,7 +7,7 @@
     "postdoc": "./bin/postdoc.js"
   },
   "engines": {
-    "node": ">= 12.22.0"
+    "node": ">= 14.18.0"
   },
   "exports": {
     "./client": "./lib/assets/files/client/index.js"
@@ -18,24 +18,25 @@
     "coverage": "nyc mocha"
   },
   "devDependencies": {
-    "@types/marked": "^4.0.3",
-    "@types/node": "^18.0.4",
-    "eslint": "^8.20.0",
+    "@types/marked": "^4.0.7",
+    "@types/node": "^18.8.3",
+    "eslint": "^8.24.0",
     "mocha": "^9.2.2",
-    "mock-fs": "^5.1.2",
+    "mock-fs": "^5.1.4",
     "nyc": "^15.1.0",
-    "sinon": "^14.0.0"
+    "sinon": "^14.0.1"
   },
   "dependencies": {
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
-    "commander": "^9.4.0",
+    "commander": "^9.4.1",
     "deepmerge": "^4.2.2",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.3",
+    "dox": "^1.0.0",
     "ejs": "^3.1.8",
-    "joi": "^17.6.0",
-    "marked": "^4.0.18",
-    "vite": "^2.9.14",
-    "yaml": "^2.1.1"
+    "joi": "^17.6.2",
+    "marked": "^4.1.1",
+    "vite": "^3.1.6",
+    "yaml": "^2.1.3"
   }
 }
