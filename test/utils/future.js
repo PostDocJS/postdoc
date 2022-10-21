@@ -193,7 +193,7 @@ describe('Future module', function () {
       const result = await mergeFutures([Succeed(1), Succeed(2), Succeed(3)]).run();
       
       ok(Array.isArray(result.extract(() => null)));
-      ok(result.extract(() => null).every(isResult));
+      ok(result.extract(() => null).every((value) => typeof value === 'number'));
     });
 
     it('should return all results even if there are failed ones', async function () {
