@@ -196,12 +196,11 @@ describe('Future module', function () {
       ok(result.extract(() => null).every((value) => typeof value === 'number'));
     });
 
-    it('should return all results even if there are failed ones', async function () {
+    it('should discard results if at least one future is failed', async function () {
       const result = await mergeFutures([Succeed(1), Fail(2), Succeed(3)]).run();
 
-      ok(result.isOk());
-      ok(Array.isArray(result.extract(identity)));
-      strictEqual(result.extract(identity)[1].extract(identity), 2);
+      ok(result.isErr());
+      strictEqual(result.extract(identity), 2);
     });
   });
 });
