@@ -26,6 +26,10 @@
     "nyc": "^15.1.0",
     "sinon": "^14.0.1"
   },
+  "peerDependencies": {
+    "nightwatch": "^2.4.1",
+    "geckodriver": "^3.2.0"
+  },
   "dependencies": {
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",

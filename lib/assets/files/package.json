@@ -8,6 +8,8 @@
     "build": "postdoc build"
   },
   "devDependencies": {
-    "postdoc": "^${version}"
+    "postdoc": "^${version}",
+    "nightwatch": "^${nightwatch_version}",
+    "geckodriver": "^${geckodriver_version}"
   }
 }
