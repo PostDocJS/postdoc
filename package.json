@@ -19,15 +19,15 @@
   },
   "devDependencies": {
     "@types/marked": "^4.0.7",
-    "@types/node": "^18.8.3",
-    "eslint": "^8.24.0",
+    "@types/node": "^18.11.9",
+    "eslint": "^8.27.0",
     "mocha": "^9.2.2",
-    "mock-fs": "^5.1.4",
+    "mock-fs": "^5.2.0",
     "nyc": "^15.1.0",
-    "sinon": "^14.0.1"
+    "sinon": "^14.0.2"
   },
   "peerDependencies": {
-    "nightwatch": "^2.4.1",
+    "nightwatch": "^2.5.0",
     "geckodriver": "^3.2.0"
   },
   "dependencies": {
@@ -39,9 +39,9 @@
     "dox": "^1.0.0",
     "@microsoft/api-extractor": "^7.33.2",
     "ejs": "^3.1.8",
-    "joi": "^17.6.2",
-    "marked": "^4.1.1",
-    "vite": "^3.1.6",
+    "joi": "^17.7.0",
+    "marked": "^4.2.2",
+    "vite": "^3.2.3",
     "yaml": "^2.1.3"
   }
 }
