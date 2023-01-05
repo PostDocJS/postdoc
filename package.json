@@ -13,8 +13,8 @@
     "./client": "./lib/assets/files/client/index.js"
   },
   "scripts": {
-    "test": "mocha",
-    "eslint": "eslint lib bin --quiet",
+    "test": "npm run eslint && mocha",
+    "eslint": "eslint lib bin test --quiet",
     "coverage": "nyc mocha"
   },
   "devDependencies": {
@@ -27,20 +27,21 @@
     "sinon": "^14.0.2"
   },
   "peerDependencies": {
-    "nightwatch": "^2.5.0",
-    "geckodriver": "^3.2.0"
+    "geckodriver": "^3.2.0",
+    "nightwatch": "^2.5.0"
   },
   "dependencies": {
+    "@microsoft/api-extractor": "^7.33.2",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "commander": "^9.4.1",
     "deepmerge": "^4.2.2",
     "dotenv": "^16.0.3",
     "dox": "^1.0.0",
-    "@microsoft/api-extractor": "^7.33.2",
     "ejs": "^3.1.8",
     "joi": "^17.7.0",
     "marked": "^4.2.2",
+    "udomdiff": "^1.1.0",
     "vite": "^3.2.3",
     "yaml": "^2.1.3"
   }

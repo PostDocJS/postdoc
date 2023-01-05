@@ -128,7 +128,7 @@ describe('Future module', function () {
       it('should not invoke a callback immediately', function () {
         const callback = fake((value) => value + 1);
 
-        const other = Future((success, _fail) => success(fn));
+        const other = Future((success, _fail) => success(callback));
 
         Future((success, _fail) => success(6)).apply(other);
 

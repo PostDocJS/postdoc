@@ -115,3 +115,6 @@ out/
 
 # IDEA configuration directory
 .idea/
+
+# A directory used to contain dist files in tests
+__artifacts__

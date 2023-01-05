@@ -93,6 +93,7 @@
     "by": "readonly",
     "expect": "readonly",
     "browser": "readonly",
-    "Key": "readonly"
+    "Key": "readonly",
+    "globalThis": true
   }
 }
