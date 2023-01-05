@@ -7,15 +7,17 @@ const {it, describe} = require('mocha');
 
 const {Directory} = require('../../../lib/files.js');
 
+const tmpDirectory = '__artifacts__';
+
+const postdocExecutablePath = path.resolve('bin', 'postdoc.js');
+
 describe('init command', function () {
   it('should init the project in an empty directory', function () {
     this.timeout(5000);
 
-    const executablePath = path.resolve('bin', 'postdoc.js');
-
-    const {error, signal} = spawnSync(
+    const {error} = spawnSync(
       'node',
-      [executablePath, 'init', '__artifacts__'],
+      [postdocExecutablePath, 'init', tmpDirectory],
       {cwd: __dirname, shell: true}
     );
 
@@ -23,16 +25,9 @@ describe('init command', function () {
       throw error;
     } 
 
-    if (signal) {
-      switch (signal) {
-        case 'SIGKILL':
-          throw new Error('Child process was unexpectedly killed.');
-      }
-    }
-
     const files = Directory()
       .recursive(true)
-      .setSource(path.resolve(__dirname, '__artifacts__'))
+      .setSource(path.resolve(__dirname, tmpDirectory))
       .files();
 
     ok(files.length > 0);
@@ -42,11 +37,9 @@ describe('init command', function () {
   });
 
   it('should exit early with a message if the destination directory is not empty', function () {
-    const executablePath = path.resolve('bin', 'postdoc.js');
-
     const {error, output} = spawnSync(
       'node',
-      [executablePath, 'init', '__artifacts__'],
+      [postdocExecutablePath, 'init', tmpDirectory],
       {cwd: __dirname, shell: true}
     );
 
@@ -62,19 +55,19 @@ describe('init command', function () {
         )
     );
 
-    fs.rmSync(path.resolve(__dirname, '__artifacts__'), {recursive: true});
+    fs.rmSync(path.resolve(__dirname, tmpDirectory), {recursive: true});
   });
 
   it('should infer the directory name', function () {
     this.timeout(5000);
 
-    const artifactsDirectory = path.resolve(__dirname, '__artifacts__');
+    const artifactsDirectory = path.resolve(__dirname, tmpDirectory);
 
     fs.mkdirSync(artifactsDirectory);
 
     const {error} = spawnSync(
       'node',
-      [path.resolve('bin', 'postdoc.js'), 'init', '.'],
+      [postdocExecutablePath, 'init', '.'],
       {cwd: artifactsDirectory, shell: true}
     );
 
@@ -89,6 +82,8 @@ describe('init command', function () {
 
     const {name} = JSON.parse(packageJson);
 
-    strictEqual(name, '__artifacts__');    
+    strictEqual(name, tmpDirectory);    
+
+    fs.rmSync(path.resolve(__dirname, tmpDirectory), {recursive: true});
   });
 });
