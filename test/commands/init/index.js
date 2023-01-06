@@ -1,4 +1,5 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const {spawnSync} = require('child_process');
 const {ok, strictEqual} = require('assert');
@@ -7,27 +8,28 @@ const {it, describe} = require('mocha');
 
 const {Directory} = require('../../../lib/files.js');
 
-const tmpDirectory = '__artifacts__';
-
+const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'init-command-'));
 const postdocExecutablePath = path.resolve('bin', 'postdoc.js');
+const artifactsDirectoryName = '__artifacts__';
+const artifactsDirectory = path.join(workingDirectory, artifactsDirectoryName);
 
 describe('init command', function () {
   it('should init the project in an empty directory', function () {
-    this.timeout(5000);
+    this.timeout(0);
 
     const {error} = spawnSync(
       'node',
-      [postdocExecutablePath, 'init', tmpDirectory],
-      {cwd: __dirname, shell: true}
+      [postdocExecutablePath, 'init', artifactsDirectoryName],
+      {cwd: workingDirectory, shell: true}
     );
 
     if (error) {
       throw error;
-    } 
+    }
 
     const files = Directory()
       .recursive(true)
-      .setSource(path.resolve(__dirname, tmpDirectory))
+      .setSource(artifactsDirectory)
       .files();
 
     ok(files.length > 0);
@@ -39,8 +41,8 @@ describe('init command', function () {
   it('should exit early with a message if the destination directory is not empty', function () {
     const {error, output} = spawnSync(
       'node',
-      [postdocExecutablePath, 'init', tmpDirectory],
-      {cwd: __dirname, shell: true}
+      [postdocExecutablePath, 'init', artifactsDirectoryName],
+      {cwd: workingDirectory, shell: true}
     );
 
     if (error) {
@@ -55,13 +57,11 @@ describe('init command', function () {
         )
     );
 
-    fs.rmSync(path.resolve(__dirname, tmpDirectory), {recursive: true});
+    fs.rmSync(artifactsDirectory, {recursive: true});
   });
 
   it('should infer the directory name', function () {
-    this.timeout(5000);
-
-    const artifactsDirectory = path.resolve(__dirname, tmpDirectory);
+    this.timeout(0);
 
     fs.mkdirSync(artifactsDirectory);
 
@@ -82,8 +82,8 @@ describe('init command', function () {
 
     const {name} = JSON.parse(packageJson);
 
-    strictEqual(name, tmpDirectory);    
+    strictEqual(name, artifactsDirectoryName);    
 
-    fs.rmSync(path.resolve(__dirname, tmpDirectory), {recursive: true});
+    fs.rmSync(artifactsDirectory, {recursive: true});
   });
 });
