@@ -4,7 +4,7 @@ const path = require('path');
 const {spawnSync} = require('child_process');
 const {ok, strictEqual} = require('assert');
 
-const {it, describe} = require('mocha');
+const {it, describe, afterEach} = require('mocha');
 
 const {Directory} = require('../../../lib/files.js');
 
@@ -14,6 +14,10 @@ const artifactsDirectoryName = '__artifacts__';
 const artifactsDirectory = path.join(workingDirectory, artifactsDirectoryName);
 
 describe('init command', function () {
+  afterEach(function () {
+    fs.rmSync(artifactsDirectory, {force: true, recursive: true});
+  });
+
   it('should init the project in an empty directory', function () {
     this.timeout(0);
 
@@ -39,6 +43,10 @@ describe('init command', function () {
   });
 
   it('should exit early with a message if the destination directory is not empty', function () {
+    fs.mkdirSync(artifactsDirectory);
+
+    fs.writeFileSync(path.resolve(artifactsDirectory, 'test.md'), '');
+    
     const {error, output} = spawnSync(
       'node',
       [postdocExecutablePath, 'init', artifactsDirectoryName],
@@ -56,8 +64,6 @@ describe('init command', function () {
           (buffer) => buffer.toString('utf8').includes('directory is not empty')
         )
     );
-
-    fs.rmSync(artifactsDirectory, {recursive: true});
   });
 
   it('should infer the directory name', function () {
@@ -83,7 +89,5 @@ describe('init command', function () {
     const {name} = JSON.parse(packageJson);
 
     strictEqual(name, artifactsDirectoryName);    
-
-    fs.rmSync(artifactsDirectory, {recursive: true});
   });
 });
