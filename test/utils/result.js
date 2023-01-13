@@ -4,7 +4,7 @@ const {fake} = require('sinon');
 const {it, describe} = require('mocha');
 
 const {not, identity} = require('../../lib/utils/fp.js');
-const {isResult, Ok, Err, mergeResults} = require('../../lib/utils/result.js');
+const {isResult, Ok, Err, mergeResults, tryExecute} = require('../../lib/utils/result.js');
 
 describe('Result module', function () {
   describe('Ok', function () {
@@ -141,6 +141,32 @@ describe('Result module', function () {
 
       ok(result.isErr());
       strictEqual(result.extract(identity), 2);
+    });
+  });
+
+  describe('tryExecute', function () {
+    it('should execute the function and return the result object', function () {
+      const fn = () => 5;
+
+      const result = tryExecute(fn);
+
+      ok(isResult(result));
+      strictEqual(result.extract(() => 0), 5);
+    });
+
+    it('should return the Result in the error state if the parameter throws', function () {
+      const fn = () => {
+        throw 1;
+      };
+
+      const callback = fake(() => 2);
+
+      const result = tryExecute(fn);
+      const extractedValue = result.extract(callback);
+
+      ok(isResult(result));
+      strictEqual(extractedValue, 2);
+      strictEqual(callback.firstCall.firstArg, 1); 
     });
   });
 });
