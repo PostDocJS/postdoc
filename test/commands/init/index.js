@@ -31,9 +31,8 @@ describe('init command', function () {
       throw error;
     }
 
-    const files = Directory()
+    const files = Directory(artifactsDirectory)
       .recursive(true)
-      .setSource(artifactsDirectory)
       .files();
 
     ok(files.length > 0);

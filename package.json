@@ -31,6 +31,7 @@
     "nightwatch": "^2.6.10"
   },
   "dependencies": {
+    "@halo-lab/future": "^0.0.3",
     "@microsoft/api-extractor": "^7.33.2",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",

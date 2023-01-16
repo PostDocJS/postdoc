@@ -3,7 +3,7 @@ const {strictEqual} = require('assert');
 const mock = require('mock-fs');
 const {it, before, after, describe} = require('mocha');
 
-const {resolveConfig} = require('../lib/configuration/resolve.js');
+const {resolveConfiguration} = require('../lib/configuration/resolve.js');
 
 describe('Configuration module', function () {
   describe('files priority', function () {
@@ -17,7 +17,7 @@ describe('Configuration module', function () {
     });
 
     it('should load the ES module config file at first', async function () {
-      const configuration = await resolveConfig();
+      const configuration = await resolveConfiguration();
 
       strictEqual(configuration.server.base, '/root');
     });
