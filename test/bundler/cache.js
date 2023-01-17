@@ -1,8 +1,8 @@
-const {ok, strictEqual, throws, deepStrictEqual} = require('assert');
+import {ok, strictEqual, throws, deepStrictEqual} from 'node:assert';
 
-const {it, describe, afterEach} = require('mocha');
+import {it, describe, afterEach} from 'mocha';
 
-const {
+import {
   clearCache,
   hasCacheEntry,
   getCacheEntry,
@@ -10,7 +10,7 @@ const {
   removeCacheEntry,
   descriptorShouldBeFor,
   getCacheKeyDescriptorsByParts
-} = require('../../lib/bundler/cache.js');
+} from '../../lib/bundler/cache.js';
 
 describe('bundler\'s cache', function () {
   afterEach(function () {

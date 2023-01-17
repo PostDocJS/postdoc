@@ -1,8 +1,8 @@
-const {ok, throws, doesNotThrow, strictEqual} = require('assert');
+import {ok, throws, doesNotThrow, strictEqual} from 'node:assert';
 
-const {it, describe} = require('mocha');
+import {it, describe} from 'mocha';
 
-const {Container} = require('../../lib/utils/container.js');
+import {Container} from '../../lib/utils/container.js';
 
 describe('Container', function () {
   it('should be an object', function () {

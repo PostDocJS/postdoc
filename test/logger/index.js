@@ -1,22 +1,17 @@
-const {
+import {
   ok,
   throws,
   strictEqual,
   doesNotThrow,
   notStrictEqual
-} = require('assert');
+} from 'node:assert';
 
-const {fake} = require('sinon');
-const {it, before, after, describe} = require('mocha');
+import {fake} from 'sinon';
+import {it, before, after, describe} from 'mocha';
 
-const {Container} = require('../../lib/utils/container.js');
-const {CONFIGURATION_ID} = require('../../lib/configuration/index.js');
-const {
-  Separator,
-  StatusLine,
-  LineBuilder,
-  MessageBuilder
-} = require('../../lib/logger/index.js');
+import {Container} from '../../lib/utils/container.js';
+import {CONFIGURATION_ID} from '../../lib/configuration/index.js';
+import {Separator, StatusLine, LineBuilder, MessageBuilder} from '../../lib/logger/index.js';
 
 describe('Logger module', function () {
   describe('LineBuilder', function () {

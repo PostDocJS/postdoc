@@ -1,9 +1,9 @@
-const {strictEqual, ok, throws, deepStrictEqual, notStrictEqual} = require('assert');
+import {strictEqual, ok, throws, deepStrictEqual, notStrictEqual} from 'node:assert';
 
-const {fake} = require('sinon');
-const {it, describe} = require('mocha');
+import {fake} from 'sinon';
+import {it, describe} from 'mocha';
 
-const {
+import {
   not,
   tap,
   pipe,
@@ -14,7 +14,7 @@ const {
   identity,
   isObject,
   isNothing
-} = require('../../lib/utils/fp.js');
+} from '../../lib/utils/fp.js';
 
 describe('fp module', function () {
   describe('identity', function () {

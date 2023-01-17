@@ -1,10 +1,10 @@
-const {ok, notStrictEqual, strictEqual} = require('assert');
+import {ok} from 'node:assert';
 
-const {fake} = require('sinon');
-const {it, describe} = require('mocha');
+import {fake} from 'sinon';
+import {it, describe} from 'mocha';
 
-const {Stream, isStream} = require('../../lib/utils/stream.js');
-const {identity} = require('../../lib/utils/fp.js');
+import {identity} from '../../lib/utils/fp.js';
+import {Stream, isStream} from '../../lib/utils/stream.js';
 
 describe('Stream', function () {
   it('should be a function', function () {

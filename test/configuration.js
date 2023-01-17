@@ -1,9 +1,9 @@
-const {strictEqual} = require('assert');
+import {strictEqual} from 'node:assert';
 
-const mock = require('mock-fs');
-const {it, before, after, describe} = require('mocha');
+import mock from 'mock-fs';
+import {it, before, after, describe} from 'mocha';
 
-const {resolveConfiguration} = require('../lib/configuration/resolve.js');
+import {resolveConfiguration} from '../lib/configuration/resolve.js';
 
 describe('Configuration module', function () {
   describe('files priority', function () {

@@ -1,10 +1,10 @@
-const {ok, notStrictEqual, strictEqual} = require('assert');
+import {ok, notStrictEqual, strictEqual} from 'node:assert';
 
-const {fake} = require('sinon');
-const {it, describe} = require('mocha');
+import {fake} from 'sinon';
+import {it, describe} from 'mocha';
 
-const {identity} = require('../../lib/utils/fp.js');
-const {isOption, Option, Some, None} = require('../../lib/utils/option.js');
+import {identity} from '../../lib/utils/fp.js';
+import {isOption, Option, Some, None} from '../../lib/utils/option.js';
 
 describe('Option module', function () {
   describe('Option', function () {

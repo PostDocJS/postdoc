@@ -1,21 +1,27 @@
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const {spawnSync} = require('child_process');
-const {ok, strictEqual} = require('assert');
+import {tmpdir} from 'node:os';
+import {spawnSync} from 'node:child_process';
+import {join, resolve} from 'node:path';
+import {ok, strictEqual} from 'node:assert';
+import {
+  rmSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  writeFileSync
+} from 'node:fs';
 
-const {it, describe, afterEach} = require('mocha');
+import {it, describe, afterEach} from 'mocha';
 
-const {Directory} = require('../../../lib/files.js');
+import {Directory} from '../../../lib/files.js';
 
-const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'init-command-'));
-const postdocExecutablePath = path.resolve('bin', 'postdoc.js');
+const workingDirectory = mkdtempSync(join(tmpdir(), 'init-command-'));
+const postdocExecutablePath = resolve('bin', 'postdoc.js');
 const artifactsDirectoryName = '__artifacts__';
-const artifactsDirectory = path.join(workingDirectory, artifactsDirectoryName);
+const artifactsDirectory = join(workingDirectory, artifactsDirectoryName);
 
 describe('init command', function () {
   afterEach(function () {
-    fs.rmSync(artifactsDirectory, {force: true, recursive: true});
+    rmSync(artifactsDirectory, {force: true, recursive: true});
   });
 
   it('should init the project in an empty directory', function () {
@@ -42,9 +48,9 @@ describe('init command', function () {
   });
 
   it('should exit early with a message if the destination directory is not empty', function () {
-    fs.mkdirSync(artifactsDirectory);
+    mkdirSync(artifactsDirectory);
 
-    fs.writeFileSync(path.resolve(artifactsDirectory, 'test.md'), '');
+    writeFileSync(resolve(artifactsDirectory, 'test.md'), '');
     
     const {error, output} = spawnSync(
       'node',
@@ -68,7 +74,7 @@ describe('init command', function () {
   it('should infer the directory name', function () {
     this.timeout(0);
 
-    fs.mkdirSync(artifactsDirectory);
+    mkdirSync(artifactsDirectory);
 
     const {error} = spawnSync(
       'node',
@@ -80,8 +86,8 @@ describe('init command', function () {
       throw error;
     }
 
-    const packageJson = fs.readFileSync(
-      path.join(artifactsDirectory, 'package.json'),
+    const packageJson = readFileSync(
+      join(artifactsDirectory, 'package.json'),
       {encoding: 'utf8'}
     );
 

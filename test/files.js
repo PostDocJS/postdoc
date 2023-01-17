@@ -1,15 +1,10 @@
-const {EventEmitter} = require('events');
-const {
-  ok,
-  throws,
-  strictEqual,
-  doesNotThrow
-} = require('assert');
+import {EventEmitter} from 'node:events';
+import {ok, throws, strictEqual, doesNotThrow} from 'node:assert';
 
-const mock = require('mock-fs');
-const {describe, it, beforeEach, afterEach} = require('mocha');
+import mock from 'mock-fs';
+import {describe, it, beforeEach, afterEach} from 'mocha';
 
-const {File, Directory} = require('../lib/files.js');
+import {File, Directory} from '../lib/files.js';
 
 describe('The "files" abstraction over the Node\'s "fs" module', function () {
   beforeEach(function () {

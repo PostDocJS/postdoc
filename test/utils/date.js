@@ -1,9 +1,9 @@
-const {ok, notStrictEqual, deepStrictEqual} = require('assert');
+import {ok, notStrictEqual, deepStrictEqual} from 'node:assert';
 
-const {fake} = require('sinon');
-const {it, describe} = require('mocha');
+import {fake} from 'sinon';
+import {it, describe} from 'mocha';
 
-const {timestamp, Duration} = require('../../lib/utils/date.js');
+import {timestamp, Duration} from '../../lib/utils/date.js';
 
 const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
