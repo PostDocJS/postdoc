@@ -264,6 +264,10 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
     });
 
+    describe('.directories', function () {
+
+    });
+
     describe('.watch', function () {
       let watcher = null;
 
