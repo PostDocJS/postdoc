@@ -14,9 +14,9 @@
     "./client": "./lib/assets/files/client/index.js"
   },
   "scripts": {
-    "test": "npm run eslint && mocha",
+    "test": "mocha",
     "eslint": "eslint lib bin test --quiet",
-    "coverage": "nyc mocha"
+    "test-with-coverage": "nyc mocha"
   },
   "devDependencies": {
     "@types/marked": "^4.0.8",
