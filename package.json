@@ -1,6 +1,6 @@
 {
   "name": "postdoc",
-	"type": "module",
+  "type": "module",
   "version": "0.0.1",
   "license": "MIT",
   "description": "Build enhanced static documentation websites with ease.",
@@ -32,7 +32,7 @@
     "nightwatch": "^2.6.10"
   },
   "dependencies": {
-    "@halo-lab/future": "^0.0.3",
+    "@halo-lab/future": "^0.0.5",
     "@microsoft/api-extractor": "^7.33.7",
     "chalk": "^5.2.0",
     "chokidar": "^3.5.3",
