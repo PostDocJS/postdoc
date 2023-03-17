@@ -4,38 +4,29 @@ import mockFs from "mock-fs";
 import { it, beforeEach, afterEach, describe } from "mocha";
 
 import { Container } from "../../../lib/utils/container.js";
-import { getAllPages } from "../../../lib/bundler/page/entity.js";
 import { CONFIGURATION_ID } from "../../../lib/configuration/index.js";
-import { createPageCompiler } from "../../../lib/bundler/page/index.js";
 import {
   clearCache,
   getCacheEntry,
   hasCacheEntry,
 } from "../../../lib/bundler/cache.js";
+import {
+  basicHtml,
+  compilePage,
+  createCompilerFor,
+  defaultConfiguration,
+} from "../utils.js";
 
 describe("compile", function () {
-  const defaultConfiguration = {
-    directories: {
-      pages: "pages",
-      output: "out",
-      contents: "pages",
-      includes: "includes",
-    },
-    logger: {
-      noColors: false,
-    },
-  };
-
   beforeEach(function () {
     Container.set(CONFIGURATION_ID, defaultConfiguration);
 
     mockFs({
       pages: {
-        "draft.html.ejs": `<html>
-	<head></head>
-	<body>
-</body>
-</html>`,
+        "inner-basic": {
+          "index.html.ejs": basicHtml,
+        },
+        "draft.html.ejs": basicHtml,
         "draft.md": "--- draft: true ---",
 
         "index.html.ejs": "<p><%= 'foo' %></p>",
@@ -46,23 +37,13 @@ describe("compile", function () {
 </body>
 </html>`,
         "with-relative.md": "Wow",
-        "about.html.ejs": `
-<html>
-	<head></head>
-	<body></body>
-</html>
-`,
+        "about.html.ejs": basicHtml,
         "about.md": `
 ---
 title: 'About'
 ---
 `,
-        "contacts.html.ejs": `
-<html>
-	<head></head>
-	<body></body>
-</html>
-`,
+        "contacts.html.ejs": basicHtml,
         "contacts.md": `
 ---
 language: ro
@@ -79,99 +60,80 @@ language: ro
 language: uk
 ---
 `,
+        "html-with-lang-and-attributes.html.ejs": `
+<html lang="en" data-theme="light">
+	<head></head>
+	<body></body>
+</html>
+`,
+        "html-with-lang-and-attributes.md": `
+---
+language: uk
+---
+`,
       },
     });
   });
 
   it("should compile a page to HTML without relative content file", async function () {
-    const pages = getAllPages(defaultConfiguration);
-
-    const compile = createPageCompiler(pages);
-
-    const indexPage = pages.find((page) => page.url.includes("index"));
-
-    const html = await compile(indexPage);
+    const html = await compilePage("index");
 
     strictEqual(html, "<p>foo</p>");
   });
 
   it("should compile a page to HTML with relative content file", async function () {
-    const pages = getAllPages(defaultConfiguration);
-
-    const compile = createPageCompiler(pages);
-
-    const withRelativePage = pages.find((page) =>
-      page.url.includes("with-relative")
-    );
-
-    const html = await compile(withRelativePage);
+    const html = await compilePage("with-relative");
 
     ok(/<body>\s+<p>Wow<\/p>\s+<\/body>/.test(html));
   });
 
   it("should insert generated front matter into the head", async function () {
-    const pages = getAllPages(defaultConfiguration);
-
-    const compile = createPageCompiler(pages);
-
-    const aboutPage = pages.find((page) => page.url.includes("about"));
-
-    const html = await compile(aboutPage);
+    const html = await compilePage("about");
 
     ok(/<head><title>About/.test(html));
   });
 
   it("should insert language into the meta tag and as the lang attribute to the html tag", async function () {
-    const pages = getAllPages(defaultConfiguration);
-
-    const compile = createPageCompiler(pages);
-
-    const contactsPage = pages.find((page) => page.url.includes("contacts"));
-
-    const html = await compile(contactsPage);
+    const html = await compilePage("contacts");
 
     ok(/<html lang="ro">/.test(html));
     ok(/<meta property="og:locale" content="ro">/.test(html));
   });
 
+  it("should replace an existed lang attribute in the html and preserve other attributes", async function () {
+    const html = await compilePage("html-with-lang-and-attributes");
+
+    ok(/<html lang="uk" data-theme="light">/.test(html));
+  });
+
   it("should add the lang tag to the html and preserve other attributes", async function () {
-    const pages = getAllPages(defaultConfiguration);
-
-    const compile = createPageCompiler(pages);
-
-    const htmlWithAttributesPage = pages.find((page) =>
-      page.url.includes("html-with-attributes")
-    );
-
-    const html = await compile(htmlWithAttributesPage);
+    const html = await compilePage("html-with-attributes");
 
     ok(/<html data-theme="light" lang="uk">/.test(html));
   });
 
   it("should return null if a content is marked as draft and not cache the content", async function () {
-    const pages = getAllPages(defaultConfiguration);
+    const { page, compile } = createCompilerFor("draft");
 
-    const compile = createPageCompiler(pages);
-
-    const draftPage = pages.find((page) => page.url.includes("draft"));
-
-    const html = await compile(draftPage);
+    const html = await compile(page);
 
     ok(html === null);
-    ok(!hasCacheEntry([draftPage.layout.source()]));
+    ok(!hasCacheEntry([page.layout.source()]));
   });
 
   it("should cache a successufully compiled page", async function () {
-    const pages = getAllPages(defaultConfiguration);
+    const { page, compile } = createCompilerFor("index");
 
-    const compile = createPageCompiler(pages);
+    const html = await compile(page);
 
-    const indexPage = pages.find((page) => page.url.includes("index"));
+    ok(hasCacheEntry([page.layout.source()]));
+    ok(getCacheEntry([page.layout.source()]) === html);
+  });
 
-    const html = await compile(indexPage);
+  it("should treat a directory with the index.html.ejs file as a page", function () {
+    const { page } = createCompilerFor("inner-basic");
 
-    ok(hasCacheEntry([indexPage.layout.source()]));
-    ok(getCacheEntry([indexPage.layout.source()]) === html);
+    ok(page.url === "/inner-basic/index.html");
   });
 
   afterEach(function () {
