@@ -10,6 +10,9 @@ export const basicHtml = `
 `;
 
 export const defaultConfiguration = {
+  i18n: {
+    languages: ['uk', 'de']
+  },
   directories: {
     pages: 'pages',
     output: 'out',

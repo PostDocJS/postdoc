@@ -1,3 +1,4 @@
+import {resolve} from 'node:path';
 import {EventEmitter} from 'node:events';
 import {ok, throws, strictEqual, doesNotThrow} from 'node:assert';
 
@@ -264,8 +265,24 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
     });
 
-    describe('.directories', function () {
+    describe('.exists', function () {
+      it('should return true if directory exists', function () {
+        ok(Directory('inner').exists());
+      });
 
+      it('should return false if directory does not exist', function () {
+        ok(!Directory('unknown-directory').exists());
+      });
+    });
+
+    describe('.directories', function () {
+      it('should return a list of directories only', function () {
+        const dirs = Directory('.').directories();
+
+        strictEqual(dirs.length, 2);
+        strictEqual(dirs[0].source(), 'inner');
+        strictEqual(dirs[1].source(), 'toMove');
+      });
     });
 
     describe('.watch', function () {

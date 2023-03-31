@@ -150,7 +150,7 @@ const sum = module.add(1, 2);
     while (urlRe.exec(html)) {
       occurencesCount++;
     }
-
+    debugger;
     ok(occurencesCount === 3);
   });
 
