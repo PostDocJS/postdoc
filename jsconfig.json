@@ -1,5 +1,12 @@
 {
   "compilerOptions": {
-    "types": ["@halo-lab/future/index"]
-  }
+    "moduleResolution": "node",
+    "types": [
+      "@halo-lab/future/index"
+    ]
+  },
+  "include": [
+    "lib/**/*",
+    "bin/*"
+  ]
 }
