@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "types": [
-      "@halo-lab/future/index"
+      "@halo-lab/future"
     ]
   },
   "include": [
