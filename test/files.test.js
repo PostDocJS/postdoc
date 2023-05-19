@@ -1,4 +1,3 @@
-import {resolve} from 'node:path';
 import {EventEmitter} from 'node:events';
 import {ok, throws, strictEqual, doesNotThrow} from 'node:assert';
 

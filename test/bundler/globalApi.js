@@ -128,7 +128,7 @@ const sum = module.add(1, 2);
     });
   });
 
-  test('the page variable should be available in a page\'s layout, content and section files', async function () {
+  test('the page variable should be available in a pages layout, content and section files', async function () {
     const html = await compilePage('first');
 
     const booleanRe = /true/g;
@@ -150,7 +150,7 @@ const sum = module.add(1, 2);
     while (urlRe.exec(html)) {
       occurencesCount++;
     }
-    debugger;
+
     ok(occurencesCount === 3);
   });
 
