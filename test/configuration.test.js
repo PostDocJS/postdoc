@@ -25,7 +25,7 @@ describe('Configuration module', function() {
         'package.json': '{"name":"testing-file"}'
       });
 
-      const configuration = await resolveConfiguration();
+      const {configuration} = await resolveConfiguration();
 
       strictEqual(configuration.server.base, '/root');
     });
@@ -40,7 +40,7 @@ describe('Configuration module', function() {
 
       mockConfigurationFilesToLoad();
 
-      const configuration = await resolveConfiguration();
+      const {configuration} = await resolveConfiguration();
 
       strictEqual(configuration.server.port, 5698);
     });
@@ -54,7 +54,7 @@ describe('Configuration module', function() {
 
       mockConfigurationFilesToLoad();
 
-      const configuration = await resolveConfiguration();
+      const {configuration} = await resolveConfiguration();
 
       strictEqual(configuration.server.strictPort, true);
     });
@@ -69,7 +69,7 @@ describe('Configuration module', function() {
         'package.json': '{"name":"testing-file", "type":"module"}'
       });
 
-      const configuration = await resolveConfiguration();
+      const {configuration} = await resolveConfiguration();
 
       strictEqual(configuration.server.strictPort, true);
     });
@@ -82,7 +82,7 @@ describe('Configuration module', function() {
 
       mockConfigurationFilesToLoad();
 
-      const configuration = await resolveConfiguration();
+      const {configuration} = await resolveConfiguration();
 
       strictEqual(configuration.server.force, true);
     });
@@ -97,13 +97,11 @@ describe('Configuration module', function() {
     it('should replace the interpolation pattern with a environment variable with the pattern as the name', async function() {
       mockFs({
         '.env': 'PROP_ENV = "cool secret value"',
-        // There is no point in declaring content of the file here because it is never used.
-        // See comment above.
-        'postdoc.conf.js': '',
+        'postdoc.conf.js': 'export default {prop: "${PROP_ENV}"}',
         'package.json': '{"type":"module"}'
       });
     
-      const configuration = await initializeConfiguration();
+      const {configuration} = await initializeConfiguration();
 
       strictEqual(configuration.prop, 'cool secret value');
     });

@@ -15,8 +15,10 @@ export const defaultConfiguration = {
   },
   directories: {
     pages: 'pages',
+    tests: 'test',
     output: 'out',
     contents: 'pages',
+    layouts: 'pages',
     includes: 'includes'
   },
   logger: {
