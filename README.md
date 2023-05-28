@@ -2,12 +2,6 @@
 
 [![CI](https://github.com/PostDocJS/postdoc/actions/workflows/main.yml/badge.svg)](https://github.com/PostDocJS/postdoc/actions/workflows/main.yml)
 
-## Development
-
-To be able to develop the project you should have NodeJS >=12.22.x only.
-
-Commands can be tested with `node ./bin/postdoc.js <arguments here...>`.
-
 ## Structure
 
 Implemented commands:
@@ -108,6 +102,3 @@ These are:
 4. *attachListenerAll(selectors, event, listener)* - registers event listener to all matched elements in respect to the Navigation API (remember that DOM nodes are discarded after navigation complete).
 5. *navigateTo(url)* - executes the navigation programmatically (useful if the user wants to navigate on the button click).
 
-## Note
-
-It is still work in progress. Use with caution. Have fun ✌️
