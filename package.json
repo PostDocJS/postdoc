@@ -25,11 +25,8 @@
     "mocha": "^10.2.0",
     "mock-fs": "^5.2.0",
     "mock-require": "^3.0.3",
-    "sinon": "^15.0.1"
-  },
-  "peerDependencies": {
-    "geckodriver": "^3.2.0",
-    "nightwatch": "^2.6.21"
+    "sinon": "^15.0.1",
+    "geckodriver": "^3.2.0"
   },
   "dependencies": {
     "@halo-lab/future": "^0.0.5",
@@ -48,6 +45,7 @@
     "open": "^9.1.0",
     "vite": "^4.0.0",
     "vite-plugin-pwa": "^0.14.7",
-    "yaml": "^2.2.1"
+    "yaml": "^2.2.1",
+    "nightwatch": "^2.6.21"
   }
 }
