@@ -46,5 +46,16 @@ describe('Configuration module', function() {
     
       client.assert.equal(configuration.server.strictPort, true);
     });
+
+    it('should load the config as ES module if package.json contains the type: module', async function(client) {
+      await fs.writeFile(path.join(tmpDir, 'postdoc.conf.js'), 'export default {server: {strictPort: true}, prop: "${PROP_ENV}"}');
+      await fs.writeFile(path.join(tmpDir, 'postdoc.json'), '{"server": {"force": true}}');
+      await fs.writeFile(path.join(tmpDir, 'package.json'), '{"name":"testing-file", "type":"module"}');
+    
+      const {configuration} = await resolveConfigWithDir(tmpDir);
+    
+      client.assert.equal(configuration.server.strictPort, true);
+    });
+    
   });
 });
