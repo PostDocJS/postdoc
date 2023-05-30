@@ -2,6 +2,8 @@ import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
 import {resolveConfigWithDir} from '../../lib/configuration/resolve.js';
+import {initializeConfiguration} from '../../lib/configuration/index.js';
+import {config as dotenvConfig} from 'dotenv';
 
 describe('Configuration module', function() {
   let tmpDir;
@@ -56,6 +58,28 @@ describe('Configuration module', function() {
     
       client.assert.equal(configuration.server.strictPort, true);
     });
-    
+
+    it('should load JSON config if no other types are present', async function(client) {
+      await fs.writeFile(path.join(tmpDir, 'postdoc.json'), '{"server": {"force": true}}');
+      await fs.writeFile(path.join(tmpDir, 'package.json'), '{"name":"testing-file"}');
+  
+      const {configuration} = await resolveConfigWithDir(tmpDir);
+  
+      client.assert.equal(configuration.server.force, true);
+    });
   });
+  describe('Injecting environment variables', function() {
+    it('should replace the interpolation pattern with an environment variable with the pattern as the name', async function(client) {
+      await fs.writeFile(path.join(tmpDir, '.env'), 'PROP_ENV = "cool secret value"');
+      await fs.writeFile(path.join(tmpDir, 'postdoc.conf.js'), 'export default {prop: "${PROP_ENV}"}');
+      await fs.writeFile(path.join(tmpDir, 'package.json'), '{"type":"module"}');
+
+      dotenvConfig({path: path.join(tmpDir, '.env')});
+
+      const {configuration} = await initializeConfiguration(tmpDir);
+  
+      client.assert.equal(configuration.prop, 'cool secret value');
+    });
+  });
+  
 });
