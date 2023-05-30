@@ -36,5 +36,15 @@ describe('Configuration module', function() {
 
       client.assert.equal(configuration.server.port, 5698);
     });
+
+    it('should load CommonJS config if package.json does not contain type: module', async function(client) {
+      await fs.writeFile(path.join(tmpDir, 'postdoc.conf.js'), 'module.exports = {server: {strictPort: true}}');
+      await fs.writeFile(path.join(tmpDir, 'postdoc.json'), '{"server": {"force": true}}');
+      await fs.writeFile(path.join(tmpDir, 'package.json'), '{"name":"testing-file"}');
+    
+      const {configuration} = await resolveConfigWithDir(tmpDir);
+    
+      client.assert.equal(configuration.server.strictPort, true);
+    });
   });
 });
