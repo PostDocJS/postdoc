@@ -1,5 +1,3 @@
-import {ok, notStrictEqual, deepStrictEqual} from 'node:assert';
-
 import {fake} from 'sinon';
 import {timestamp, Duration} from '../../lib/utils/date.js';
 
