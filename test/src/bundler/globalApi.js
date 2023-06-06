@@ -2,7 +2,8 @@ import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
 import process from 'process';
-
+import {dirname} from 'node:path';
+import {cwd} from 'node:process';
 import {Container} from '../../../lib/utils/container.js';
 import {clearCache} from '../../../lib/bundler/cache.js';
 import {CONFIGURATION_ID} from '../../../lib/configuration/index.js';
@@ -143,6 +144,70 @@ const sum = module.add(1, 2);
     }
     
     client.assert.ok(occurencesCount === 2);
+  });
+
+  it('content and sections properties exist in page variable only for the layout file', async function (client) {
+    const html = await compilePage('inner');
+
+    const urlRe = /\/inner\/index.html/g;
+
+    let occurencesCount = 0;
+    while (urlRe.exec(html)) {
+      occurencesCount++;
+    }
+
+    client.assert.ok(occurencesCount === 2);
+  });
+
+  it('__filename and __dirname should be available', async function (client) {
+    const {page, compile} = createCompilerFor('about');
+
+    const html = await compile(page);
+
+    client.assert.ok(html.includes(page.layout.source()));
+    client.assert.ok(html.includes(dirname(page.layout.source())));
+  });
+
+  it('page should be able to load CommonJS modules', async function (client) {
+    const html = await compilePage('commonjs');
+
+    client.assert.ok(html.includes(cwd()));
+  });
+
+  it('page should be able to load ESModules', async function (client) {
+    const html = await compilePage('esmodules');
+
+    client.assert.ok(html.includes(3));
+  });
+
+  it('url function rebases the relative path into a relative path to the file from the output directory', async function (client) {
+    const html = await compilePage('url-test-relative');
+
+    client.assert.ok(html.includes('../pages/image.png'));
+  });
+
+  it('url function returns the absolute path as is', async function (client) {
+    const html = await compilePage('url-test-absolute');
+
+    client.assert.ok(html.includes('/image.png'));
+  });
+
+  it('url function rebases the project-wide relative path into a relative path from the output directory', async function (client) {
+    const html = await compilePage('url-project-relative');
+
+    client.assert.ok(html.includes('../assets/image.png'));
+  });
+
+  it('include function can refer to another ejs file with relative path', async function (client) {
+    const html = await compilePage('include-relative');
+
+    client.assert.ok(html.includes('included file'));
+  });
+
+  it('include function can refer to another ejs from global includes directory', async function (client) {
+    const html = await compilePage('include-global');
+
+    client.assert.ok(html.includes('Hello, world!'));
   });
 
   afterEach(async function () {
