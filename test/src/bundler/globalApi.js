@@ -1,7 +1,7 @@
-
 import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
+import process from 'process';
 
 import {Container} from '../../../lib/utils/container.js';
 import {clearCache} from '../../../lib/bundler/cache.js';
@@ -14,9 +14,12 @@ import {
 
 describe('global API', function () {
   let tmpDir;
+  let oldCwd;
 
   beforeEach(async function (client, done) {
+    oldCwd = process.cwd();
     tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'test-api'));
+    process.chdir(tmpDir);
     Container.set(CONFIGURATION_ID, defaultConfiguration);
 
     const structure = {
@@ -37,7 +40,6 @@ describe('global API', function () {
 </body>
 <%= !!page %>
 <%- page.content %>
-<%- page.sections.section %>
 </html>
 `,
           'index.md': `
@@ -61,7 +63,6 @@ Section: <%= page.url %>
 </body>
 Layout: <%= page.url %>
 <%- page.content %>
-<%- page.sections.section1 %>
 </html>
 `,
           'index.md': `
@@ -115,7 +116,7 @@ const sum = module.add(1, 2);
         }
       }
     };
-    
+
     await createDirectoriesAndFiles(tmpDir, structure);
     done();
   });
@@ -132,8 +133,20 @@ const sum = module.add(1, 2);
     }
   }
   
+  it('the page variable should be available in a pages layout, content and section files', async function (client) {
+    const html = await compilePage('first');
+    const booleanRe = /true/g;
+    
+    let occurencesCount = 0;
+    while (booleanRe.exec(html)) {
+      occurencesCount++;
+    }
+    
+    client.assert.ok(occurencesCount === 2);
+  });
 
   afterEach(async function () {
+    process.chdir(oldCwd);
     await fs.remove(tmpDir);
 
     Container.remove(CONFIGURATION_ID);
@@ -141,4 +154,3 @@ const sum = module.add(1, 2);
     clearCache();
   });
 });
-
