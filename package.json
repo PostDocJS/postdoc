@@ -31,8 +31,9 @@
     "sinon": "^15.0.1"
   },
   "dependencies": {
-    "@halo-lab/future": "^0.0.5",
+    "@halo-lab/future": "^0.0.6",
     "@halo-lab/stream": "Halo-Lab/stream",
+    "@halo-lab/list": "Halo-Lab/list",
     "@pineview/ejs": "^3.1.10",
     "chalk": "^5.2.0",
     "chokidar": "^3.5.3",
@@ -46,6 +47,7 @@
     "marked": "^4.2.12",
     "nightwatch": "^2.6.21",
     "open": "^9.1.0",
+    "pipe-ts": "^0.0.9",
     "vite": "^4.0.0",
     "vite-plugin-pwa": "^0.14.7",
     "yaml": "^2.2.1"
