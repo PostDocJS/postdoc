@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, dev ]
+    branches: [ main ]
 
   workflow_dispatch:
 
@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        node: [ 14, 16, 18 ]
+        node: [ 14, 16, 18, 20 ]
 
     name: Using Node ${{ matrix.node }} environment 
 
