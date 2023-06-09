@@ -90,57 +90,56 @@ describe('front-matter', function() {
     client.assert.strictEqual(result.title, 'About');
   });
 
-  // it('should parse description', function(client) {
-  //   const page = getPage('index');
+  it('should parse description', function(client) {
+    const page = getPage('index');
+    const result = parseFrontMatter(frontMatterWithDescription, page.layout);
 
-  //   const result = parseFrontMatter(frontMatterWithDescription, page.layout);
-  //   console.log("result:",result); //result: { description: 'Description' }
-    
-  //   client.assert.strictEqual(typeof result.description, 'string');
-  //   client.assert.strictEqual(result.description, 'Description');
-  // });
+    client.assert.strictEqual(typeof result.description, 'string');
+    client.assert.strictEqual(result.description, 'Description');
+  });
 
-  // it('should parse image', function(client) {
-  //   const page = getPage('index');
+  it('should parse image', function(client) {
+    const page = getPage('index');
 
-  //   const result = parseFrontMatter(frontMatterWithImage, page.layout);
+    const result = parseFrontMatter(frontMatterWithImage, page.layout);
+    client.assert.strictEqual(result.image, 'https://db.io/image/kjfhi.png');
+  });
 
-  //   client.assert.ok(/og:image.+?content="https:\/\/db.io\/image\/kjfhi\.png"/.test(result.tags));
-  // });
+  it('should parse keywords', function(client) {
+    const page = getPage('index');
 
-  // it('should parse keywords', function(client) {
-  //   const page = getPage('index');
+    const result = parseFrontMatter(frontMatterWithKeywords, page.layout); 
 
-  //   const result = parseFrontMatter(frontMatterWithKeywords, page.layout);
+    client.assert.ok(result.keywords.includes('super'));
+    client.assert.ok(result.keywords.includes('cool'));
+  });
 
-  //   client.assert.ok(/name="keywords" content="super, cool"/.test(result.tags));
-  // });
+  it('should parse author', function(client) {
+    const page = getPage('index');
 
-  // it('should parse author', function(client) {
-  //   const page = getPage('index');
+    const result = parseFrontMatter(frontMatterWithAuthor, page.layout);
 
-  //   const result = parseFrontMatter(frontMatterWithAuthor, page.layout);
-
-  //   client.assert.ok(/name="author" content="Yevhen"/.test(result.tags));
-  // });
+    client.assert.strictEqual(typeof result.author, 'string');
+    client.assert.strictEqual(result.author, 'Yevhen');
+  });
 
 
-  // it('should parse language', function(client) {
-  //   const page = getPage('index');
+  it('should parse language', function(client) {
+    const page = getPage('index');
 
-  //   const result = parseFrontMatter(frontMatterWithLanguage, page.layout);
+    const result = parseFrontMatter(frontMatterWithLanguage, page.layout);
 
-  //   client.assert.ok(/og:locale.+?content="uk"/.test(result.tags));
-  //   client.assert.ok(result.html.lang === 'uk');
-  // });
+    client.assert.strictEqual(typeof result.language, 'string');
+    client.assert.strictEqual(result.language, 'uk');
+  });
 
-  // it('should parse draft', function(client) {
-  //   const page = getPage('index');
+  it('should parse draft', function(client) {
+    const page = getPage('index');
 
-  //   const result = parseFrontMatter(frontMatterWithDraft, page.layout);
+    const result = parseFrontMatter(frontMatterWithDraft, page.layout);
 
-  //   client.assert.ok(result.draft);
-  // });
+    client.assert.ok(result.draft);
+  });
 
 
   afterEach(async function() {
