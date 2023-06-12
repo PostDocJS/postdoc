@@ -11,6 +11,7 @@ import {CONFIGURATION_ID} from '../../../../lib/configuration/index.js';
 import process from 'process';
 
 describe('front-matter', function() {
+
   const defaultConfiguration = {
     directories: {
       pages: 'pages',
@@ -72,7 +73,8 @@ describe('front-matter', function() {
     Container.set(CONFIGURATION_ID, defaultConfiguration);
     
     await fs.mkdir(path.join(tmpDir, 'pages'));
-    await fs.writeFile(path.join(tmpDir, 'pages', 'index.html.ejs'), '');
+    await fs.writeFile(path.join(tmpDir, 'pages', 'index.md'), '---\n---\n');
+    await fs.writeFile(path.join(tmpDir, 'pages', 'index.layout.ejs'), '');
     process.chdir(path.join(tmpDir));
   });
 

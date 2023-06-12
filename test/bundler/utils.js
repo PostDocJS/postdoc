@@ -31,18 +31,23 @@ export const createCompilerFor = (basename, configuration = defaultConfiguration
 
   const compile = createPageCompiler(pages);
 
+  const page = pages.find((page) => page.url.includes(basename));
+
+  if (!page) {
+    throw new Error(`Page with url containing "${basename}" not found`);
+  }
+
   return {
-    page: pages.find((page) => page.url.includes(basename)),
+    page,
     pages,
     compile
   };
 };
-
 export const compilePage = async (
   basename,
   configuration = defaultConfiguration
 ) => {
   const {page, compile} = createCompilerFor(basename, configuration);
-
+  
   return compile(page);
 };
