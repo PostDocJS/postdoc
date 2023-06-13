@@ -129,5 +129,18 @@ describe('page', function() {
 
     client.assert.strictEqual(pages[0].output.source(), path.join('out', 'index', 'index.html'));
   });
+  
+  it('should not collect sections on the same level as the non-index layout file', async function(client) {
+    await fs.writeFile(path.join('pages', 'foo.layout.ejs'), 'layout');
+    await fs.writeFile(path.join('pages', 'foo.md'), 'section1');
+
+    const pages = getAllPages(defaultConfiguration);
+
+    client.assert.strictEqual(pages.length, 1);
+    client.assert.strictEqual(pages[0].url, '/foo.html');
+    client.assert.ok(pages[0].content.exists());
+    client.assert.strictEqual(pages[0].output.source(), path.join('out', 'foo.html'));
+  });
+
 
 });
