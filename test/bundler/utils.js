@@ -21,6 +21,9 @@ export const defaultConfiguration = {
     layouts: 'pages',
     includes: 'includes'
   },
+  ignore: {
+    pages: []
+  },
   logger: {
     noColors: false
   }

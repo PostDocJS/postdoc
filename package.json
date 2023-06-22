@@ -15,7 +15,7 @@
     "./client": "./lib/assets/files/client/index.js"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "nightwatch",
     "eslint": "eslint lib bin test --quiet"
   },
   "devDependencies": {
@@ -49,8 +49,8 @@
     "open": "^9.1.0",
     "picomatch": "^2.3.1",
     "pipe-ts": "^0.0.9",
-    "vite": "^4.0.0",
-    "vite-plugin-pwa": "^0.14.7",
+    "vite": "^4.3.0",
+    "vite-plugin-pwa": "^0.16.0",
     "yaml": "^2.2.1"
   }
 }
