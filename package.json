@@ -31,7 +31,7 @@
     "sinon": "^15.0.1"
   },
   "dependencies": {
-    "@halo-lab/future": "^0.0.6",
+    "@halo-lab/future": "Halo-Lab/future",
     "@halo-lab/list": "Halo-Lab/list",
     "@halo-lab/stream": "Halo-Lab/stream",
     "@pineview/ejs": "^3.1.10",
