@@ -1,11 +1,102 @@
-
-
 body {
-    background-color: #fff;
-    color: #333;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    margin: 0 auto;
-    width: 960px;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
+
+#container {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+}
+
+#left-sidebar {
+    flex: 0 0 200px;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+#right-sidebar {
+    flex: 0 0 300px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+#content {
+    flex: 1;
+    padding: 20px;
+}
+
+.nav-link {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+#toc {
+    margin-top: 20px;
+}
+
+#toc ul {
+    list-style: none;
+    padding: 0;
+}
+
+#toc > ul > li {
+    margin-bottom: 5px;
+}
+
+#toc > ul > li > a {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#toc > ul > li > a:hover {
+    background-color: #ddd;
+}
+
+#toc ul ul {
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+#toc ul ul li {
+    margin-bottom: 2px;
+}
+
+#toc ul ul a {
+    font-weight: normal;
+    color: #555;
+    transition: background-color 0.3s ease;
+}
+
+#toc ul ul a:hover {
+    background-color: #f1f1f1;
+}
+
+
+.stage {
+    margin-top: 20px;
+}
+
+.stage h2 {
+    margin-top: 0;
+}
+
+
+main{
+  padding: 20px;
+}
+

@@ -1,11 +1,43 @@
-
+* {
+    box-sizing: border-box;
+}
 
 body {
-    background-color: #fff;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f5f5f5;
     color: #333;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    margin: 0 auto;
-    width: 960px;
+    margin: 0;
+    padding: 0;
+}
+
+
+main {
+    max-width: 80vw;
+    margin: 20px auto;
+    margin-top: 80px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+main h2 {
+    margin-top: 0;
+}
+
+main p {
+    line-height: 1.6;
+}
+
+main img {
+    max-width: 100%;
+}
+
+
+
+img {
+    display: block;
+    margin: auto;
+    max-width: 400px;
+    max-height: 400px;
 }
