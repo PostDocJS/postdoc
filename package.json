@@ -12,7 +12,7 @@
   },
   "exports": {
     ".": "./lib/public.js",
-    "./client": "./lib/assets/files/client/index.js"
+    "./client": "./client/index.js"
   },
   "scripts": {
     "test": "nightwatch",
