@@ -23,6 +23,9 @@ describe('front-matter', function() {
     logger: {
       noColors: false
     },
+    ignore: {
+      pages: []
+    },
     i18n: {
       languages: ['uk', 'de']
     }

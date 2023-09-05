@@ -30,16 +30,16 @@ describe('page entity', function() {
     done();
   });
 	
-	it('should skip building a page for the file that starts with an underscore', async function(client) {
+  it('should skip building a page for the file that starts with an underscore', async function(client) {
     await fs.writeFile(path.join('pages', 'index.layout.ejs'), 'I am an index page');
     await fs.writeFile(path.join('pages', '_index.md'), '');
 		
     const pages = getAllPages(defaultConfiguration);
 
     client.assert.strictEqual(pages.length, 0);
-	});
+  });
 
-	it('should skip readme.md and license.md files', async function(client) {
+  it('should skip readme.md and license.md files', async function(client) {
     await fs.writeFile(path.join('pages', 'index.layout.ejs'), 'I am an index page');
     await fs.writeFile(path.join('pages', 'readme.md'), '');
     await fs.writeFile(path.join('pages', 'license.md'), '');
@@ -47,14 +47,14 @@ describe('page entity', function() {
     const pages = getAllPages(defaultConfiguration);
 
     client.assert.strictEqual(pages.length, 0);
-	});
+  });
 
-	it('should skip files that matches the .draft.md suffix', async function(client) {
+  it('should skip files that matches the .draft.md suffix', async function(client) {
     await fs.writeFile(path.join('pages', 'index.layout.ejs'), 'I am an index page');
     await fs.writeFile(path.join('pages', 'foo.draft.md'), '');
 		
     const pages = getAllPages({...defaultConfiguration, ignore: {pages: ['**/*.draft.md']}});
 
     client.assert.strictEqual(pages.length, 0);
-	});
+  });
 });
