@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@halo-lab/future": "Halo-Lab/future",
-    "@halo-lab/list": "Halo-Lab/list",
+    "@halo-lab/iterable": "Halo-Lab/iterable",
     "@halo-lab/stream": "Halo-Lab/stream",
     "@pineview/ejs": "^3.1.10",
     "chalk": "^5.2.0",
