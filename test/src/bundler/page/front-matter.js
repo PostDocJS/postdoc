@@ -1,4 +1,4 @@
-
+import process from 'process';
 import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
@@ -8,7 +8,7 @@ import {clearCache} from '../../../../lib/bundler/cache.js';
 import {getAllPages} from '../../../../lib/bundler/page/entity.js';
 import {parseFrontMatter} from '../../../../lib/bundler/page/front-matter.js';
 import {CONFIGURATION_ID} from '../../../../lib/configuration/index.js';
-import process from 'process';
+
 
 describe('front-matter', function() {
 
