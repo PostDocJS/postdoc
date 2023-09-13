@@ -15,10 +15,6 @@ html {
 	--pd-honeydew-color: #E1ECD9;
 }
 
-html.dark {
-	color-scheme: dark;
-}
-
 body {
 	margin: 0;
 	width: 100%;
@@ -31,6 +27,31 @@ body {
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	font-family: 'Titillium Web', sans-serif;
+}
+
+:root {
+	--background-color-light: #ffffff;
+	--text-color-light: #1E392E;
+	--background-color-dark: #1e1e20;
+	--text-color-dark: #ededed;
+	}
+
+body {
+background-color: var(--background-color-light);
+color: var(--text-color-light);
+}
+
+[data-theme='dark'] {
+	--background-color-light: #1E392E;
+	--text-color-light: #ffffff;
+	--background-color-dark: #1e1e20;
+	--text-color-dark: #ededed;
+}
+	
+[data-theme='dark'] body {
+	background-color: var(--background-color-dark);
+	color: var(--text-color-dark);
 }
 
 main {
