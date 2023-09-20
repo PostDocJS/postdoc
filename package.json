@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "nightwatch",
-    "eslint": "eslint lib bin test --quiet"
+    "eslint": "eslint client lib bin test --quiet"
   },
   "devDependencies": {
     "@nightwatch/apitesting": "^3.1.1",

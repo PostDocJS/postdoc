@@ -49,24 +49,6 @@ const copyScriptElement = (reference) => {
   return element;
 };
 
-const waitUntilLoaded = (node) => {
-  let finishedStyleLoading;
-
-  const promise = new Promise((resolve) => (finishedStyleLoading = resolve));
-
-  node.addEventListener('load', function onLoad() {
-    finishedStyleLoading();
-    node?.removeEventListener('load', onLoad);
-  });
-
-  node.addEventListener('error', function onError() {
-    // TODO?
-    node?.removeEventListener('error', onError);
-  });
-
-  return promise;
-};
-
 const walk = (root, callback, level = 'deep') => {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT);
 
@@ -82,14 +64,13 @@ const walk = (root, callback, level = 'deep') => {
 };
 
 const splitHeadTags = (head) => {
-  const styles = [];
   const scripts = [];
   const others = [];
 
   walk(head, (node) => {
-    if (isStylesheetNode(node)) {
-      styles.push(node);
-    } else if (node.tagName === 'SCRIPT') {
+    if (isStylesheetNode(node)) {return}
+
+    if (node.tagName === 'SCRIPT') {
       prepareNewScriptNode(node, (node) => scripts.push(node));
     } else {
       if (node.tagName === 'NOSCRIPT') {
@@ -103,7 +84,6 @@ const splitHeadTags = (head) => {
   }, 'shallow');
 
   return [
-    styles,
     scripts,
     others
   ];
@@ -180,7 +160,19 @@ const LEVEL_UP = /\.\.\//g;
  */
 const getCommonPathFromUrl = (url) => {
   return url.replace(LEVEL_UP, '');
-}
+};
+
+const collectNodes = (parent, predicate) => {
+  const accumulator = [];
+
+  walk(parent, (node) => {
+    if (predicate(node)) {
+      accumulator.push(node);
+    }
+  });
+
+  return accumulator;
+};
 
 /**
  * Fetches the page markup and replaces the current DOM
@@ -220,18 +212,21 @@ export const startTransition = (uri) => {
       const head = document.adoptNode(page.head);
       const body = document.adoptNode(page.body);
 
-      const [styles, scripts, others] = splitHeadTags(head);
+      const [scripts, others] = splitHeadTags(head);
 
       const oldHeadNodes = [...document.head.children];
 
-      const pendingStyles = styles
-        .filter((node) => !oldHeadNodes.some(
-          findAndPreserveOldNodeIf((oldNode) => isStylesheetNode(oldNode) && node.href === oldNode.href, oldHeadNodes)
-        ));
+      const styles = new Map(collectNodes(body, isStylesheetNode)
+        .concat(collectNodes(head, isStylesheetNode))
+        .concat(collectNodes(document.body, isStylesheetNode))
+        .concat(collectNodes(document.head, isStylesheetNode))
+        .map(node => [node.href, node]));
 
-      document.head.append(...pendingStyles);
-
-      await Promise.all(pendingStyles.map(waitUntilLoaded));
+      for (const node of styles.values()) {
+        if (!document.head.contains(node)) {
+          document.head.append(node);
+        }
+      }
 
       Array.from(document.documentElement.attributes).forEach(({name}) => {
         const valueFromNextPage = page.documentElement.getAttribute(name);
@@ -266,7 +261,7 @@ export const startTransition = (uri) => {
       deferredBodyScriptsReplacements.forEach((replace) => replace());
 
       oldHeadNodes.forEach((node) => {
-        if (node) {
+        if (node && !isStylesheetNode(node)) {
           node.remove();
         }
       });
