@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "nightwatch",
-    "eslint": "eslint lib bin test --quiet"
+    "eslint": "eslint client lib bin test --quiet"
   },
   "devDependencies": {
     "@nightwatch/apitesting": "^3.1.1",
@@ -24,7 +24,6 @@
     "@types/node": "^18.11.18",
     "chromedriver": "^113.0.0",
     "eslint": "^8.32.0",
-    "geckodriver": "^3.2.0",
     "mocha": "^10.2.0",
     "mock-fs": "^5.2.0",
     "mock-require": "^3.0.3",
@@ -32,7 +31,7 @@
   },
   "dependencies": {
     "@halo-lab/future": "Halo-Lab/future",
-    "@halo-lab/list": "Halo-Lab/list",
+    "@halo-lab/iterable": "Halo-Lab/iterable",
     "@halo-lab/stream": "Halo-Lab/stream",
     "@pineview/ejs": "^3.1.10",
     "chalk": "^5.2.0",
@@ -42,6 +41,7 @@
     "default-browser": "^4.0.0",
     "dotenv": "^16.0.3",
     "dox": "^1.0.0",
+    "geckodriver": "^4.2.0",
     "inquirer": "^9.2.6",
     "joi": "^17.7.0",
     "marked": "^4.2.12",

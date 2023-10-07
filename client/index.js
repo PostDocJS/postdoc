@@ -60,7 +60,9 @@ export const onRender = (listener, options = {}) => {
 
   // After the very first page load it is likely that the
   // code in the *listener* should be executed.
-  if (forPage instanceof RegExp && forPage.test(currentUrl.href) ||
+  if (
+    !forPage ||
+    forPage instanceof RegExp && forPage.test(currentUrl.href) ||
     typeof forPage === 'function' && forPage(currentUrl)
   ) {
     listener(currentUrl);
