@@ -42,9 +42,7 @@ const copyScriptElement = (reference) => {
     );
   });
 
-  element.append(
-    document.createTextNode(reference.textContent)
-  );
+  element.append(document.createTextNode(reference.textContent));
 
   return element;
 };
@@ -54,7 +52,7 @@ const walk = (root, callback, level = 'deep') => {
 
   let node;
   // eslint-disable-next-line no-cond-assign
-  while (node = walker.nextNode()) {
+  while ((node = walker.nextNode())) {
     if (level === 'deep') {
       callback(node);
     } else if (root === node.parentNode) {
@@ -67,39 +65,45 @@ const splitHeadTags = (head) => {
   const scripts = [];
   const others = [];
 
-  walk(head, (node) => {
-    if (isStylesheetNode(node)) {return}
-
-    if (node.tagName === 'SCRIPT') {
-      prepareNewScriptNode(node, (node) => scripts.push(node));
-    } else {
-      if (node.tagName === 'NOSCRIPT') {
-        // For some reason if noscript contains a markup it is parsed also
-        // but it should not be. With this we make sure inner markup stays as string.
-        node.textContent = node.innerHTML;
+  walk(
+    head,
+    (node) => {
+      if (isStylesheetNode(node)) {
+        return;
       }
 
-      others.push(node);
-    }
-  }, 'shallow');
+      if (node.tagName === 'SCRIPT') {
+        prepareNewScriptNode(node, (node) => scripts.push(node));
+      } else {
+        if (node.tagName === 'NOSCRIPT') {
+          // For some reason if noscript contains a markup it is parsed also
+          // but it should not be. With this we make sure inner markup stays as string.
+          node.textContent = node.innerHTML;
+        }
 
-  return [
-    scripts,
-    others
-  ];
+        others.push(node);
+      }
+    },
+    'shallow'
+  );
+
+  return [scripts, others];
 };
 
 /**
  * @param {Node} node
  * @returns {boolean}
  */
-const isPreconnectNode = (node) => node.tagName === 'LINK' && node.rel === 'preconnect';
+const isPreconnectNode = (node) =>
+  node.tagName === 'LINK' && node.rel === 'preconnect';
 
 /**
  * @param {Node} node
  * @returns {boolean}
  */
-const isStylesheetNode = (node) => node.tagName === 'LINK' && node.rel === 'stylesheet';
+const isStylesheetNode = (node) =>
+  (node.tagName === 'LINK' && node.rel === 'stylesheet') ||
+  node.tagName === 'STYLE';
 
 const prepareNewScriptNode = (node, callback, clean) => {
   const nodeSrc = node.getAttribute('src');
@@ -115,8 +119,8 @@ const prepareNewScriptNode = (node, callback, clean) => {
   }
 };
 
-const findAndPreserveOldNodeIf = (condition, oldHeadNodes) =>
-  (oldNode, index) => {
+const findAndPreserveOldNodeIf =
+  (condition, oldHeadNodes) => (oldNode, index) => {
     if (!oldNode) {
       return false;
     }
@@ -137,7 +141,8 @@ const extractScriptsFrom = (root) => {
     if (node.tagName === 'SCRIPT') {
       prepareNewScriptNode(
         node,
-        (preparedNode) => scriptsReplacements.push(() => node.replaceWith(preparedNode)),
+        (preparedNode) =>
+          scriptsReplacements.push(() => node.replaceWith(preparedNode)),
         (node) => scriptsReplacements.push(() => node.remove())
       );
     }
@@ -216,11 +221,13 @@ export const startTransition = (uri) => {
 
       const oldHeadNodes = [...document.head.children];
 
-      const styles = new Map(collectNodes(body, isStylesheetNode)
-        .concat(collectNodes(head, isStylesheetNode))
-        .concat(collectNodes(document.body, isStylesheetNode))
-        .concat(collectNodes(document.head, isStylesheetNode))
-        .map(node => [node.href, node]));
+      const styles = new Map(
+        collectNodes(body, isStylesheetNode)
+          .concat(collectNodes(head, isStylesheetNode))
+          .concat(collectNodes(document.body, isStylesheetNode))
+          .concat(collectNodes(document.head, isStylesheetNode))
+          .map((node) => [node.href || node.id, node])
+      );
 
       for (const node of styles.values()) {
         if (!document.head.contains(node)) {
@@ -244,17 +251,23 @@ export const startTransition = (uri) => {
 
       document.head.append(
         ...scripts,
-        ...others.filter((node) =>
-          !(
-            isPreconnectNode(node) &&
-            oldHeadNodes.some(
-              findAndPreserveOldNodeIf((oldNode) => isPreconnectNode(oldNode) && node.href === oldNode.href, oldHeadNodes)
+        ...others.filter(
+          (node) =>
+            !(
+              isPreconnectNode(node) &&
+              oldHeadNodes.some(
+                findAndPreserveOldNodeIf(
+                  (oldNode) =>
+                    isPreconnectNode(oldNode) && node.href === oldNode.href,
+                  oldHeadNodes
+                )
+              )
             )
-          )
         )
       );
 
-      const [walkedBody, deferredBodyScriptsReplacements] = extractScriptsFrom(body);
+      const [walkedBody, deferredBodyScriptsReplacements] =
+        extractScriptsFrom(body);
 
       document.body.replaceWith(walkedBody);
 

@@ -11,7 +11,12 @@ import {it, before, after, describe} from 'mocha';
 
 import {Container} from '../../lib/utils/container.js';
 import {CONFIGURATION_ID} from '../../lib/configuration/index.js';
-import {Separator, StatusLine, LineBuilder, MessageBuilder} from '../../lib/logger/index.js';
+import {
+  Separator,
+  StatusLine,
+  LineBuilder,
+  MessageBuilder
+} from '../../lib/logger/index.js';
 
 describe('Logger module', function () {
   describe('LineBuilder', function () {

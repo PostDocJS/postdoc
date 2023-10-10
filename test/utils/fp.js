@@ -1,4 +1,10 @@
-import {strictEqual, ok, throws, deepStrictEqual, notStrictEqual} from 'node:assert';
+import {
+  strictEqual,
+  ok,
+  throws,
+  deepStrictEqual,
+  notStrictEqual
+} from 'node:assert';
 
 import {fake} from 'sinon';
 import {it, describe} from 'mocha';
@@ -220,7 +226,7 @@ describe('fp module', function () {
       const result = fn(1);
 
       ok(toString.calledOnce);
-      strictEqual(result, 1); 
+      strictEqual(result, 1);
       strictEqual(toString.firstCall.returnValue, '1');
     });
   });

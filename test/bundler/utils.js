@@ -29,7 +29,10 @@ export const defaultConfiguration = {
   }
 };
 
-export const createCompilerFor = (basename, configuration = defaultConfiguration) => {
+export const createCompilerFor = (
+  basename,
+  configuration = defaultConfiguration
+) => {
   const pages = getAllPages(configuration);
 
   const compile = createPageCompiler(pages);
@@ -51,6 +54,6 @@ export const compilePage = async (
   configuration = defaultConfiguration
 ) => {
   const {page, compile} = createCompilerFor(basename, configuration);
-  
+
   return compile(page);
 };

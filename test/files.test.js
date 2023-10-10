@@ -250,7 +250,9 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
 
         strictEqual(files.length, 1);
         ok(
-          files.map(({source}) => source()).every((path) => !path.includes('inner-file.md'))
+          files
+            .map(({source}) => source())
+            .every((path) => !path.includes('inner-file.md'))
         );
       });
 
@@ -259,7 +261,9 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
 
         strictEqual(files.length, 2);
         ok(
-          files.map(({source}) => source()).some((path) => path.includes('inner-file.md'))
+          files
+            .map(({source}) => source())
+            .some((path) => path.includes('inner-file.md'))
         );
       });
     });
@@ -365,9 +369,7 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
 
       it('should return the Directory instance', async function () {
-        const directory = Directory(
-          'single-non-existent-directory'
-        );
+        const directory = Directory('single-non-existent-directory');
         const createdDirectory = await directory.create();
 
         strictEqual(directory, createdDirectory);
@@ -378,9 +380,7 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
 
         doesNotThrow(() => Directory('deep').files());
         doesNotThrow(() => Directory('deep/recursive').files());
-        doesNotThrow(() =>
-          Directory('deep/recursive/directory').files()
-        );
+        doesNotThrow(() => Directory('deep/recursive/directory').files());
       });
 
       it('should not reject if there is a directory already', async function () {
@@ -398,9 +398,7 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
 
       it('should remove a directory at the "source" path', async function () {
-        const directory = Directory(
-          'single-non-existent-directory'
-        );
+        const directory = Directory('single-non-existent-directory');
 
         await directory.create();
 

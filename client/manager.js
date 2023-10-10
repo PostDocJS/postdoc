@@ -49,7 +49,8 @@ const historyAPI = (() => {
     const historySessionItem = sessionStorage.getItem('history');
 
     if (historySessionItem) {
-      const {stack: stackSession, cursor: cursorSession} = JSON.parse(historySessionItem);
+      const {stack: stackSession, cursor: cursorSession} =
+        JSON.parse(historySessionItem);
 
       stack = stackSession;
       cursor = cursorSession;
@@ -84,7 +85,9 @@ const historyAPI = (() => {
 
       sessionStorage.setItem('history', JSON.stringify({stack, cursor}));
 
-      if (inBrowserHistory) {history.pushState(data, title, url)}
+      if (inBrowserHistory) {
+        history.pushState(data, title, url);
+      }
     },
 
     replaceState(stateObj, title, url, inBrowserHistory = true) {
@@ -94,7 +97,9 @@ const historyAPI = (() => {
 
       sessionStorage.setItem('history', JSON.stringify({stack, cursor}));
 
-      if (inBrowserHistory) {history.replaceState(data, title, url)}
+      if (inBrowserHistory) {
+        history.replaceState(data, title, url);
+      }
     }
   };
 })();
@@ -110,7 +115,9 @@ const trapAnchors = () =>
     if (link && anchor.host === location.host) {
       anchor.setAttribute('data-link-internal', true);
 
-      if (link.startsWith('#')) {return}
+      if (link.startsWith('#')) {
+        return;
+      }
 
       anchor.addEventListener('click', async (event) => {
         event.preventDefault();
@@ -165,15 +172,17 @@ if (!(GLOBAL_MANAGER_NAME in globalThis)) {
       const currentUrl = getUrl();
 
       await Promise.all(
-        events.get(NavigationEventName.BeforeTransition).map(([hook, {forPage, registeredOn}]) => {
-          if (
-            (forPage instanceof RegExp && forPage.test(currentUrl.href)) ||
-            (typeof forPage === 'function' && forPage(currentUrl)) ||
-            (!forPage && registeredOn.pathname === currentUrl.pathname)
-          ) {
-            return hook(currentUrl, nextUrl);
-          }
-        })
+        events
+          .get(NavigationEventName.BeforeTransition)
+          .map(([hook, {forPage, registeredOn}]) => {
+            if (
+              (forPage instanceof RegExp && forPage.test(currentUrl.href)) ||
+              (typeof forPage === 'function' && forPage(currentUrl)) ||
+              (!forPage && registeredOn.pathname === currentUrl.pathname)
+            ) {
+              return hook(currentUrl, nextUrl);
+            }
+          })
       );
 
       historyAPI[(replaceContext ? 'replace' : 'push') + 'State'](
@@ -187,15 +196,17 @@ if (!(GLOBAL_MANAGER_NAME in globalThis)) {
       trapAnchors();
 
       await Promise.all(
-        events.get(NavigationEventName.AfterTransition).map(([hook, {forPage, registeredOn}]) => {
-          if (
-            (forPage instanceof RegExp && forPage.test(nextUrl.href)) ||
-            (typeof forPage === 'function' && forPage(nextUrl)) ||
-            (!forPage && registeredOn.pathname === nextUrl.pathname)
-          ) {
-            return hook(nextUrl);
-          }
-        })
+        events
+          .get(NavigationEventName.AfterTransition)
+          .map(([hook, {forPage, registeredOn}]) => {
+            if (
+              (forPage instanceof RegExp && forPage.test(nextUrl.href)) ||
+              (typeof forPage === 'function' && forPage(nextUrl)) ||
+              (!forPage && registeredOn.pathname === nextUrl.pathname)
+            ) {
+              return hook(nextUrl);
+            }
+          })
       );
     },
     /**
@@ -210,17 +221,14 @@ if (!(GLOBAL_MANAGER_NAME in globalThis)) {
     registerEventListener: (eventName, listener, options) => {
       const currentPage = getUrl();
 
-      events.get(eventName).push([
-        listener,
-        {...options, registeredOn: currentPage}
-      ]);
+      events
+        .get(eventName)
+        .push([listener, {...options, registeredOn: currentPage}]);
 
       return () =>
         void events.set(
           eventName,
-          events
-            .get(eventName)
-            .filter(([hook]) => hook !== listener)
+          events.get(eventName).filter(([hook]) => hook !== listener)
         );
     }
   };

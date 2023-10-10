@@ -19,26 +19,38 @@ describe('url module', function () {
 
     it('should prepend a leading slash if the leadingSlash property is true', function () {
       const filePath = join('about', 'index.html');
-      
-      strictEqual(withURLSeparator(filePath, {leadingSlash: true}), '/about/index.html');
+
+      strictEqual(
+        withURLSeparator(filePath, {leadingSlash: true}),
+        '/about/index.html'
+      );
     });
 
     it('should not prepend a leading slash if the leadingSlash property is true and a path contains a leading fs separator', function () {
       const filePath = join(sep, 'about', 'index.html');
-      
-      strictEqual(withURLSeparator(filePath, {leadingSlash: true}), '/about/index.html');
+
+      strictEqual(
+        withURLSeparator(filePath, {leadingSlash: true}),
+        '/about/index.html'
+      );
     });
 
     it('should remove a leading slash if the leadingSlash property is false and a path contains a leading fs separator', function () {
       const filePath = join(sep, 'about', 'index.html');
-      
-      strictEqual(withURLSeparator(filePath, {leadingSlash: false}), 'about/index.html');
+
+      strictEqual(
+        withURLSeparator(filePath, {leadingSlash: false}),
+        'about/index.html'
+      );
     });
 
     it('should not remove a first character if the leadingSlash property is false and a path does not contain a leading fs separator', function () {
       const filePath = join('about', 'index.html');
-      
-      strictEqual(withURLSeparator(filePath, {leadingSlash: false}), 'about/index.html');
+
+      strictEqual(
+        withURLSeparator(filePath, {leadingSlash: false}),
+        'about/index.html'
+      );
     });
   });
 });

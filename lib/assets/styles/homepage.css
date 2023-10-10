@@ -80,7 +80,7 @@ main {
   padding: 10px 30px;
   font-size: 1em;
   color: white;
-  background: #CD4859;
+  background: #cd4859;
   border: none;
   cursor: pointer;
   margin-top: 20px;
@@ -102,15 +102,15 @@ main {
 .testimonials h2,
 .quick-links h2 {
   font-size: 2.5em;
-	color: var(--text-color-light);
+  color: var(--text-color-light);
   margin-bottom: 4rem;
   text-align: center;
   font-weight: 700;
 }
 
-[data-theme='dark'] .main-capabilities h2,
-[data-theme='dark'] .testimonials h2,
-[data-theme='dark'] .quick-links h2 {
+[data-theme="dark"] .main-capabilities h2,
+[data-theme="dark"] .testimonials h2,
+[data-theme="dark"] .quick-links h2 {
   color: var(--text-color-dark);
 }
 
@@ -157,12 +157,12 @@ main {
 
 .capabilitie-inner .item {
   background-color: #eff3e8;
-  color: #1E392E;
+  color: #1e392e;
 }
 
-[data-theme='dark'] .capabilitie-inner .item {
-	background-color: #161618;
-	color: var(--text-color-dark);
+[data-theme="dark"] .capabilitie-inner .item {
+  background-color: #161618;
+  color: var(--text-color-dark);
 }
 
 .testimonials-inner .item {
@@ -173,7 +173,7 @@ main {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 15px;
-} 
+}
 
 .capabilitie-inner .item img {
   margin-bottom: 10px;
@@ -258,13 +258,13 @@ main {
 @media only screen and (max-width: 992px) and (min-width: 640px) {
   .capabilitie-inner .item,
   .quick-links ul li {
-      width: calc(50% - 20px);
+    width: calc(50% - 20px);
   }
 }
 
 @media screen and (max-width: 639px) {
   .capabilitie-inner .item,
   .quick-links ul li {
-      width: 100%;
+    width: 100%;
   }
 }

@@ -9,7 +9,7 @@ import {getAllPages} from '../../../lib/bundler/page/entity.js';
 import {parseFrontMatter} from '../../../lib/bundler/page/front-matter.js';
 import {CONFIGURATION_ID} from '../../../lib/configuration/index.js';
 
-describe('front-matter', function() {
+describe('front-matter', function () {
   const defaultConfiguration = {
     directories: {
       pages: 'pages',
@@ -56,7 +56,7 @@ title: 'About'
     return pages.find((page) => page.url.includes(name));
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     Container.set(CONFIGURATION_ID, defaultConfiguration);
 
     mockFs({
@@ -66,7 +66,7 @@ title: 'About'
     });
   });
 
-  it('should allow empty front matter data', function() {
+  it('should allow empty front matter data', function () {
     const page = getPage('index');
 
     const result = parseFrontMatter('', page.layout);
@@ -74,7 +74,7 @@ title: 'About'
     ok(result === null);
   });
 
-  it('should parse title', function() {
+  it('should parse title', function () {
     const page = getPage('index');
 
     const result = parseFrontMatter(frontMatterWithTitle, page.layout);
@@ -83,7 +83,7 @@ title: 'About'
     ok(/og:title/.test(result.tags));
   });
 
-  it('should parse description', function() {
+  it('should parse description', function () {
     const page = getPage('index');
 
     const result = parseFrontMatter(frontMatterWithDescription, page.layout);
@@ -92,15 +92,19 @@ title: 'About'
     ok(/og:description/.test(result.tags));
   });
 
-  it('should parse image', function() {
+  it('should parse image', function () {
     const page = getPage('index');
 
     const result = parseFrontMatter(frontMatterWithImage, page.layout);
 
-    ok(/og:image.+?content="https:\/\/db.io\/image\/kjfhi\.png"/.test(result.tags));
+    ok(
+      /og:image.+?content="https:\/\/db.io\/image\/kjfhi\.png"/.test(
+        result.tags
+      )
+    );
   });
 
-  it('should parse keywords', function() {
+  it('should parse keywords', function () {
     const page = getPage('index');
 
     const result = parseFrontMatter(frontMatterWithKeywords, page.layout);
@@ -108,7 +112,7 @@ title: 'About'
     ok(/name="keywords" content="super, cool"/.test(result.tags));
   });
 
-  it('should parse author', function() {
+  it('should parse author', function () {
     const page = getPage('index');
 
     const result = parseFrontMatter(frontMatterWithAuthor, page.layout);
@@ -116,8 +120,7 @@ title: 'About'
     ok(/name="author" content="Yevhen"/.test(result.tags));
   });
 
-
-  it('should parse language', function() {
+  it('should parse language', function () {
     const page = getPage('index');
 
     const result = parseFrontMatter(frontMatterWithLanguage, page.layout);
@@ -126,7 +129,7 @@ title: 'About'
     ok(result.html.lang === 'uk');
   });
 
-  it('should parse draft', function() {
+  it('should parse draft', function () {
     const page = getPage('index');
 
     const result = parseFrontMatter(frontMatterWithDraft, page.layout);
@@ -134,7 +137,7 @@ title: 'About'
     ok(result.draft);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     mockFs.restore();
 
     Container.remove(CONFIGURATION_ID);

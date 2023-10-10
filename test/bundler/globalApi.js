@@ -111,7 +111,7 @@ const sum = module.add(1, 2);
         'url-project-relative.html.ejs': `
           <%= url('~/assets/image.png') %>
         `,
-        
+
         'include-relative': {
           'index.html.ejs': `
 <%- await include('./sibling') %>

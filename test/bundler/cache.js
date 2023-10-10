@@ -52,7 +52,10 @@ describe('bundler\'s cache', function () {
 
     const result = descriptors.filter(descriptorShouldBeFor('b'));
 
-    deepStrictEqual(result, [['a', 'k', 'b'], ['p', 'a', 'b', 'g', 'b']]);
+    deepStrictEqual(result, [
+      ['a', 'k', 'b'],
+      ['p', 'a', 'b', 'g', 'b']
+    ]);
   });
 
   it('should accept an object with some data as the descriptor\'s part', function () {
@@ -86,15 +89,12 @@ describe('bundler\'s cache', function () {
 
     const descriptors = getCacheKeyDescriptorsByParts(['a', 'b']);
 
-    deepStrictEqual(
-      descriptors,
-      [
-        ['b', 'a'],
-        ['a', 'b'],
-        ['c', 'a', 'b'],
-        ['c', {file: 'a', data: []}, 'b']
-      ]
-    );
+    deepStrictEqual(descriptors, [
+      ['b', 'a'],
+      ['a', 'b'],
+      ['c', 'a', 'b'],
+      ['c', {file: 'a', data: []}, 'b']
+    ]);
   });
 
   it('getCacheKeyDescriptorsByParts should return all descriptors which strictly match the given object part', function () {

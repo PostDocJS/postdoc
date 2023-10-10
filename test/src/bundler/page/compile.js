@@ -2,10 +2,8 @@
  * In the current implementation, there appears to be a recursive embedding issue when a page attempts to compile with a layout template that contains a reference to its own content.
  * This results in the HTML of the page being nested within itself, leading to malformed and invalid HTML output.
  * This issue is particularly evident when attempting to compile a page like 'with-relative' that has a layout template designed to insert its own content.
- * When a page with a self-referencing layout template (like 'with-relative') is compiled, the resultant HTML is nested within itself. 
+ * When a page with a self-referencing layout template (like 'with-relative') is compiled, the resultant HTML is nested within itself.
  */
-
-
 
 import fs from 'fs-extra';
 import os from 'os';
@@ -43,7 +41,7 @@ describe('compile', function () {
         },
         'draft.ejs': basicHtml,
         'draft.md': '--- draft: true ---',
-  
+
         'index.ejs': '<%- page.content %>',
         'with-relative.ejs': `<html>
       <head></head>
@@ -164,7 +162,6 @@ describe('compile', function () {
 
   //     ok(page.url === '/inner-basic/index.html');
   //   });
-
 
   afterEach(async function () {
     process.chdir(oldCwd);

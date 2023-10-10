@@ -14,31 +14,46 @@ describe('url module', function () {
     it('should return the url as is if the leading property is not set', function (client) {
       const filePath = join(sep, 'about', 'index.html');
 
-      client.assert.strictEqual(withURLSeparator(filePath), '/about/index.html');
+      client.assert.strictEqual(
+        withURLSeparator(filePath),
+        '/about/index.html'
+      );
     });
 
     it('should prepend a leading slash if the leadingSlash property is true', function (client) {
       const filePath = join('about', 'index.html');
-      
-      client.assert.strictEqual(withURLSeparator(filePath, {leadingSlash: true}), '/about/index.html');
+
+      client.assert.strictEqual(
+        withURLSeparator(filePath, {leadingSlash: true}),
+        '/about/index.html'
+      );
     });
 
     it('should not prepend a leading slash if the leadingSlash property is true and a path contains a leading fs separator', function (client) {
       const filePath = join(sep, 'about', 'index.html');
-      
-      client.assert.strictEqual(withURLSeparator(filePath, {leadingSlash: true}), '/about/index.html');
+
+      client.assert.strictEqual(
+        withURLSeparator(filePath, {leadingSlash: true}),
+        '/about/index.html'
+      );
     });
 
     it('should remove a leading slash if the leadingSlash property is false and a path contains a leading fs separator', function (client) {
       const filePath = join(sep, 'about', 'index.html');
-      
-      client.assert.strictEqual(withURLSeparator(filePath, {leadingSlash: false}), 'about/index.html');
+
+      client.assert.strictEqual(
+        withURLSeparator(filePath, {leadingSlash: false}),
+        'about/index.html'
+      );
     });
 
     it('should not remove a first character if the leadingSlash property is false and a path does not contain a leading fs separator', function (client) {
       const filePath = join('about', 'index.html');
-      
-      client.assert.strictEqual(withURLSeparator(filePath, {leadingSlash: false}), 'about/index.html');
+
+      client.assert.strictEqual(
+        withURLSeparator(filePath, {leadingSlash: false}),
+        'about/index.html'
+      );
     });
   });
 });

@@ -10,7 +10,9 @@ describe('date module', function () {
     });
 
     it('should return the string in the "day month hours:minutes:seconds" format', function (client) {
-      client.assert.ok(/\d{1,2}\s[a-zA-Z]{3}\s\d{2}:\d{2}:\d{2}/.test(timestamp()));
+      client.assert.ok(
+        /\d{1,2}\s[a-zA-Z]{3}\s\d{2}:\d{2}:\d{2}/.test(timestamp())
+      );
     });
   });
 
@@ -40,7 +42,10 @@ describe('date module', function () {
 
     it('should accept the number or the Date as the first and the second arguments', function (client) {
       client.assert.deepStrictEqual(Duration(0, 1).toDate(), new Date(1));
-      client.assert.deepStrictEqual(Duration(new Date(0), new Date(1)).toDate(), new Date(1));
+      client.assert.deepStrictEqual(
+        Duration(new Date(0), new Date(1)).toDate(),
+        new Date(1)
+      );
     });
 
     it('should be able to change the start duration point with the Date or the number value', function (client) {

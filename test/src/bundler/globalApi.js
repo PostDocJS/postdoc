@@ -164,16 +164,16 @@ Content: <%= page.url %>
       }
     }
   }
-  
+
   it('the page variable should be available in a pages layout, content and section files', async function (client) {
     const html = await compilePage('first');
     const booleanRe = /true/g;
-    
+
     let occurencesCount = 0;
     while (booleanRe.exec(html)) {
       occurencesCount++;
     }
-    
+
     client.assert.ok(occurencesCount === 2);
   });
 

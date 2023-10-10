@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
     "moduleResolution": "node16",
-    "types": [
-      "@halo-lab/future"
-    ]
+    "types": ["@halo-lab/future"]
   },
-  "include": [
-    "lib/**/*",
-    "bin/*"
-  ]
+  "include": ["lib/**/*", "bin/*"]
 }

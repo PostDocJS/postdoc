@@ -1,4 +1,3 @@
-
 import {
   clearCache,
   hasCacheEntry,
@@ -20,7 +19,7 @@ describe('bundler\'s cache', function () {
 
     addCacheEntry(['foo'], 'baz');
 
-    client.assert. ok(hasCacheEntry(['foo']));
+    client.assert.ok(hasCacheEntry(['foo']));
 
     removeCacheEntry(['foo']);
 
@@ -50,7 +49,10 @@ describe('bundler\'s cache', function () {
 
     const result = descriptors.filter(descriptorShouldBeFor('b'));
 
-    client.assert.deepStrictEqual(result, [['a', 'k', 'b'], ['p', 'a', 'b', 'g', 'b']]);
+    client.assert.deepStrictEqual(result, [
+      ['a', 'k', 'b'],
+      ['p', 'a', 'b', 'g', 'b']
+    ]);
   });
 
   it('should accept an object with some data as the descriptor\'s part', function (client) {
@@ -84,15 +86,12 @@ describe('bundler\'s cache', function () {
 
     const descriptors = getCacheKeyDescriptorsByParts(['a', 'b']);
 
-    client.assert.deepStrictEqual(
-      descriptors,
-      [
-        ['b', 'a'],
-        ['a', 'b'],
-        ['c', 'a', 'b'],
-        ['c', {file: 'a', data: []}, 'b']
-      ]
-    );
+    client.assert.deepStrictEqual(descriptors, [
+      ['b', 'a'],
+      ['a', 'b'],
+      ['c', 'a', 'b'],
+      ['c', {file: 'a', data: []}, 'b']
+    ]);
   });
 
   it('getCacheKeyDescriptorsByParts should return all descriptors which strictly match the given object part', function (client) {

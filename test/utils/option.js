@@ -45,14 +45,17 @@ describe('Option module', function () {
       notStrictEqual(result, otherResult);
     });
 
-    it('should transform Option\'s value if the state is Some',  function () {
-      const result =  Some(6).map((value) => value + 1);
+    it('should transform Option\'s value if the state is Some', function () {
+      const result = Some(6).map((value) => value + 1);
 
-      strictEqual(result.extract(() => 0), 7);
+      strictEqual(
+        result.extract(() => 0),
+        7
+      );
     });
 
-    it('should not transform Option\'s value if the state is None',  function () {
-      const result =  None.map((value) => value + 1);
+    it('should not transform Option\'s value if the state is None', function () {
+      const result = None.map((value) => value + 1);
 
       strictEqual(result.extract(identity), undefined);
     });
@@ -66,20 +69,20 @@ describe('Option module', function () {
       notStrictEqual(result, otherResult);
     });
 
-    it('should transform Option\'s value if the state is Some',  function () {
-      const result =  Some(6).chain((value) => Some(value + 1));
+    it('should transform Option\'s value if the state is Some', function () {
+      const result = Some(6).chain((value) => Some(value + 1));
 
       strictEqual(result.extract(identity), 7);
     });
 
-    it('should not transform Option\'s value if the state is None',  function () {
-      const result =  None.chain((value) => Some(value + 1));
+    it('should not transform Option\'s value if the state is None', function () {
+      const result = None.chain((value) => Some(value + 1));
 
       strictEqual(result.extract(identity), undefined);
     });
 
-    it('should not cover the Option instance inside another Option',  function () {
-      const result =  Some(6).chain((value) => Some(value + 1));
+    it('should not cover the Option instance inside another Option', function () {
+      const result = Some(6).chain((value) => Some(value + 1));
 
       ok(!isOption(result.extract(identity)));
     });
@@ -88,9 +91,7 @@ describe('Option module', function () {
   describe('.apply', function () {
     it('should return a new Option instance', function () {
       const result = Some(6);
-      const otherResult = result.apply(
-        Some((value) => value + 1)
-      );
+      const otherResult = result.apply(Some((value) => value + 1));
 
       notStrictEqual(result, otherResult);
     });
@@ -98,10 +99,13 @@ describe('Option module', function () {
     it('should call the other\'s Option function over the current one', function () {
       const callback = fake((value) => value + 1);
       const result = Some(6);
-      const otherResult =  result.apply(Some(callback));
+      const otherResult = result.apply(Some(callback));
 
       ok(callback.called);
-      strictEqual(otherResult.extract(() => 0), 7);
+      strictEqual(
+        otherResult.extract(() => 0),
+        7
+      );
     });
   });
 
@@ -112,7 +116,7 @@ describe('Option module', function () {
       strictEqual(result.extract(identity), 8);
     });
 
-    it('should execute the parameter callback if the Option is in the None state',  function () {
+    it('should execute the parameter callback if the Option is in the None state', function () {
       const callback = fake(identity);
 
       strictEqual(None.extract(callback), undefined);

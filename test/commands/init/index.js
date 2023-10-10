@@ -51,7 +51,7 @@
 //     mkdirSync(artifactsDirectory);
 
 //     writeFileSync(resolve(artifactsDirectory, 'test.md'), '');
-    
+
 //     const {error, output} = spawnSync(
 //       'node',
 //       [postdocExecutablePath, 'init', artifactsDirectoryName],
@@ -93,6 +93,6 @@
 
 //     const {name} = JSON.parse(packageJson);
 
-//     strictEqual(name, artifactsDirectoryName);    
+//     strictEqual(name, artifactsDirectoryName);
 //   });
 // });

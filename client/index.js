@@ -62,8 +62,8 @@ export const onRender = (listener, options = {}) => {
   // code in the *listener* should be executed.
   if (
     !forPage ||
-    forPage instanceof RegExp && forPage.test(currentUrl.href) ||
-    typeof forPage === 'function' && forPage(currentUrl)
+    (forPage instanceof RegExp && forPage.test(currentUrl.href)) ||
+    (typeof forPage === 'function' && forPage(currentUrl))
   ) {
     listener(currentUrl);
   }
