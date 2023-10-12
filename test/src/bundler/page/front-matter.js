@@ -9,7 +9,6 @@ import {getAllPages} from '../../../../lib/bundler/page/entity.js';
 import {parseFrontMatter} from '../../../../lib/bundler/page/front-matter.js';
 import {CONFIGURATION_ID} from '../../../../lib/configuration/index.js';
 
-
 describe('front-matter', function () {
   const defaultConfiguration = {
     directories: {
