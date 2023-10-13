@@ -11,7 +11,7 @@ import {NavigationEventName, GLOBAL_MANAGER_NAME} from './constants.js';
 
 /**
  * @typedef {Object} TransitionOptions
- * @property {RegExp | ((url: string) => boolean)} [forPage]
+ * @property {RegExp | ((url: URL) => boolean)} [forPage]
  */
 
 /**
