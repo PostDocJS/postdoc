@@ -1,0 +1,44 @@
+<%
+  const {Mode} = await import$('postdoc');
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=0.86"
+    />
+    <title>Your Project</title>
+    <link rel="icon" href="/favicon-32x32.png" type="image/x-icon">
+    <style id="fonts">
+      @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap');
+    </style>
+    <% if (meta.mode === Mode.Dev) { %>
+      <link rel="stylesheet" href="<%= url("~/css/base.css"); %>" />
+    <% } else { %>
+      <style id="base-styles">
+        <%# Inline normalised CSS styles using Vite'a feature. %>
+        @import "<%= url("~/css/base.css"); %>";
+      </style>
+    <% } %>
+    <link rel="stylesheet" href="<%= url("~/css/guide.css") %>" />
+  </head>
+  <body>
+    <%- include('header') %>
+    <%- include('mobile_sidesmenu_header') %>
+
+    <div id="container">
+        <%- include('left_side_menu') %>
+
+        <div id="content">
+            <%- page.content %>
+        </div>
+    </div>
+
+    <%- include('footer') %>
+    <script type="module" src="<%= url('~/js/toggleSideMenu.js'); %>"></script>
+    <script type="module" src="<%= url('~/js/base.js'); %>"></script>
+  </body>
+</html>

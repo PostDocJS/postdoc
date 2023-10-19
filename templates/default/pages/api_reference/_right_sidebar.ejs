@@ -1,0 +1,21 @@
+<div id="right-sidebar">
+    <nav id="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+            <li>
+                <a href="<%= titleUrl %>">
+                  <%= titleLabel %>
+                </a>
+                <ul>
+                  <% for (const { linkLabel, linkUrl } of links) { %>
+                    <li>
+                        <a href="<%= linkUrl %>">
+                          <%= linkLabel %>
+                        </a>
+                    </li>
+                  <% } %>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>

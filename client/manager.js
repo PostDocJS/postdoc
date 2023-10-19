@@ -237,7 +237,7 @@ if (!(GLOBAL_MANAGER_NAME in globalThis)) {
   addEventListener('popstate', ({state}) => {
     const url = getUrl();
 
-    if (url.hash && !state) {
+    if (!state) {
       historyAPI.pushState({url: url.href}, url.href, url.href, false);
 
       return historyAPI.replaceState({url: url.href}, url.href, url.href);

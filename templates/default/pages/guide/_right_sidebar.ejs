@@ -1,0 +1,23 @@
+<div id="right-sidebar">
+    <nav id="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+            <li>
+                <a href="<%= titleUrl %>"><%= titleLabel %></a>
+            </li>
+            <ul>
+							<% for (const { linkUrl, linkLabel } of links) { %>
+                <li>
+                    <a href="<%= linkUrl %>"><%= linkLabel %></a>
+                </li>
+							<% } %>
+            </ul>
+        </ul>
+    </nav>
+    <a
+        class="edit-link"
+        href="https://github.com/project/repository/overview.md"
+    >
+			Edit
+		</a>
+</div>

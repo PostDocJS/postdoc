@@ -46,7 +46,7 @@ body {
   border-bottom: 1px solid #e2e2e3;
 }
 
-[data-theme="dark"] #left-sidebar .logo {
+[data-theme='dark'] #left-sidebar .logo {
   border-bottom: 1px solid #2e2e32;
 }
 
@@ -63,11 +63,11 @@ body {
   padding: 20px;
 }
 
-[data-theme="dark"] #left-sidebar {
+[data-theme='dark'] #left-sidebar {
   background-color: #161618;
 }
 
-[data-theme="dark"] #right-sidebar {
+[data-theme='dark'] #right-sidebar {
   background-color: var(--background-color-dark);
 }
 
@@ -83,7 +83,7 @@ body {
   background-color: #fff;
 }
 
-[data-theme="dark"] #content {
+[data-theme='dark'] #content {
   background-color: var(--background-color-dark);
 }
 
@@ -112,7 +112,7 @@ body {
   font-weight: 500;
 }
 
-[data-theme="dark"] .nav-link {
+[data-theme='dark'] .nav-link {
   color: var(--text-color-dark);
 }
 
@@ -141,7 +141,7 @@ h1 {
   margin-top: 50px;
 }
 
-[data-theme="dark"] .edit-link {
+[data-theme='dark'] .edit-link {
   color: var(--text-color-dark);
   border-color: #ededed;
 }
@@ -150,7 +150,7 @@ h1 {
   background-color: #f1f1f1;
 }
 
-[data-theme="dark"] .edit-link:hover {
+[data-theme='dark'] .edit-link:hover {
   color: #161618;
 }
 
@@ -161,7 +161,7 @@ h1 {
   padding-left: 15px;
 }
 
-[data-theme="dark"] #toc {
+[data-theme='dark'] #toc {
   border-left: 1px solid #2e2e32;
 }
 
@@ -183,7 +183,7 @@ h1 {
   font-size: 14px;
 }
 
-[data-theme="dark"] #toc > ul > li > a {
+[data-theme='dark'] #toc > ul > li > a {
   color: var(--text-color-dark);
 }
 
@@ -233,7 +233,7 @@ main {
   padding-top: 65px;
 }
 
-[data-theme="dark"] .mobileAsideMenus {
+[data-theme='dark'] .mobileAsideMenus {
   background-color: var(--background-color-dark);
 }
 
@@ -263,7 +263,7 @@ main {
     overflow-y: auto;
   }
 
-  [data-theme="dark"] #left-sidebar.open {
+  [data-theme='dark'] #left-sidebar.open {
     background-color: var(--background-color-dark);
   }
 
@@ -277,12 +277,12 @@ main {
   }
 
   #right-sidebar::before {
-    content: "x";
+    content: 'x';
     display: block;
     text-align: right;
   }
 
-  [data-theme="dark"] #right-sidebar {
+  [data-theme='dark'] #right-sidebar {
     background-color: var(--background-color-dark);
   }
 }

@@ -119,6 +119,6 @@ out/
 # A directory used to contain dist files in tests
 __artifacts__
 
-
+.DS_Store
 tests_output/
 nightwatch/
