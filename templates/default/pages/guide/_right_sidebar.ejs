@@ -6,11 +6,11 @@
                 <a href="<%= titleUrl %>"><%= titleLabel %></a>
             </li>
             <ul>
-							<% for (const { linkUrl, linkLabel } of links) { %>
+    					<%_ for (const { linkUrl, linkLabel } of links) { _%>
                 <li>
                     <a href="<%= linkUrl %>"><%= linkLabel %></a>
                 </li>
-							<% } %>
+    					<%_ } _%>
             </ul>
         </ul>
     </nav>
@@ -18,6 +18,6 @@
         class="edit-link"
         href="https://github.com/project/repository/overview.md"
     >
-			Edit
-		</a>
+    	Edit
+    </a>
 </div>

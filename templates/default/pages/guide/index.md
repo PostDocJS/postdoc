@@ -8,6 +8,8 @@ const links = [
 ];
 %>
 
+<div id="content">
+
 # What is [Project]
 
 ## Part 1
@@ -17,5 +19,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 ## Part 2
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+</div>
 
 <%- include('./_right_sidebar', { titleUrl, titleLabel, links }) %>

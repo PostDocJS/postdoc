@@ -1,0 +1,15 @@
+<%
+  const shiki = require('shiki');
+
+	const theme_ = typeof theme !== 'undefined' ? theme : 'github-light';
+
+  const hightlighter = await shiki.getHighlighter({
+    theme: theme_
+  });
+
+  const fullCodeHtml = hightlighter.codeToHtml(code, { lang });
+%>
+
+<link rel="stylesheet" href="<%= url('./highlight.css') %>" />
+
+<%- fullCodeHtml %>

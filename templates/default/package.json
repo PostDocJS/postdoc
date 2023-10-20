@@ -8,6 +8,7 @@
     "build": "postdoc build"
   },
   "devDependencies": {
+    "shiki": "${shiki_version}",
     "postdoc": "${postdoc_version}",
     "nightwatch": "${nightwatch_version}",
     "geckodriver": "${geckodriver_version}"

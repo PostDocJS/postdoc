@@ -9,6 +9,8 @@ const links = [
 ];
 %>
 
+<div id="content">
+
 # API Endpoints
 
 ## API Endpoint 1
@@ -22,5 +24,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 ## API Endpoint 3
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+</div>
 
 <%- include('\_right_sidebar', { titleUrl, titleLabel, links }) %>
