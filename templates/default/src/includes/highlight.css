@@ -1,0 +1,38 @@
+.code-block pre:nth-child(1),
+[data-theme="light"] .code-block pre:nth-child(1) {
+  display: block;
+}
+
+.code-block pre:nth-child(2),
+[data-theme="light"] .code-block pre:nth-child(2) {
+  display: none;
+}
+
+[data-theme="dark"] .code-block pre:nth-child(1) {
+  display: none;
+}
+
+[data-theme="dark"] .code-block pre:nth-child(2) {
+  display: block;
+}
+
+.code-block pre.shiki {
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.5rem;
+  box-shadow:
+    rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  counter-reset: line;
+}
+
+.code-block pre.shiki .line {
+  display: inline-flex;
+  counter-increment: line;
+}
+
+.code-block pre.shiki .line::before {
+  content: counter(line);
+  padding-right: 0.5rem;
+  margin-right: 0.7rem;
+  border-right: 1px solid #ccc;
+}

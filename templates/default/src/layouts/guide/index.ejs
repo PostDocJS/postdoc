@@ -1,0 +1,95 @@
+<%
+const rightSidebarDatas = [
+  {
+    titleUrl: '#what-is-project',
+    titleLabel: 'What is [Project]',
+    links: [
+      { linkUrl: '#part-1', linkLabel: 'Part 1' },
+      { linkUrl: '#part-2', linkLabel: 'Part 2' },
+    ],
+    editLink: '#'
+  },
+  {
+    titleUrl: '#usage',
+    titleLabel: 'Usage',
+    links: [
+      { linkUrl: '#usage-stage-1', linkLabel: 'Usage Stage 1' },
+      { linkUrl: '#usage-stage-2', linkLabel: 'Usage Stage 2' },
+      { linkUrl: '#usage-stage-3', linkLabel: 'Usage Stage 3' },
+    ],
+    editLink: '#'
+  },
+  {
+    titleUrl: '#installation',
+    titleLabel: 'Installation',
+    links: [
+      { linkUrl: '#installation-stage-1', linkLabel: 'Installation Stage 1' },
+      { linkUrl: '#installation-stage-2', linkLabel: 'Installation Stage 2' },
+      { linkUrl: '#installation-stage-3', linkLabel: 'Installation Stage 3' },
+    ],
+    editLink: '#'
+  },
+  {
+    titleUrl: '#concepts',
+    titleLabel: 'Concepts',
+    links: [
+      { linkUrl: '#concept-stage-1', linkLabel: 'Concept Stage 1' },
+      { linkUrl: '#concept-stage-2', linkLabel: 'Concept Stage 2' },
+      { linkUrl: '#concept-stage-3', linkLabel: 'Concept Stage 3' },
+    ],
+    editLink: '#'
+  },
+];
+
+let rightSidebarData;
+
+if (page.url.endsWith('guide/index.html')) {
+  rightSidebarData = rightSidebarDatas[0];
+} else if (page.url.endsWith('guide/usage/index.html')) {
+  rightSidebarData = rightSidebarDatas[1];
+} else if (page.url.endsWith('guide/installation/index.html')) {
+  rightSidebarData = rightSidebarDatas[2];
+} else if (page.url.endsWith('guide/concepts/index.html')) {
+  rightSidebarData = rightSidebarDatas[3];
+}
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=0.86"
+    />
+    <title>Your Project</title>
+    <link rel="icon" href="/favicon-32x32.png" type="image/x-icon">
+    <style id="fonts">
+      @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap');
+    </style>
+    <style id="base-styles">
+      <%# Inline normalised CSS styles using Vite'a feature. %>
+      @import "<%= url("~/src/css/base.css"); %>";
+    </style>
+    <link rel="stylesheet" href="<%= url("~/src/css/guide.css") %>" />
+  </head>
+  <body>
+    <%- include('header') %>
+    <%- include('mobile_sidesmenu_header') %>
+
+    <div id="container">
+      <%- include('left_side_menu') %>
+
+      <div id="content">
+        <%- page.content %>
+      </div>
+
+      <%- include('api_right_sidebar', rightSidebarData) %>
+    </div>
+
+    <%- include('footer') %>
+
+    <script type="module" src="<%= url('~/src/js/toggleSideMenu.js'); %>"></script>
+    <script type="module" src="<%= url('~/src/js/base.js'); %>"></script>
+  </body>
+</html>

@@ -2,9 +2,9 @@
 
 import {argv} from 'node:process';
 
-import {initializeCLI} from '../lib/index.js';
+import createCLI from '../lib/index.js';
 
 // We should parse CLI arguments asynchronously
 // because we have asynchronous actions attached to
 // some commands.
-initializeCLI().then((cli) => cli.parseAsync(argv));
+createCLI().then((cli) => cli.parseAsync(argv));

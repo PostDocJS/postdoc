@@ -1,16 +1,17 @@
 {
   "name": "${project_name}",
+  "type": "module",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "test": "postdoc test",
     "start": "postdoc run",
-    "build": "postdoc build"
+    "build": "postdoc build",
+    "preview": "postdoc preview"
   },
   "devDependencies": {
     "shiki": "${shiki_version}",
     "postdoc": "${postdoc_version}",
-    "nightwatch": "${nightwatch_version}",
-    "geckodriver": "${geckodriver_version}"
+    "nightwatch": "${nightwatch_version}"
   }
 }

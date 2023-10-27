@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=0.86"
+    />
+    <title>Your Project</title>
+    <link rel="icon" href="/favicon-32x32.png" type="image/x-icon">
+    <style id="fonts">
+      @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap');
+    </style>
+    <style id="base-styles">
+      @import "<%= url("~/src/css/base.css"); %>";
+    </style>
+    <link rel="stylesheet" href="<%= url("~/src/css/about.css") %>" />
+  </head>
+  <body>
+    <%- include('header') %>
+
+    <main>
+        <article class="intro">
+            <h2>Join the Community</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Cras varius urna sapien, eget pharetra purus aliquet vitae.
+                Aliquam faucibus mi non luctus congue. Vivamus aliquam et
+                erat quis porta. Suspendisse interdum dolor at elit gravida
+                venenatis. Suspendisse scelerisque ac tellus aliquet semper.
+                Maecenas feugiat, augue sit amet semper bibendum, metus nibh
+                bibendum felis, nec scelerisque lacus elit pretium nulla.
+                Aliquam a congue lectus. Curabitur pretium ex pellentesque
+                leo hendrerit, vitae blandit nibh ornare. Pellentesque
+                habitant morbi tristique senectus et netus et malesuada
+                fames ac turpis egestas. Ut nec mauris id augue tincidunt
+                aliquet.
+            </p>
+        </article>
+        <article class="community">
+            <h2>Contribute</h2>
+            <div class="community-inner">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Cras varius urna sapien, eget pharetra purus aliquet vitae.
+                    Aliquam faucibus mi non luctus congue. Vivamus aliquam et
+                    erat quis porta. Suspendisse interdum dolor at elit gravida
+                    venenatis. Suspendisse scelerisque ac tellus aliquet semper.
+                    Maecenas feugiat, augue sit amet semper bibendum, metus nibh
+                    bibendum felis, nec scelerisque lacus elit pretium nulla.
+                    Aliquam a congue lectus. Curabitur pretium ex pellentesque
+                    leo hendrerit, vitae blandit nibh ornare. Pellentesque
+                    habitant morbi tristique senectus et netus et malesuada
+                    fames ac turpis egestas. Ut nec mauris id augue tincidunt
+                    aliquet.
+                </p>
+                <img
+                src="<%= url("~/src/assets/project_image.jpg") %>"
+                alt="your img alt"
+            />
+            </div>
+        </article>
+        <article class="contribute">
+            <h2>Code of Conduct</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Cras varius urna sapien, eget pharetra purus aliquet vitae.
+                Aliquam faucibus mi non luctus congue. Vivamus aliquam et
+                erat quis porta. Suspendisse interdum dolor at elit gravida
+                venenatis. Suspendisse scelerisque ac tellus aliquet semper.
+                Maecenas feugiat, augue sit amet semper bibendum, metus nibh
+                bibendum felis, nec scelerisque lacus elit pretium nulla.
+                Aliquam a congue lectus. Curabitur pretium ex pellentesque
+                leo hendrerit, vitae blandit nibh ornare. Pellentesque
+                habitant morbi tristique senectus et netus et malesuada
+                fames ac turpis egestas. Ut nec mauris id augue tincidunt
+                aliquet.
+            </p>
+        </article>
+    </main>
+
+    <%- include('footer') %>
+
+    <script type="module" src="<%= url('~/src/js/base.js'); %>"></script>
+  </body>
+</html>
