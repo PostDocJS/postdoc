@@ -1,37 +1,37 @@
-import {EventEmitter} from 'node:events';
-import {ok, throws, strictEqual, doesNotThrow} from 'node:assert';
+import { EventEmitter } from "node:events";
+import { ok, throws, strictEqual, doesNotThrow } from "node:assert";
 
-import mock from 'mock-fs';
-import {describe, it, beforeEach, afterEach} from 'mocha';
+import mock from "mock-fs";
+import { describe, it, beforeEach, afterEach } from "mocha";
 
-import {File, Directory} from '../lib/files.js';
+import { File, Directory } from "../lib/files.js";
 
 describe('The "files" abstraction over the Node\'s "fs" module', function () {
   beforeEach(function () {
     mock({
-      'existed-file.md': 'content',
+      "existed-file.md": "content",
       inner: {
-        'inner-file.md': 'inner content'
+        "inner-file.md": "inner content",
       },
-      toMove: {}
+      toMove: {},
     });
   });
 
-  describe('File', function () {
-    it('should be a plain function', function () {
-      strictEqual(typeof File, 'function');
+  describe("File", function () {
+    it("should be a plain function", function () {
+      strictEqual(typeof File, "function");
     });
 
-    it('should return an object', function () {
-      strictEqual(typeof File(), 'object');
+    it("should return an object", function () {
+      strictEqual(typeof File(), "object");
     });
 
     it('should accept a "source" path while creating an instance', function () {
       strictEqual(File().source(), null);
-      strictEqual(File('foo').source(), 'foo');
+      strictEqual(File("foo").source(), "foo");
     });
 
-    it('should accept content transformers in the chainable way', function () {
+    it("should accept content transformers in the chainable way", function () {
       const file = File();
 
       ok(file.map);
@@ -41,62 +41,62 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       strictEqual(file, self);
     });
 
-    describe('.exists', function () {
+    describe(".exists", function () {
       it('should return "false" if the source path is not provided', function () {
         ok(!File().exists());
       });
 
       it('should return "false" if the file does not exists at the source path', function () {
-        ok(!File('not-exists.md').exists());
+        ok(!File("not-exists.md").exists());
       });
 
       it('should return "true" if the file exists at the source path', function () {
-        ok(File('existed-file.md').exists());
+        ok(File("existed-file.md").exists());
       });
     });
 
-    describe('.content', function () {
+    describe(".content", function () {
       it('should return the "Promise"', function () {
-        const content = File('existed-file.md').content();
+        const content = File("existed-file.md").content();
 
         ok(content instanceof Promise);
       });
 
-      it('should asynchronously return the content of the file at the source path', async function () {
-        const content = await File('existed-file.md').content();
+      it("should asynchronously return the content of the file at the source path", async function () {
+        const content = await File("existed-file.md").content();
 
         ok(content);
-        strictEqual(content, 'content');
+        strictEqual(content, "content");
       });
 
-      it('should reject if the file at the source path does not exist', async function () {
+      it("should reject if the file at the source path does not exist", async function () {
         try {
-          await File('not-exist.md').content();
+          await File("not-exist.md").content();
         } catch (error) {
           ok(error);
         }
       });
 
-      it('should return a mapped content when at least one transformer is provided', async function () {
-        const content = await File('existed-file.md')
-          .map((content) => content + '!')
+      it("should return a mapped content when at least one transformer is provided", async function () {
+        const content = await File("existed-file.md")
+          .map((content) => content + "!")
           .content();
 
-        strictEqual(content, 'content!');
+        strictEqual(content, "content!");
       });
 
-      it('should return a content from a transformers if file does not exist', async function () {
-        const content = await File('file-not-exists.md')
-          .map(() => '')
-          .map((content) => content + '!')
+      it("should return a content from a transformers if file does not exist", async function () {
+        const content = await File("file-not-exists.md")
+          .map(() => "")
+          .map((content) => content + "!")
           .content();
 
-        strictEqual(content, '!');
+        strictEqual(content, "!");
       });
     });
 
-    describe('.write', function () {
-      it('should throw if write is called on the file with no source', async function () {
+    describe(".write", function () {
+      it("should throw if write is called on the file with no source", async function () {
         try {
           await File().write();
         } catch (error) {
@@ -105,7 +105,7 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
 
       it('should rewrite the current file if the "to" argument is omitted', async function () {
-        const file = File('write-blah');
+        const file = File("write-blah");
 
         ok(!file.exists());
 
@@ -115,43 +115,43 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
 
       it('should write to another file if the "to" argument is present', async function () {
-        const file = File('write-blah2');
+        const file = File("write-blah2");
 
         ok(!file.exists());
 
-        await file.write('write-blah3');
+        await file.write("write-blah3");
 
         ok(!file.exists());
 
-        ok(File('write-blah3').exists());
+        ok(File("write-blah3").exists());
       });
 
-      it('should return the same object after rewriting itself', async function () {
-        const file = File('write-foo');
+      it("should return the same object after rewriting itself", async function () {
+        const file = File("write-foo");
 
         const file2 = await file.write();
 
         strictEqual(file, file2);
       });
 
-      it('should return a new object after writing to another path', async function () {
-        const file = File('write-foo2');
+      it("should return a new object after writing to another path", async function () {
+        const file = File("write-foo2");
 
-        const file2 = await file.write('write-foo3');
+        const file2 = await file.write("write-foo3");
 
         ok(file !== file2);
       });
 
-      it('should write a changed content if there is at least one transformer', async function () {
-        const copiedFile = await File('existed-file.md')
-          .map((content) => 'pre-' + content)
-          .write('copied-file.md');
+      it("should write a changed content if there is at least one transformer", async function () {
+        const copiedFile = await File("existed-file.md")
+          .map((content) => "pre-" + content)
+          .write("copied-file.md");
 
-        strictEqual(await copiedFile.content(), 'pre-content');
+        strictEqual(await copiedFile.content(), "pre-content");
       });
     });
 
-    describe('.watch', function () {
+    describe(".watch", function () {
       let watcher = null;
 
       afterEach(function () {
@@ -164,13 +164,13 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
 
       it('should return the "FSWatcher" instance', function () {
-        watcher = File('existed-file.md').watch();
+        watcher = File("existed-file.md").watch();
 
         ok(watcher instanceof EventEmitter);
       });
     });
 
-    describe('.remove', function () {
+    describe(".remove", function () {
       it('should reject if a file does not have a "source" path', async function () {
         try {
           await File().remove();
@@ -181,14 +181,14 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
 
       it('should reject if a file at the "source" path does not exist', async function () {
         try {
-          await File('blah.md').remove();
+          await File("blah.md").remove();
         } catch (error) {
           ok(error);
         }
       });
 
       it('should remove a file if it exists at the "source" path', async function () {
-        const file = File('copied-file.md');
+        const file = File("copied-file.md");
 
         await file.write();
 
@@ -199,13 +199,13 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
     });
   });
 
-  describe('Directory', function () {
-    it('should be a plain function', function () {
-      ok(typeof Directory === 'function');
+  describe("Directory", function () {
+    it("should be a plain function", function () {
+      ok(typeof Directory === "function");
     });
 
-    it('should return an object', function () {
-      ok(typeof Directory() === 'object');
+    it("should return an object", function () {
+      ok(typeof Directory() === "object");
     });
 
     it('should have no "source" path, by default', function () {
@@ -213,9 +213,9 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
 
       strictEqual(directory.source(), null);
 
-      const directory2 = Directory('foo');
+      const directory2 = Directory("foo");
 
-      strictEqual(directory2.source(), 'foo');
+      strictEqual(directory2.source(), "foo");
     });
 
     it('should be able to make a directory "recursive"', function () {
@@ -224,71 +224,71 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       ok(directory.recursive);
     });
 
-    describe('.recursive', function () {
-      it('should return the directory\'s link', function () {
+    describe(".recursive", function () {
+      it("should return the directory's link", function () {
         const directory = Directory();
 
         strictEqual(directory.recursive(false), directory);
       });
     });
 
-    describe('.files', function () {
+    describe(".files", function () {
       it('should throw if a directory has not a "source" path', function () {
         throws(Directory().files);
       });
 
-      it('should return an array', function () {
-        ok(Array.isArray(Directory('').files()));
+      it("should return an array", function () {
+        ok(Array.isArray(Directory("").files()));
       });
 
-      it('should throw an error while attempting to return files of the non-existent directory', function () {
-        throws(() => Directory('does-not-exist').files());
+      it("should throw an error while attempting to return files of the non-existent directory", function () {
+        throws(() => Directory("does-not-exist").files());
       });
 
-      it('should return only direct files, by default', function () {
-        const files = Directory('.').files();
+      it("should return only direct files, by default", function () {
+        const files = Directory(".").files();
 
         strictEqual(files.length, 1);
         ok(
           files
-            .map(({source}) => source())
-            .every((path) => !path.includes('inner-file.md'))
+            .map(({ source }) => source())
+            .every((path) => !path.includes("inner-file.md")),
         );
       });
 
       it('should return files from inner directories if the "recursive" option is set to "true"', function () {
-        const files = Directory('').recursive(true).files();
+        const files = Directory("").recursive(true).files();
 
         strictEqual(files.length, 2);
         ok(
           files
-            .map(({source}) => source())
-            .some((path) => path.includes('inner-file.md'))
+            .map(({ source }) => source())
+            .some((path) => path.includes("inner-file.md")),
         );
       });
     });
 
-    describe('.exists', function () {
-      it('should return true if directory exists', function () {
-        ok(Directory('inner').exists());
+    describe(".exists", function () {
+      it("should return true if directory exists", function () {
+        ok(Directory("inner").exists());
       });
 
-      it('should return false if directory does not exist', function () {
-        ok(!Directory('unknown-directory').exists());
+      it("should return false if directory does not exist", function () {
+        ok(!Directory("unknown-directory").exists());
       });
     });
 
-    describe('.directories', function () {
-      it('should return a list of directories only', function () {
-        const dirs = Directory('.').directories();
+    describe(".directories", function () {
+      it("should return a list of directories only", function () {
+        const dirs = Directory(".").directories();
 
         strictEqual(dirs.length, 2);
-        strictEqual(dirs[0].source(), 'inner');
-        strictEqual(dirs[1].source(), 'toMove');
+        strictEqual(dirs[0].source(), "inner");
+        strictEqual(dirs[1].source(), "toMove");
       });
     });
 
-    describe('.watch', function () {
+    describe(".watch", function () {
       let watcher = null;
 
       afterEach(function () {
@@ -301,22 +301,22 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
 
       it('should return the "FSWatcher" instance', function () {
-        watcher = Directory('.').watch();
+        watcher = Directory(".").watch();
 
         ok(watcher instanceof EventEmitter);
       });
     });
 
-    describe('.move', function () {
+    describe(".move", function () {
       it('should rejects when the "source" and/or the "destination" paths are not set', async function () {
         try {
-          await Directory('toMove').moveTo();
+          await Directory("toMove").moveTo();
         } catch (error) {
           ok(error);
         }
 
         try {
-          await Directory().moveTo('toMoveCopy');
+          await Directory().moveTo("toMoveCopy");
         } catch (error) {
           ok(error);
         }
@@ -329,31 +329,31 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
 
       it('should move the directory from the "source" path to the "destination" path', async function () {
-        await Directory('toMove').moveTo('toMoveCopy');
+        await Directory("toMove").moveTo("toMoveCopy");
 
-        const files = Directory('toMoveCopy').files();
+        const files = Directory("toMoveCopy").files();
 
         // Moved directory exists.
         ok(Array.isArray(files));
         ok(files.length === 0);
 
         // Moved directory does not exist.
-        throws(() => Directory('toMove').files());
+        throws(() => Directory("toMove").files());
       });
 
-      it('should return the Directory instance', async function () {
-        const directory = Directory('toMoveCopy');
+      it("should return the Directory instance", async function () {
+        const directory = Directory("toMoveCopy");
 
         await directory.create();
 
-        const movedDirectory = await directory.moveTo('toMove');
+        const movedDirectory = await directory.moveTo("toMove");
 
         strictEqual(directory, movedDirectory);
-        strictEqual(directory.source(), 'toMove');
+        strictEqual(directory.source(), "toMove");
       });
     });
 
-    describe('.create', function () {
+    describe(".create", function () {
       it('should reject if the "source" path is not defined', async function () {
         try {
           await Directory().create();
@@ -362,33 +362,33 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
         }
       });
 
-      it('should create a directory', async function () {
-        await Directory('new-directory').create();
+      it("should create a directory", async function () {
+        await Directory("new-directory").create();
 
-        doesNotThrow(() => Directory('new-directory').files());
+        doesNotThrow(() => Directory("new-directory").files());
       });
 
-      it('should return the Directory instance', async function () {
-        const directory = Directory('single-non-existent-directory');
+      it("should return the Directory instance", async function () {
+        const directory = Directory("single-non-existent-directory");
         const createdDirectory = await directory.create();
 
         strictEqual(directory, createdDirectory);
       });
 
-      it('should recursively create directories', async function () {
-        await Directory('deep/recursive/directory').create();
+      it("should recursively create directories", async function () {
+        await Directory("deep/recursive/directory").create();
 
-        doesNotThrow(() => Directory('deep').files());
-        doesNotThrow(() => Directory('deep/recursive').files());
-        doesNotThrow(() => Directory('deep/recursive/directory').files());
+        doesNotThrow(() => Directory("deep").files());
+        doesNotThrow(() => Directory("deep/recursive").files());
+        doesNotThrow(() => Directory("deep/recursive/directory").files());
       });
 
-      it('should not reject if there is a directory already', async function () {
-        await Directory('toMove').create();
+      it("should not reject if there is a directory already", async function () {
+        await Directory("toMove").create();
       });
     });
 
-    describe('.remove', function () {
+    describe(".remove", function () {
       it('should reject if the "source" path is not defined', async function () {
         try {
           await Directory().remove();
@@ -398,7 +398,7 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
       });
 
       it('should remove a directory at the "source" path', async function () {
-        const directory = Directory('single-non-existent-directory');
+        const directory = Directory("single-non-existent-directory");
 
         await directory.create();
 
@@ -407,22 +407,22 @@ describe('The "files" abstraction over the Node\'s "fs" module', function () {
         throws(() => directory.files());
       });
 
-      it('should reject while removing non-existent directory', async function () {
+      it("should reject while removing non-existent directory", async function () {
         try {
-          await Directory('blah-foo').remove();
+          await Directory("blah-foo").remove();
         } catch (error) {
           ok(error);
         }
       });
 
-      it('should remove nested directories', async function () {
-        const directory = Directory('deep/recursive/directory');
+      it("should remove nested directories", async function () {
+        const directory = Directory("deep/recursive/directory");
 
         await directory.create();
 
-        await Directory('deep').remove();
+        await Directory("deep").remove();
 
-        throws(() => Directory('deep/recursive/directory').files());
+        throws(() => Directory("deep/recursive/directory").files());
       });
     });
   });

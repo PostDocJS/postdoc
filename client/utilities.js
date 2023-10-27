@@ -52,4 +52,4 @@ export const shortenSameSiteURI = (uri) =>
  * @returns {URL}
  */
 export const getUrl = (source = location) =>
-  typeof source === 'string' ? new URL(source, location) : new URL(location);
+  typeof source === "string" ? new URL(source, location) : new URL(location);

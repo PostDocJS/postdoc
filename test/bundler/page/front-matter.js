@@ -1,25 +1,25 @@
-import {ok} from 'node:assert';
+import { ok } from "node:assert";
 
-import mockFs from 'mock-fs';
-import {it, beforeEach, afterEach, describe} from 'mocha';
+import mockFs from "mock-fs";
+import { it, beforeEach, afterEach, describe } from "mocha";
 
-import {Container} from '../../../lib/utils/container.js';
-import {clearCache} from '../../../lib/bundler/cache.js';
-import {getAllPages} from '../../../lib/bundler/page/entity.js';
-import {parseFrontMatter} from '../../../lib/bundler/page/front-matter.js';
-import {CONFIGURATION_ID} from '../../../lib/configuration/index.js';
+import { Container } from "../../../lib/utils/container.js";
+import { clearCache } from "../../../lib/bundler/cache.js";
+import { getAllPages } from "../../../lib/bundler/page/entity.js";
+import { parseFrontMatter } from "../../../lib/bundler/page/front-matter.js";
+import { CONFIGURATION_ID } from "../../../lib/configuration/index.js";
 
-describe('front-matter', function () {
+describe("front-matter", function () {
   const defaultConfiguration = {
     directories: {
-      pages: 'pages',
-      output: 'out',
-      contents: 'pages',
-      includes: 'includes'
+      pages: "pages",
+      output: "out",
+      contents: "pages",
+      includes: "includes",
     },
     logger: {
-      noColors: false
-    }
+      noColors: false,
+    },
   };
 
   const frontMatterWithTitle = `
@@ -61,21 +61,21 @@ title: 'About'
 
     mockFs({
       pages: {
-        'index.html.ejs': ''
-      }
+        "index.html.ejs": "",
+      },
     });
   });
 
-  it('should allow empty front matter data', function () {
-    const page = getPage('index');
+  it("should allow empty front matter data", function () {
+    const page = getPage("index");
 
-    const result = parseFrontMatter('', page.layout);
+    const result = parseFrontMatter("", page.layout);
 
     ok(result === null);
   });
 
-  it('should parse title', function () {
-    const page = getPage('index');
+  it("should parse title", function () {
+    const page = getPage("index");
 
     const result = parseFrontMatter(frontMatterWithTitle, page.layout);
 
@@ -83,8 +83,8 @@ title: 'About'
     ok(/og:title/.test(result.tags));
   });
 
-  it('should parse description', function () {
-    const page = getPage('index');
+  it("should parse description", function () {
+    const page = getPage("index");
 
     const result = parseFrontMatter(frontMatterWithDescription, page.layout);
 
@@ -92,45 +92,45 @@ title: 'About'
     ok(/og:description/.test(result.tags));
   });
 
-  it('should parse image', function () {
-    const page = getPage('index');
+  it("should parse image", function () {
+    const page = getPage("index");
 
     const result = parseFrontMatter(frontMatterWithImage, page.layout);
 
     ok(
       /og:image.+?content="https:\/\/db.io\/image\/kjfhi\.png"/.test(
-        result.tags
-      )
+        result.tags,
+      ),
     );
   });
 
-  it('should parse keywords', function () {
-    const page = getPage('index');
+  it("should parse keywords", function () {
+    const page = getPage("index");
 
     const result = parseFrontMatter(frontMatterWithKeywords, page.layout);
 
     ok(/name="keywords" content="super, cool"/.test(result.tags));
   });
 
-  it('should parse author', function () {
-    const page = getPage('index');
+  it("should parse author", function () {
+    const page = getPage("index");
 
     const result = parseFrontMatter(frontMatterWithAuthor, page.layout);
 
     ok(/name="author" content="Yevhen"/.test(result.tags));
   });
 
-  it('should parse language', function () {
-    const page = getPage('index');
+  it("should parse language", function () {
+    const page = getPage("index");
 
     const result = parseFrontMatter(frontMatterWithLanguage, page.layout);
 
     ok(/og:locale.+?content="uk"/.test(result.tags));
-    ok(result.html.lang === 'uk');
+    ok(result.html.lang === "uk");
   });
 
-  it('should parse draft', function () {
-    const page = getPage('index');
+  it("should parse draft", function () {
+    const page = getPage("index");
 
     const result = parseFrontMatter(frontMatterWithDraft, page.layout);
 

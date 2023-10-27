@@ -5,9 +5,9 @@
  * @module client
  */
 
-import './manager.js';
-import {getUrl} from './utilities.js';
-import {NavigationEventName, GLOBAL_MANAGER_NAME} from './constants.js';
+import "./manager.js";
+import { getUrl } from "./utilities.js";
+import { NavigationEventName, GLOBAL_MANAGER_NAME } from "./constants.js";
 
 /**
  * @typedef {Object} TransitionOptions
@@ -36,7 +36,7 @@ export const onLeave = (listener, options = {}) =>
   globalThis[GLOBAL_MANAGER_NAME].registerEventListener(
     NavigationEventName.BeforeTransition,
     listener,
-    options
+    options,
   );
 
 /**
@@ -56,14 +56,14 @@ export const onLeave = (listener, options = {}) =>
  */
 export const onRender = (listener, options = {}) => {
   const currentUrl = getUrl();
-  const {forPage} = options;
+  const { forPage } = options;
 
   // After the very first page load it is likely that the
   // code in the *listener* should be executed.
   if (
     !forPage ||
     (forPage instanceof RegExp && forPage.test(currentUrl.href)) ||
-    (typeof forPage === 'function' && forPage(currentUrl))
+    (typeof forPage === "function" && forPage(currentUrl))
   ) {
     listener(currentUrl);
   }
@@ -71,7 +71,7 @@ export const onRender = (listener, options = {}) => {
   return globalThis[GLOBAL_MANAGER_NAME].registerEventListener(
     NavigationEventName.AfterTransition,
     listener,
-    options
+    options,
   );
 };
 

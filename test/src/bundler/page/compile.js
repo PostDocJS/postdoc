@@ -5,86 +5,86 @@
  * When a page with a self-referencing layout template (like 'with-relative') is compiled, the resultant HTML is nested within itself.
  */
 
-import fs from 'fs-extra';
-import os from 'os';
-import path from 'path';
-import process from 'process';
+import fs from "fs-extra";
+import os from "os";
+import path from "path";
+import process from "process";
 
-import {Container} from '../../../../lib/utils/container.js';
-import {CONFIGURATION_ID} from '../../../../lib/configuration/index.js';
+import { Container } from "../../../../lib/utils/container.js";
+import { CONFIGURATION_ID } from "../../../../lib/configuration/index.js";
 import {
   clearCache,
   getCacheEntry,
-  hasCacheEntry
-} from '../../../../lib/bundler/cache.js';
+  hasCacheEntry,
+} from "../../../../lib/bundler/cache.js";
 import {
   basicHtml,
   compilePage,
   createCompilerFor,
-  defaultConfiguration
-} from '../../../bundler/utils.js';
+  defaultConfiguration,
+} from "../../../bundler/utils.js";
 
-describe('compile', function () {
+describe("compile", function () {
   let tmpDir;
   let oldCwd;
 
   beforeEach(async function () {
     oldCwd = process.cwd();
-    tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'test-compile'));
+    tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "test-compile"));
     process.chdir(tmpDir);
     Container.set(CONFIGURATION_ID, defaultConfiguration);
 
     const structure = {
       pages: {
-        'inner-basic': {
-          'index.ejs': basicHtml
+        "inner-basic": {
+          "index.ejs": basicHtml,
         },
-        'draft.ejs': basicHtml,
-        'draft.md': '--- draft: true ---',
+        "draft.ejs": basicHtml,
+        "draft.md": "--- draft: true ---",
 
-        'index.ejs': '<%- page.content %>',
-        'with-relative.ejs': `<html>
+        "index.ejs": "<%- page.content %>",
+        "with-relative.ejs": `<html>
       <head></head>
       <body>
   <%- page.content %>
   </body>
   </html>`,
-        'with-relative.md': 'Wow',
-        'about.ejs': basicHtml,
-        'about.md': `
+        "with-relative.md": "Wow",
+        "about.ejs": basicHtml,
+        "about.md": `
   ---
   title: 'About'
   ---
   `,
-        'contacts.ejs': basicHtml,
-        'contacts.md': `
+        "contacts.ejs": basicHtml,
+        "contacts.md": `
   ---
   language: ro
   ---
   `,
-        'html-with-attributes.ejs': `
+        "html-with-attributes.ejs": `
   <html data-theme="light">
       <head></head>
       <body></body>
   </html>
   `,
-        'html-with-attributes.md': `
+        "html-with-attributes.md": `
   ---
   language: uk
   ---
   `,
-        'html-with-lang-and-attributes.ejs': `
+        "html-with-lang-and-attributes.ejs": `
   <html lang="en" data-theme="light">
       <head></head>
       <body></body>
   </html>
   `,
-        'html-with-lang-and-attributes.md': `
+        "html-with-lang-and-attributes.md": `
   ---
   language: uk
   ---
-  `
-      }
+  `,
+      },
     };
 
     await createDirectoriesAndFiles(tmpDir, structure);
@@ -93,7 +93,7 @@ describe('compile', function () {
   async function createDirectoriesAndFiles(directory, structure) {
     for (const [name, content] of Object.entries(structure)) {
       const newPath = path.join(directory, name);
-      if (typeof content === 'object') {
+      if (typeof content === "object") {
         await fs.mkdir(newPath);
         await createDirectoriesAndFiles(newPath, content);
       } else {

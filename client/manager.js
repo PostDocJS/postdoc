@@ -5,9 +5,9 @@
  * @module client_manager
  */
 
-import {getUrl} from './utilities.js';
-import {startTransition} from './transition.js';
-import {NavigationEventName, GLOBAL_MANAGER_NAME} from './constants.js';
+import { getUrl } from "./utilities.js";
+import { startTransition } from "./transition.js";
+import { NavigationEventName, GLOBAL_MANAGER_NAME } from "./constants.js";
 
 /**
  * Action (add/replace) state interface.
@@ -42,20 +42,20 @@ import {NavigationEventName, GLOBAL_MANAGER_NAME} from './constants.js';
  * @type HistoryAPI
  */
 const historyAPI = (() => {
-  let stack = [{url: getUrl().href, index: 0}];
+  let stack = [{ url: getUrl().href, index: 0 }];
   let cursor = 0;
 
-  addEventListener('load', () => {
-    const historySessionItem = sessionStorage.getItem('history');
+  addEventListener("load", () => {
+    const historySessionItem = sessionStorage.getItem("history");
 
     if (historySessionItem) {
-      const {stack: stackSession, cursor: cursorSession} =
+      const { stack: stackSession, cursor: cursorSession } =
         JSON.parse(historySessionItem);
 
       stack = stackSession;
       cursor = cursorSession;
     } else {
-      sessionStorage.setItem('history', JSON.stringify({stack, cursor}));
+      sessionStorage.setItem("history", JSON.stringify({ stack, cursor }));
 
       history.replaceState(stack[0], stack[0].url, stack[0].url);
     }
@@ -73,17 +73,17 @@ const historyAPI = (() => {
     set cursor(index) {
       cursor = index;
 
-      sessionStorage.setItem('history', JSON.stringify({stack, cursor}));
+      sessionStorage.setItem("history", JSON.stringify({ stack, cursor }));
     },
 
     pushState(stateObj, title, url, inBrowserHistory = true) {
       cursor = stack[stack.length - 1].index + 1;
 
-      const data = {...stateObj, index: cursor};
+      const data = { ...stateObj, index: cursor };
 
       stack.push(data);
 
-      sessionStorage.setItem('history', JSON.stringify({stack, cursor}));
+      sessionStorage.setItem("history", JSON.stringify({ stack, cursor }));
 
       if (inBrowserHistory) {
         history.pushState(data, title, url);
@@ -91,16 +91,16 @@ const historyAPI = (() => {
     },
 
     replaceState(stateObj, title, url, inBrowserHistory = true) {
-      const data = {...stateObj, index: cursor};
+      const data = { ...stateObj, index: cursor };
 
       stack[data.index] = data;
 
-      sessionStorage.setItem('history', JSON.stringify({stack, cursor}));
+      sessionStorage.setItem("history", JSON.stringify({ stack, cursor }));
 
       if (inBrowserHistory) {
         history.replaceState(data, title, url);
       }
-    }
+    },
   };
 })();
 
@@ -109,23 +109,23 @@ const historyAPI = (() => {
  * page loading in favour of custom page switching.
  */
 const trapAnchors = () =>
-  document.body.querySelectorAll('a[href]').forEach((anchor) => {
-    const link = anchor.getAttribute('href');
+  document.body.querySelectorAll("a[href]").forEach((anchor) => {
+    const link = anchor.getAttribute("href");
 
     if (link && anchor.host === location.host) {
-      anchor.setAttribute('data-link-internal', true);
+      anchor.setAttribute("data-link-internal", true);
 
-      if (link.startsWith('#')) {
+      if (link.startsWith("#")) {
         return;
       }
 
-      anchor.addEventListener('click', async (event) => {
+      anchor.addEventListener("click", async (event) => {
         event.preventDefault();
 
         await globalThis[GLOBAL_MANAGER_NAME].navigate(link);
 
-        if (link.includes('#')) {
-          const searchId = anchor.hash.replace('#', '');
+        if (link.includes("#")) {
+          const searchId = anchor.hash.replace("#", "");
 
           document.querySelector(`[id="${searchId}"]`)?.scrollIntoView();
 
@@ -138,7 +138,7 @@ const trapAnchors = () =>
         document.body.firstElementChild.focus();
       });
     } else {
-      anchor.setAttribute('data-link-external', true);
+      anchor.setAttribute("data-link-external", true);
     }
   });
 
@@ -151,7 +151,7 @@ if (!(GLOBAL_MANAGER_NAME in globalThis)) {
   /** @type {Map<NavigationEventName, Array<[import('./index.js').TransitionHook, TransitionHookOptions]>>} */
   const events = new Map([
     [NavigationEventName.AfterTransition, []],
-    [NavigationEventName.BeforeTransition, []]
+    [NavigationEventName.BeforeTransition, []],
   ]);
 
   /** The Navigation manager. */
@@ -174,21 +174,21 @@ if (!(GLOBAL_MANAGER_NAME in globalThis)) {
       await Promise.all(
         events
           .get(NavigationEventName.BeforeTransition)
-          .map(([hook, {forPage, registeredOn}]) => {
+          .map(([hook, { forPage, registeredOn }]) => {
             if (
               (forPage instanceof RegExp && forPage.test(currentUrl.href)) ||
-              (typeof forPage === 'function' && forPage(currentUrl)) ||
+              (typeof forPage === "function" && forPage(currentUrl)) ||
               (!forPage && registeredOn.pathname === currentUrl.pathname)
             ) {
               return hook(currentUrl, nextUrl);
             }
-          })
+          }),
       );
 
-      historyAPI[(replaceContext ? 'replace' : 'push') + 'State'](
-        {url: nextUrl.href},
+      historyAPI[(replaceContext ? "replace" : "push") + "State"](
+        { url: nextUrl.href },
         nextUrl.href,
-        nextUrl.href
+        nextUrl.href,
       );
 
       await startTransition(nextUrl.pathname);
@@ -198,15 +198,15 @@ if (!(GLOBAL_MANAGER_NAME in globalThis)) {
       await Promise.all(
         events
           .get(NavigationEventName.AfterTransition)
-          .map(([hook, {forPage, registeredOn}]) => {
+          .map(([hook, { forPage, registeredOn }]) => {
             if (
               (forPage instanceof RegExp && forPage.test(nextUrl.href)) ||
-              (typeof forPage === 'function' && forPage(nextUrl)) ||
+              (typeof forPage === "function" && forPage(nextUrl)) ||
               (!forPage && registeredOn.pathname === nextUrl.pathname)
             ) {
               return hook(nextUrl);
             }
-          })
+          }),
       );
     },
     /**
@@ -223,24 +223,24 @@ if (!(GLOBAL_MANAGER_NAME in globalThis)) {
 
       events
         .get(eventName)
-        .push([listener, {...options, registeredOn: currentPage}]);
+        .push([listener, { ...options, registeredOn: currentPage }]);
 
       return () =>
         void events.set(
           eventName,
-          events.get(eventName).filter(([hook]) => hook !== listener)
+          events.get(eventName).filter(([hook]) => hook !== listener),
         );
-    }
+    },
   };
 
   // // Preserves the behaviour of the "back" and "forward" browser buttons.
-  addEventListener('popstate', ({state}) => {
+  addEventListener("popstate", ({ state }) => {
     const url = getUrl();
 
     if (!state) {
-      historyAPI.pushState({url: url.href}, url.href, url.href, false);
+      historyAPI.pushState({ url: url.href }, url.href, url.href, false);
 
-      return historyAPI.replaceState({url: url.href}, url.href, url.href);
+      return historyAPI.replaceState({ url: url.href }, url.href, url.href);
     }
 
     const nextUrl = historyAPI.stack[state.index].url;
@@ -251,9 +251,9 @@ if (!(GLOBAL_MANAGER_NAME in globalThis)) {
   });
 
   // Traps all anchors on the current page.
-  addEventListener('load', trapAnchors);
+  addEventListener("load", trapAnchors);
 
   if (import.meta.hot) {
-    import.meta.hot.on('postdoc:reload-page', () => location.reload());
+    import.meta.hot.on("postdoc:reload-page", () => location.reload());
   }
 }

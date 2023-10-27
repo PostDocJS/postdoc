@@ -6,8 +6,8 @@
  * @module client_transition
  */
 
-import {PAGE_MIME_TYPE} from './constants.js';
-import {shortenSameSiteURI} from './utilities.js';
+import { PAGE_MIME_TYPE } from "./constants.js";
+import { shortenSameSiteURI } from "./utilities.js";
 
 const pageParser = new DOMParser();
 
@@ -21,7 +21,7 @@ const executedScriptsUrls = new Set();
  */
 const panicWith = (page, status) => {
   throw new Error(
-    `The navigation to the "${page}" fails with "${status}" status.`
+    `The navigation to the "${page}" fails with "${status}" status.`,
   );
 };
 
@@ -33,12 +33,12 @@ const panicWith = (page, status) => {
  *   the information needed for the new script.
  */
 const copyScriptElement = (reference) => {
-  const element = document.createElement('script');
+  const element = document.createElement("script");
 
-  Array.from(reference.attributes).forEach(({name, value}) => {
+  Array.from(reference.attributes).forEach(({ name, value }) => {
     element.setAttribute(
       name,
-      name === 'src' ? shortenSameSiteURI(value) : value
+      name === "src" ? shortenSameSiteURI(value) : value,
     );
   });
 
@@ -47,13 +47,13 @@ const copyScriptElement = (reference) => {
   return element;
 };
 
-const walk = (root, callback, level = 'deep') => {
+const walk = (root, callback, level = "deep") => {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT);
 
   let node;
   // eslint-disable-next-line no-cond-assign
   while ((node = walker.nextNode())) {
-    if (level === 'deep') {
+    if (level === "deep") {
       callback(node);
     } else if (root === node.parentNode) {
       callback(node);
@@ -72,10 +72,10 @@ const splitHeadTags = (head) => {
         return;
       }
 
-      if (node.tagName === 'SCRIPT') {
+      if (node.tagName === "SCRIPT") {
         prepareNewScriptNode(node, (node) => scripts.push(node));
       } else {
-        if (node.tagName === 'NOSCRIPT') {
+        if (node.tagName === "NOSCRIPT") {
           // For some reason if noscript contains a markup it is parsed also
           // but it should not be. With this we make sure inner markup stays as string.
           node.textContent = node.innerHTML;
@@ -84,7 +84,7 @@ const splitHeadTags = (head) => {
         others.push(node);
       }
     },
-    'shallow'
+    "shallow",
   );
 
   return [scripts, others];
@@ -95,18 +95,18 @@ const splitHeadTags = (head) => {
  * @returns {boolean}
  */
 const isPreconnectNode = (node) =>
-  node.tagName === 'LINK' && node.rel === 'preconnect';
+  node.tagName === "LINK" && node.rel === "preconnect";
 
 /**
  * @param {Node} node
  * @returns {boolean}
  */
 const isStylesheetNode = (node) =>
-  (node.tagName === 'LINK' && node.rel === 'stylesheet') ||
-  node.tagName === 'STYLE';
+  (node.tagName === "LINK" && node.rel === "stylesheet") ||
+  node.tagName === "STYLE";
 
 const prepareNewScriptNode = (node, callback, clean) => {
-  const nodeSrc = node.getAttribute('src');
+  const nodeSrc = node.getAttribute("src");
 
   if (nodeSrc && !executedScriptsUrls.has(getCommonPathFromUrl(nodeSrc))) {
     executedScriptsUrls.add(getCommonPathFromUrl(nodeSrc));
@@ -138,12 +138,12 @@ const extractScriptsFrom = (root) => {
   const scriptsReplacements = [];
 
   walk(root, (node) => {
-    if (node.tagName === 'SCRIPT') {
+    if (node.tagName === "SCRIPT") {
       prepareNewScriptNode(
         node,
         (preparedNode) =>
           scriptsReplacements.push(() => node.replaceWith(preparedNode)),
-        (node) => scriptsReplacements.push(() => node.remove())
+        (node) => scriptsReplacements.push(() => node.remove()),
       );
     }
   });
@@ -164,7 +164,7 @@ const LEVEL_UP = /\.\.\//g;
  * @returns {string}
  */
 const getCommonPathFromUrl = (url) => {
-  return url.replace(LEVEL_UP, '');
+  return url.replace(LEVEL_UP, "");
 };
 
 const collectNodes = (parent, predicate) => {
@@ -194,10 +194,10 @@ export const startTransition = (uri) => {
   const isFirstLoad = !executedScriptsUrls.size;
 
   if (isFirstLoad) {
-    const oldScripts = document.querySelectorAll('script[src]');
+    const oldScripts = document.querySelectorAll("script[src]");
 
     oldScripts.forEach((script) => {
-      const uniqueUrlPart = getCommonPathFromUrl(script.getAttribute('src'));
+      const uniqueUrlPart = getCommonPathFromUrl(script.getAttribute("src"));
 
       executedScriptsUrls.add(uniqueUrlPart);
     });
@@ -205,11 +205,11 @@ export const startTransition = (uri) => {
 
   return fetch(uri, {
     headers: {
-      Accept: PAGE_MIME_TYPE
-    }
+      Accept: PAGE_MIME_TYPE,
+    },
   })
     .then((response) =>
-      response.ok ? response.text() : panicWith(uri, response.status)
+      response.ok ? response.text() : panicWith(uri, response.status),
     )
     .then(async (html) => {
       const page = pageParser.parseFromString(html, PAGE_MIME_TYPE);
@@ -226,7 +226,7 @@ export const startTransition = (uri) => {
           .concat(collectNodes(head, isStylesheetNode))
           .concat(collectNodes(document.body, isStylesheetNode))
           .concat(collectNodes(document.head, isStylesheetNode))
-          .map((node) => [node.href || node.id, node])
+          .map((node) => [node.href || node.id, node]),
       );
 
       for (const node of styles.values()) {
@@ -235,7 +235,7 @@ export const startTransition = (uri) => {
         }
       }
 
-      Array.from(document.documentElement.attributes).forEach(({name}) => {
+      Array.from(document.documentElement.attributes).forEach(({ name }) => {
         const valueFromNextPage = page.documentElement.getAttribute(name);
 
         if (valueFromNextPage !== null) {
@@ -245,8 +245,8 @@ export const startTransition = (uri) => {
           document.documentElement.removeAttribute(name);
         }
       });
-      Array.from(page.documentElement.attributes).forEach(({name, value}) =>
-        document.documentElement.setAttribute(name, value)
+      Array.from(page.documentElement.attributes).forEach(({ name, value }) =>
+        document.documentElement.setAttribute(name, value),
       );
 
       document.head.append(
@@ -259,11 +259,11 @@ export const startTransition = (uri) => {
                 findAndPreserveOldNodeIf(
                   (oldNode) =>
                     isPreconnectNode(oldNode) && node.href === oldNode.href,
-                  oldHeadNodes
-                )
+                  oldHeadNodes,
+                ),
               )
-            )
-        )
+            ),
+        ),
       );
 
       const [walkedBody, deferredBodyScriptsReplacements] =

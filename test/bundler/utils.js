@@ -1,5 +1,5 @@
-import {getAllPages} from '../../lib/bundler/page/entity.js';
-import {createPageCompiler} from '../../lib/bundler/page/index.js';
+import { getAllPages } from "../../lib/bundler/page/entity.js";
+import { createPageCompiler } from "../../lib/bundler/page/index.js";
 
 export const basicHtml = `
 <html>
@@ -11,27 +11,27 @@ export const basicHtml = `
 
 export const defaultConfiguration = {
   i18n: {
-    languages: ['uk', 'de']
+    languages: ["uk", "de"],
   },
   directories: {
-    pages: 'pages',
-    tests: 'test',
-    output: 'out',
-    contents: 'pages',
-    layouts: 'pages',
-    includes: 'includes'
+    pages: "pages",
+    tests: "test",
+    output: "out",
+    contents: "pages",
+    layouts: "pages",
+    includes: "includes",
   },
   ignore: {
-    pages: []
+    pages: [],
   },
   logger: {
-    noColors: false
-  }
+    noColors: false,
+  },
 };
 
 export const createCompilerFor = (
   basename,
-  configuration = defaultConfiguration
+  configuration = defaultConfiguration,
 ) => {
   const pages = getAllPages(configuration);
 
@@ -46,14 +46,14 @@ export const createCompilerFor = (
   return {
     page,
     pages,
-    compile
+    compile,
   };
 };
 export const compilePage = async (
   basename,
-  configuration = defaultConfiguration
+  configuration = defaultConfiguration,
 ) => {
-  const {page, compile} = createCompilerFor(basename, configuration);
+  const { page, compile } = createCompilerFor(basename, configuration);
 
   return compile(page);
 };

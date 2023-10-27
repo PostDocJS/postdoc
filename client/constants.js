@@ -4,9 +4,9 @@
  * @module client_constants
  */
 
-export const GLOBAL_MANAGER_NAME = '__$$PostDocClient$$NavigationManager';
+export const GLOBAL_MANAGER_NAME = "__$$PostDocClient$$NavigationManager";
 
-export const PAGE_MIME_TYPE = 'text/html';
+export const PAGE_MIME_TYPE = "text/html";
 
 /**
  * Navigation events.
@@ -23,7 +23,7 @@ export const NavigationEventName = {
    * Listeners of that type are invoked in the context
    * of the new page.
    */
-  AfterTransition: '__$$after-transition',
+  AfterTransition: "__$$after-transition",
   /**
    * That event type describes listeners that
    * are executed before the navigation starts.
@@ -31,5 +31,5 @@ export const NavigationEventName = {
    * Listeners of that type are invoked in the context
    * of the old page.
    */
-  BeforeTransition: '__$$before-transition'
+  BeforeTransition: "__$$before-transition",
 };
