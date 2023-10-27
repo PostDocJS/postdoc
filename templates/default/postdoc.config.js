@@ -48,4 +48,10 @@ export default {
   apiExtractor: "dox",
 
   appSettings: {},
+
+  markdown: {
+    options: { async: true },
+    shikiOptions: {},
+    extensions: [],
+  }
 };
