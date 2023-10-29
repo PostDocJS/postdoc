@@ -10,7 +10,6 @@
     "preview": "postdoc preview"
   },
   "devDependencies": {
-    "shiki": "${shiki_version}",
     "postdoc": "${postdoc_version}",
     "nightwatch": "${nightwatch_version}"
   }

@@ -39,7 +39,7 @@
     "arcsecond": "^5.0.0",
     "chalk": "^5.2.0",
     "chokidar": "^3.5.3",
-    "commander": "^10.0.0",
+    "commander": "^11.1.0",
     "deepmerge": "^4.2.2",
     "dotenv": "^16.0.3",
     "dox": "^1.0.0",

@@ -53,5 +53,5 @@ export default {
     options: { async: true },
     shikiOptions: {},
     extensions: [],
-  }
+  },
 };
