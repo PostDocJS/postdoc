@@ -1,4 +1,4 @@
-@import './highlight.css';
+@import "./highlight.css";
 
 body {
   margin: 0;
@@ -174,11 +174,11 @@ h1 {
   padding: 0;
 }
 
-#toc>ul>li {
+#toc > ul > li {
   margin-bottom: 5px;
 }
 
-#toc>ul>li>a {
+#toc > ul > li > a {
   font-weight: bold;
   color: #1e392e;
   display: block;
@@ -187,11 +187,11 @@ h1 {
   font-size: 14px;
 }
 
-[data-theme="dark"] #toc>ul>li>a {
+[data-theme="dark"] #toc > ul > li > a {
   color: var(--text-color-dark);
 }
 
-#toc>ul>li>a:hover {
+#toc > ul > li > a:hover {
   background-color: #ddd;
 }
 
@@ -250,7 +250,6 @@ main {
 }
 
 @media screen and (max-width: 992px) {
-
   #left-sidebar,
   #right-sidebar {
     display: none;

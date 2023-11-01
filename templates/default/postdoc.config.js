@@ -1,3 +1,5 @@
+import { sep } from "node:path";
+
 const assetsToCache = [
   "js",
   "css",
@@ -31,13 +33,19 @@ export default {
   },
 
   apidocs: {
-    outputDirectory: "apidocs",
-    template: "./src/includes/default_apidocs_template.ejs",
     tags: {},
+    source: null,
+    layout: "apidocs.ejs",
+    filters: ["**/*.js"],
+
+    createUrl(filePath) {
+      return filePath.split(sep).join("/").replace(/\.js$/, ".html");
+    },
   },
 
   ignore: {
     pages: [],
+    apidocs: [],
   },
 
   logger: {
@@ -45,13 +53,11 @@ export default {
     noColors: false,
   },
 
-  apiExtractor: "dox",
-
   appSettings: {},
 
   markdown: {
     options: { async: true },
-    shikiOptions: {},
     extensions: [],
+    shikiOptions: {},
   },
 };

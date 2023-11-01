@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=0.86"
+    />
+    <title>Your Project</title>
+    <link rel="icon" href="/favicon-32x32.png" type="image/x-icon">
+    <style id="fonts">
+      @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap');
+    </style>
+    <style id="base-styles">
+      <%# Inline normalised CSS styles using Vite'a feature. %>
+      @import "<%= url("~/src/css/base.css"); %>";
+    </style>
+  </head>
+  <body>
+    <%- include('header') %>
+
+    <main>
+  		<h1>Api docs</h1>
+
+  		<% for (const comment of page.comments) { %>
+  			<h2><%= comment.name %></h2>
+  			<p><%- comment.description %></p>
+  		<% } %>
+    </main>
+    
+    <%- include('footer') %>
+  </body>
+</html>
