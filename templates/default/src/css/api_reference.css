@@ -1,4 +1,4 @@
-@import "./highlight.css";
+@import './highlight.css';
 
 body {
   margin: 0;
@@ -16,7 +16,6 @@ body {
 
 @media only screen and (min-width: 992px) {
   #container {
-    padding-top: 70px;
     padding-left: 250px;
   }
 }
@@ -28,12 +27,17 @@ body {
   display: block;
   box-shadow: none;
   transform: translate(0);
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   z-index: 10;
-  height: 100vh;
   width: 250px;
+  height: 100%;
+}
+
+#left-sidebar > div {
+  position: sticky;
+  top: 10px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -63,6 +67,11 @@ body {
   background-color: #fff;
   padding: 20px;
   display: block;
+  right: 0;
+  width: 300px;
+  top: 120px;
+  position: sticky;
+  height: 100%;
 }
 
 [data-theme="dark"] #left-sidebar {
@@ -81,8 +90,24 @@ body {
 
 #content {
   flex: 1;
-  padding: 20px 50px;
+  padding: 90px 50px 20px;
   background-color: var(--background-color-light);
+  min-height: 100vh;
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+}
+
+#content::-webkit-scrollbar {
+  width: 0px;
+}
+#content::-webkit-scrollbar-track {
+  background: transparent;
+}
+#content::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+#content::-webkit-scrollbar-thumb:hover {
+  background: transparent;
 }
 
 [data-theme="dark"] #content {
@@ -102,6 +127,7 @@ body {
   line-height: 32px;
   font-weight: 700;
   margin-bottom: 10px;
+  margin-top: 30px;
 }
 
 .nav-link {
@@ -144,11 +170,11 @@ h1 {
   padding: 0;
 }
 
-#toc > ul > li {
+#toc>ul>li {
   margin-bottom: 5px;
 }
 
-#toc > ul > li > a {
+#toc>ul>li>a {
   font-weight: bold;
   color: var(--text-color-light);
   display: block;
@@ -157,11 +183,11 @@ h1 {
   font-size: 14px;
 }
 
-[data-theme="dark"] #toc > ul > li > a {
+[data-theme="dark"] #toc>ul>li>a {
   color: var(--text-color-dark);
 }
 
-#toc > ul > li > a:hover {
+#toc>ul>li>a:hover {
   background-color: #ddd;
 }
 
@@ -178,6 +204,11 @@ h1 {
   font-weight: normal;
   color: #555;
   transition: background-color 0.3s ease;
+  padding: 0 5px;
+}
+
+#toc ul ul a.active {
+  background-color: #eff3e8;
 }
 
 #toc ul ul a:hover {
@@ -211,6 +242,11 @@ main {
   background-color: var(--background-color-dark);
 }
 
+[data-theme="dark"] #toc ul ul a.active {
+  background-color: rgba(239, 243, 232, .3);
+  color: var(--text-color-light);
+}
+
 /* Media query */
 
 @media screen and (min-width: 992px) {
@@ -220,6 +256,7 @@ main {
 }
 
 @media screen and (max-width: 992px) {
+
   #left-sidebar,
   #right-sidebar {
     display: none;
@@ -248,6 +285,7 @@ main {
     width: 90%;
     left: 5%;
     overflow: hidden auto;
+    height: auto;
   }
 
   #right-sidebar::before {
