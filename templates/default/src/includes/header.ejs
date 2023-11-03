@@ -4,7 +4,7 @@
     <div class="header-inner">
         <a href="/" class="logo" aria-label="Homepage">
             <div class="logo-img"></div>
-            <span><b>Your Project</b></span>
+            <span><b><%= appSettings.name %> Project</b></span>
         </a>
         <div class="menuList">
             <div class="docThemeContainer">
@@ -57,5 +57,11 @@
         </div>
     </div>
 </header>
+
+<div id="mySearchModal" class="searchModal">
+    <div class="searchModal-content">
+        <input type="text" placeholder="Search docs" name="" id="">
+    </div>
+</div>
 
 <script type="module" src="<%= url('~/src/js/header.js'); %>"></script>
