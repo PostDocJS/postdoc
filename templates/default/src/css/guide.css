@@ -1,4 +1,4 @@
-@import "./highlight.css";
+@import './highlight.css';
 
 body {
   margin: 0;
@@ -12,11 +12,11 @@ body {
   width: 100%;
   max-width: 1440px;
   margin: auto;
+  overflow: visible;
 }
 
 @media only screen and (min-width: 992px) {
   #container {
-    padding-top: 70px;
     padding-left: 250px;
   }
 }
@@ -28,12 +28,29 @@ body {
   display: block;
   box-shadow: none;
   transform: translate(0);
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   z-index: 10;
-  height: 100vh;
   width: 250px;
+  height: 100%;
+}
+
+#left-sidebar .closeBtnMenu,
+#right-sidebar .closeBtnMenu {
+  width: 25px;
+}
+
+@media only screen and (min-width: 992px){
+  #left-sidebar .closeBtnMenu,
+  #right-sidebar .closeBtnMenu {
+    display: none;
+  }
+}
+
+#left-sidebar > div {
+  position: sticky;
+  top: 10px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -43,15 +60,6 @@ body {
     padding-left: max(32px, calc((100% - (1440px - 64px)) / 2));
     width: calc((100% - (1440px - 64px)) / 2 + 250px - 32px);
   }
-}
-
-#left-sidebar .logo {
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e2e2e3;
-}
-
-[data-theme="dark"] #left-sidebar .logo {
-  border-bottom: 1px solid #2e2e32;
 }
 
 #left-sidebar h3 {
@@ -65,6 +73,11 @@ body {
   flex: 0 0 300px;
   background-color: #fff;
   padding: 20px;
+  right: 0;
+  width: 300px;
+  top: 120px;
+  position: sticky;
+  height: 100%;
 }
 
 [data-theme="dark"] #left-sidebar {
@@ -83,8 +96,24 @@ body {
 
 #content {
   flex: 1;
-  padding: 20px 50px;
+  padding: 90px 50px 20px;
   background-color: #fff;
+  min-height: 100vh;
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+}
+
+#content::-webkit-scrollbar {
+  width: 0px;
+}
+#content::-webkit-scrollbar-track {
+  background: transparent;
+}
+#content::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+#content::-webkit-scrollbar-thumb:hover {
+  background: transparent;
 }
 
 [data-theme="dark"] #content {
@@ -104,6 +133,7 @@ body {
   line-height: 32px;
   font-weight: 700;
   margin-bottom: 10px;
+  margin-top: 30px;
 }
 
 /* Styles for the navigation */
@@ -174,11 +204,11 @@ h1 {
   padding: 0;
 }
 
-#toc > ul > li {
+#toc>ul>li {
   margin-bottom: 5px;
 }
 
-#toc > ul > li > a {
+#toc>ul>li>a {
   font-weight: bold;
   color: #1e392e;
   display: block;
@@ -187,11 +217,11 @@ h1 {
   font-size: 14px;
 }
 
-[data-theme="dark"] #toc > ul > li > a {
+[data-theme="dark"] #toc>ul>li>a {
   color: var(--text-color-dark);
 }
 
-#toc > ul > li > a:hover {
+#toc>ul>li>a:hover {
   background-color: #ddd;
 }
 
@@ -208,6 +238,11 @@ h1 {
   font-weight: normal;
   color: #555;
   transition: background-color 0.3s ease;
+  padding: 0 5px;
+}
+
+#toc ul ul a.active {
+  background-color: #eff3e8;
 }
 
 #toc ul ul a:hover {
@@ -241,6 +276,11 @@ main {
   background-color: var(--background-color-dark);
 }
 
+[data-theme="dark"] #toc ul ul a.active {
+  background-color: rgba(239, 243, 232, .3);
+  color: var(--text-color-light);
+}
+
 /* Media query */
 
 @media screen and (min-width: 992px) {
@@ -250,6 +290,7 @@ main {
 }
 
 @media screen and (max-width: 992px) {
+
   #left-sidebar,
   #right-sidebar {
     display: none;
@@ -259,10 +300,10 @@ main {
     display: block;
     position: fixed;
     top: 0;
-    width: 70%;
+    width: 75%;
     height: 100%;
     background-color: var(--background-color-light);
-    box-shadow: 2px 2px 10px #333;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -274,19 +315,32 @@ main {
   #right-sidebar {
     position: fixed;
     background-color: var(--background-color-light);
-    box-shadow: 2px 2px 10px #333;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     width: 90%;
     left: 5%;
     overflow: hidden auto;
-  }
-
-  #right-sidebar::before {
-    content: "x";
-    display: block;
-    text-align: right;
+    height: auto;
+    border-radius: 0.4rem;
   }
 
   [data-theme="dark"] #right-sidebar {
     background-color: var(--background-color-dark);
+  }
+
+  .left-sidebar-mobileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e2e3;
+  }
+
+  [data-theme="dark"] .left-sidebar-mobileHeader {
+    border-bottom: 1px solid #2e2e32;
+  }
+
+  .right-sidebar-mobileHeader {
+    display: flex;
+    justify-content: flex-end;
   }
 }

@@ -426,3 +426,45 @@ input:checked + .slider:before {
     padding: 0 !important;
   }
 }
+
+.searchModal {
+  display: none;
+  position: fixed;
+  z-index: 99;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+.searchModal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15%;
+  padding: 20px;
+  width: 50%;
+  border-radius: 7px;
+  height: 100px;
+}
+
+@media only screen and (max-width: 768px){
+  .searchModal-content {
+    margin-top: 15%;
+    width: 90%;
+  }
+}
+
+.searchModal-content input {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #254336;
+  border-radius: 5px;
+  font-size: 20px;
+  padding: 10px;
+  color: #627069;
+}
+
+.searchModal-content input::placeholder {
+  color: #627069;
+}

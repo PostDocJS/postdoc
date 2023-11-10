@@ -116,3 +116,17 @@ footer .social-icon {
   width: 30px;
   height: 30px;
 }
+
+footer .madewith {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  font-size: 13px;
+}
+
+footer .madewith .logo-img {
+  width: 17px;
+  height: 17px;
+  margin-left: 7px;
+  margin-right: 7px;
+}
