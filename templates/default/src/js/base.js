@@ -55,7 +55,7 @@ onRender(
     const sidebarLinksContainer = document.getElementById('right-sidebar');
     const sidebarLinks = sidebarLinksContainer.querySelectorAll('.innerList li a');
 
-    window.addEventListener('scroll', () => {
+    window.addEventListener('scroll', function () {
       const scrollPosition = window.scrollY;
     
       h2Elements.forEach((h2, index) => {
