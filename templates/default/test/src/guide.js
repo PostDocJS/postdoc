@@ -1,21 +1,17 @@
-describe('guide page', function () {
-	test('right sidebar is visible', function (browser) {
-		const guide = browser.page.guide();
+describe("guide page", function () {
+  test("right sidebar is visible", function (browser) {
+    const guide = browser.page.guide();
 
-		guide
-			.navigate()
-			.assert.visible('@rightSidebar');
+    guide.navigate().assert.visible("@rightSidebar");
 
-		browser.end();
-	});
+    browser.end();
+  });
 
-	test('second heading is visible', function (browser) {
-		const guide = browser.page.guide();
+  test("second heading is visible", function (browser) {
+    const guide = browser.page.guide();
 
-		guide
-			.navigate()
-			.assert.visible('@part1Heading');
+    guide.navigate().assert.visible("@part1Heading");
 
-		browser.end();
-	});
+    browser.end();
+  });
 });

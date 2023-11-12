@@ -15,7 +15,7 @@ onRender(
       }
     });
 
-    window.addEventListener("click", function(event) {
+    window.addEventListener("click", function (event) {
       const dropdownBtn = document.getElementById("dropdownBtn");
       const dropdownContent = document.querySelector(".dropdown-content");
       if (event.target !== dropdownBtn) {
@@ -46,39 +46,49 @@ onRender(
       toggle.checked = savedTheme === "dark";
     } else {
       setTheme("light");
-    };
-
-    // highlight right sidebar links
-
-    const h2ElementsContainer = document.getElementById('content');
-    const h2Elements = h2ElementsContainer.querySelectorAll('h2');
-    const sidebarLinksContainer = document.getElementById('right-sidebar');
-    const sidebarLinks = sidebarLinksContainer.querySelectorAll('.innerList li a');
-
-    window.addEventListener('scroll', function () {
-      const scrollPosition = window.scrollY;
-    
-      h2Elements.forEach((h2, index) => {
-        const h2Position = h2.offsetTop;
-        const headerHeight = 150;
-    
-        let threshold = headerHeight;
-    
-        if (index === h2Elements.length - 1) {
-          threshold = 100;
-        }
-    
-        if (scrollPosition >= h2Position - threshold && scrollPosition < h2Position + headerHeight) {
-          sidebarLinks.forEach(link => link.classList.remove('active'));
-          sidebarLinks[index].classList.add('active');
-        }
-      });
-    });
-
+    }
   },
   {
     forPage() {
       return true;
     },
+  },
+);
+
+onRender(
+  () => {
+    // highlight right sidebar links
+
+    const h2ElementsContainer = document.getElementById("content");
+    const h2Elements = h2ElementsContainer.querySelectorAll("h2");
+    const sidebarLinksContainer = document.getElementById("right-sidebar");
+    const sidebarLinks =
+      sidebarLinksContainer.querySelectorAll(".innerList li a");
+
+    window.addEventListener("scroll", function () {
+      const scrollPosition = window.scrollY;
+
+      h2Elements.forEach((h2, index) => {
+        const h2Position = h2.offsetTop;
+        const headerHeight = 150;
+
+        let threshold = headerHeight;
+
+        if (index === h2Elements.length - 1) {
+          threshold = 100;
+        }
+
+        if (
+          scrollPosition >= h2Position - threshold &&
+          scrollPosition < h2Position + headerHeight
+        ) {
+          sidebarLinks.forEach((link) => link.classList.remove("active"));
+          sidebarLinks[index].classList.add("active");
+        }
+      });
+    });
+  },
+  {
+    forPage: /guide|api_reference/,
   },
 );

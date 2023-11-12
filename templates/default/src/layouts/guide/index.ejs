@@ -2,7 +2,7 @@
 const rightSidebarDatas = [
   {
     titleUrl: '#what-is-project',
-    titleLabel: 'What is [Project]',
+    titleLabel: `What is ${appSettings.name}`,
     links: [
       { linkUrl: '#part-1', linkLabel: 'Part 1' },
       { linkUrl: '#part-2', linkLabel: 'Part 2' },
@@ -72,6 +72,18 @@ if (page.url.endsWith('guide/index.html')) {
       @import "<%= url("~/src/css/base.css"); %>";
     </style>
     <link rel="stylesheet" href="<%= url("~/src/css/guide.css") %>" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/src/assets/favicon_16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="180x180"
+      href="/src/assets/favicon_180.png"
+    />
   </head>
   <body>
     <%- include('header') %>

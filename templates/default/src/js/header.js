@@ -16,19 +16,25 @@ onRender(
     });
     // search modal
 
-    document.querySelector('.docThemeSearchBox').addEventListener('click', function() {
-      document.getElementById('mySearchModal').style.display = 'block';
-    });
+    document
+      .querySelector(".docThemeSearchBox")
+      .addEventListener("click", function () {
+        document.getElementById("mySearchModal").style.display = "block";
+      });
 
-    document.querySelector('.docThemeSearchBoxMobile').addEventListener('click', function() {
-        document.getElementById('mySearchModal').style.display = 'block';
-    });
-      
-    document.getElementById('mySearchModal').addEventListener('click', function(event) {
+    document
+      .querySelector(".docThemeSearchBoxMobile")
+      .addEventListener("click", function () {
+        document.getElementById("mySearchModal").style.display = "block";
+      });
+
+    document
+      .getElementById("mySearchModal")
+      .addEventListener("click", function (event) {
         if (event.target == this) {
-            this.style.display = 'none';
+          this.style.display = "none";
         }
-    });
+      });
   },
   {
     forPage() {

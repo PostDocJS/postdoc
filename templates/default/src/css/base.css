@@ -245,3 +245,7 @@ li,
 p {
   overflow-wrap: break-word;
 }
+
+.overflow-hidden {
+  overflow: hidden;
+}

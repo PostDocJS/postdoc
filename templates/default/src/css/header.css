@@ -436,7 +436,7 @@ input:checked + .slider:before {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .searchModal-content {
@@ -448,7 +448,7 @@ input:checked + .slider:before {
   height: 100px;
 }
 
-@media only screen and (max-width: 768px){
+@media only screen and (max-width: 768px) {
   .searchModal-content {
     margin-top: 15%;
     width: 90%;

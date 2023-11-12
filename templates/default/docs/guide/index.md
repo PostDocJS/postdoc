@@ -1,4 +1,4 @@
-# What is [Project]
+# What is {{appSettings.name}}
 
 ## Part 1
 

@@ -1,4 +1,4 @@
-@import './highlight.css';
+@import "./highlight.css";
 
 body {
   margin: 0;
@@ -27,8 +27,7 @@ body {
   padding: 20px 20px 20px 30px;
   display: block;
   box-shadow: none;
-  transform: translate(0);
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 10;
@@ -41,7 +40,7 @@ body {
   width: 25px;
 }
 
-@media only screen and (min-width: 992px){
+@media only screen and (min-width: 992px) {
   #left-sidebar .closeBtnMenu,
   #right-sidebar .closeBtnMenu {
     display: none;
@@ -106,12 +105,15 @@ body {
 #content::-webkit-scrollbar {
   width: 0px;
 }
+
 #content::-webkit-scrollbar-track {
   background: transparent;
 }
+
 #content::-webkit-scrollbar-thumb {
   background: transparent;
 }
+
 #content::-webkit-scrollbar-thumb:hover {
   background: transparent;
 }
@@ -204,11 +206,11 @@ h1 {
   padding: 0;
 }
 
-#toc>ul>li {
+#toc > ul > li {
   margin-bottom: 5px;
 }
 
-#toc>ul>li>a {
+#toc > ul > li > a {
   font-weight: bold;
   color: #1e392e;
   display: block;
@@ -217,11 +219,11 @@ h1 {
   font-size: 14px;
 }
 
-[data-theme="dark"] #toc>ul>li>a {
+[data-theme="dark"] #toc > ul > li > a {
   color: var(--text-color-dark);
 }
 
-#toc>ul>li>a:hover {
+#toc > ul > li > a:hover {
   background-color: #ddd;
 }
 
@@ -277,7 +279,7 @@ main {
 }
 
 [data-theme="dark"] #toc ul ul a.active {
-  background-color: rgba(239, 243, 232, .3);
+  background-color: rgba(239, 243, 232, 0.3);
   color: var(--text-color-light);
 }
 
@@ -290,14 +292,27 @@ main {
 }
 
 @media screen and (max-width: 992px) {
-
-  #left-sidebar,
   #right-sidebar {
-    display: none;
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-3%);
+  }
+
+  #right-sidebar.opened {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #left-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.2s;
   }
 
   #left-sidebar.open {
-    display: block;
     position: fixed;
     top: 0;
     width: 75%;
@@ -306,6 +321,7 @@ main {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     overflow-x: hidden;
     overflow-y: auto;
+    transform: translateX(0);
   }
 
   [data-theme="dark"] #left-sidebar.open {
@@ -342,5 +358,9 @@ main {
   .right-sidebar-mobileHeader {
     display: flex;
     justify-content: flex-end;
+  }
+
+  .right-sidebar-mobileHeader .right-sidebar-close-button {
+    cursor: pointer;
   }
 }

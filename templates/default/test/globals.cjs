@@ -1,3 +1,3 @@
 module.exports = {
-	name: "${project_name}"
+  name: "${project_name}",
 };

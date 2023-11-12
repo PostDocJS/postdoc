@@ -6,14 +6,19 @@ onRender(
 
     const toggleSidebarButton = document.getElementById("sideMenuButton");
     const sidebar = document.getElementById("left-sidebar");
-    const closeSidebarButton = document.getElementById("closeLeftSidebarButton");
+    const closeSidebarButton = document.getElementById(
+      "closeLeftSidebarButton",
+    );
 
     toggleSidebarButton.addEventListener("click", function () {
       sidebar.classList.add("open");
     });
 
     document.addEventListener("click", function (event) {
-      if (!sidebar.contains(event.target) && !toggleSidebarButton.contains(event.target)) {
+      if (
+        !sidebar.contains(event.target) &&
+        !toggleSidebarButton.contains(event.target)
+      ) {
         sidebar.classList.remove("open");
       }
     });
@@ -26,30 +31,40 @@ onRender(
 
     const openModalButton = document.getElementById("modalButton");
     const modal = document.getElementById("right-sidebar");
-    const closeModalButton = document.getElementById("closeRightSidebarButton");
-    const screenWidth = window.innerWidth;
+    const closeModalButton = document.querySelector(
+      ".right-sidebar-close-button",
+    );
+    const rightModalLinks = modal.querySelectorAll("a");
+
+    rightModalLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        modal.classList.remove("opened");
+        document.body.classList.remove("overflow-hidden");
+      });
+    });
 
     openModalButton.addEventListener("click", function () {
-      modal.style.display = "block";
+      modal.classList.add("opened");
+      document.body.classList.add("overflow-hidden");
     });
 
     document.addEventListener("click", function (event) {
-      if (modal.style.display === "block" && !modal.contains(event.target) && !openModalButton.contains(event.target)) {
-        modal.style.display = "none";
-      }
+      const eventBubblingPath = event.composedPath();
+
+      if (
+        eventBubblingPath.includes(modal) ||
+        eventBubblingPath.includes(openModalButton)
+      )
+        return;
+
+      modal.classList.remove("opened");
+      document.body.classList.remove("overflow-hidden");
     });
 
     closeModalButton.addEventListener("click", function () {
-      modal.style.display = "none";
+      modal.classList.remove("opened");
+      document.body.classList.remove("overflow-hidden");
     });
-    
-    if (screenWidth <= 992) {
-      window.addEventListener("click", function (event) {
-        if (event.target === modal) {
-          modal.style.display = "none";
-        }
-      });
-    }
   },
   {
     forPage(url) {
