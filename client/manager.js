@@ -255,5 +255,27 @@ if (!(GLOBAL_MANAGER_NAME in globalThis)) {
 
   if (import.meta.hot) {
     import.meta.hot.on("postdoc:reload-page", () => location.reload());
+
+    import("./overlay.js").then(() => {
+      let overlay;
+
+      import.meta.hot.on("vite:ws:disconnect", () => {
+        // Close a previous one if it exists.
+        overlay?.close();
+
+        overlay = document.createElement("postdoc-overlay");
+
+        overlay.shadowRoot.querySelector(".plugin").append("postdoc");
+        overlay.shadowRoot
+          .querySelector(".message-body")
+          .append(" ", "Server is stopped.");
+
+        document.body.append(overlay);
+      });
+
+      import.meta.hot.on("vite:ws:connect", () => {
+        overlay?.close();
+      });
+    });
   }
 }
