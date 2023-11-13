@@ -1,4 +1,4 @@
-module.exports = class CustomPause {
+export default class CustomPause {
   command(ms, cb) {
     // If we don't pass the milliseconds, the client will
     // be suspended indefinitely
@@ -21,4 +21,4 @@ module.exports = class CustomPause {
       }, ms);
     });
   }
-};
+}

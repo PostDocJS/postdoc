@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   url: "/guide/index.html",
   elements: {
     rightSidebar: "#right-sidebar",
