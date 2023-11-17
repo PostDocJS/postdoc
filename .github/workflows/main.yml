@@ -25,5 +25,5 @@ jobs:
           cache: "npm"
           node-version: ${{ matrix.node }}
       - run: npm i
-      - run: npm run eslint
+      - run: npm run lint
       - run: npm test
