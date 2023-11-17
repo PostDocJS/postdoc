@@ -36,7 +36,6 @@ export default {
     tags: {},
     source: null,
     layout: "apidocs.ejs",
-    filters: ["**/*.js"],
 
     createUrl(filePath) {
       return filePath.split(sep).join("/").replace(/\.js$/, ".html");
@@ -46,6 +45,7 @@ export default {
   ignore: {
     pages: [],
     apidocs: [],
+    layouts: [],
   },
 
   logger: {
