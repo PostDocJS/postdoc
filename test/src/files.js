@@ -28,14 +28,14 @@ describe("The FS walker", function () {
     done();
   });
 
-  test("walker should return iterable of files and close function", async function (client) {
+  test("walker should return iterable of files and close function", async function () {
     const { files, close } = walkDirectory(tmpDir);
 
     ok(Symbol.asyncIterator in files);
     ok(typeof close === "function");
   });
 
-  test("walker has to return all files inside a given folder", async function (client) {
+  test("walker has to return all files inside a given folder", async function () {
     const { files } = walkDirectory(tmpDir);
 
     const filesAmount = await AsyncIterable.count(files);
