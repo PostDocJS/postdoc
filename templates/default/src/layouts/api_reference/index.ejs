@@ -50,25 +50,24 @@ if (page.url.endsWith('api_reference/index.html')) {
       content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=0.86"
     />
     <title><%= appSettings.name %></title>
-    <link rel="icon" href="/favicon-32x32.png" type="image/x-icon">
     <style id="fonts">
       @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap');
     </style>
     <style id="base-styles">
-      @import "<%= url("~/src/css/base.css"); %>";
+      @import "/src/css/base.css";
     </style>
-    <link rel="stylesheet" href="<%= url("~/src/css/api_reference.css") %>" />
+    <link rel="stylesheet" href="/src/css/api_reference.css" />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="/src/assets/favicon_16.png"
+      href="/favicon_16.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="180x180"
-      href="/src/assets/favicon_180.png"
+      href="/favicon_180.png"
     />
   </head>
   <body>
@@ -87,7 +86,7 @@ if (page.url.endsWith('api_reference/index.html')) {
 
     <%- include('footer') %>
 
-    <script type="module" src="<%= url('~/src/js/base.js'); %>"></script>
-    <script type="module" src="<%= url('~/src/js/toggleSideMenu.js'); %>"></script>
+    <script type="module" src="/src/js/base.js"></script>
+    <script type="module" src="/src/js/toggleSideMenu.js"></script>
   </body>
 </html>

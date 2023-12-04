@@ -7,26 +7,24 @@
       content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=0.86"
     />
     <title><%= appSettings.name %> Project</title>
-    <link rel="icon" href="/favicon-32x32.png" type="image/x-icon">
     <style id="fonts">
       @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap');
     </style>
     <style id="base-styles">
-      <%# Inline normalised CSS styles using Vite'a feature. %>
-      @import "<%= url("~/src/css/base.css"); %>";
+      @import "/src/css/base.css";
     </style>
-    <link rel="stylesheet" href="<%= url("~/src/css/homepage.css") %>" />
+    <link rel="stylesheet" href="/src/css/homepage.css" />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="/src/assets/favicon_16.png"
+      href="/favicon_16.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="180x180"
-      href="/src/assets/favicon_180.png"
+      href="/favicon_180.png"
     />
   </head>
   <body>
@@ -45,7 +43,7 @@
                 </div>
                 <div class="hero-inner-img">
                     <img
-                        src="<%= url("~/src/assets/project_image.jpg") %>"
+                        src="/src/assets/project_image.jpg"
                         alt="background image"
                     />
                 </div>
@@ -55,42 +53,42 @@
             <h2>Main Capabilities</h2>
             <div class="capabilitie-inner">
                 <div class="item">
-                    <img src="<%= url("~/src/assets/code_icon.svg") %>" alt="icon" />
+                    <img src="/src/assets/code_icon.svg" alt="icon" />
                     <h3>Lorem ipsum</h3>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
                         molestiae quas vel sint commodi repudiandae consequuntur.
                     </p>
                 </div>
                 <div class="item">
-                    <img src="<%= url("~/src/assets/light_icon.svg") %>" alt="icon" />
+                    <img src="/src/assets/light_icon.svg" alt="icon" />
                     <h3>Lorem ipsum</h3>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
                         molestiae quas vel sint commodi repudiandae consequuntur.
                     </p>
                 </div>
                 <div class="item">
-                    <img src="<%= url("~/src/assets/lightbulb_icon.svg") %>" alt="icon" />
+                    <img src="/src/assets/lightbulb_icon.svg" alt="icon" />
                     <h3>Lorem ipsum</h3>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
                         molestiae quas vel sint commodi repudiandae consequuntur.
                     </p>
                 </div>
                 <div class="item">
-                    <img src="<%= url("~/src/assets/lightbulb_icon.svg") %>" alt="icon" />
+                    <img src="/src/assets/lightbulb_icon.svg" alt="icon" />
                     <h3>Lorem ipsum</h3>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
                         molestiae quas vel sint commodi repudiandae consequuntur.
                     </p>
                 </div>
                 <div class="item">
-                    <img src="<%= url("~/src/assets/code_icon.svg") %>" alt="icon" />
+                    <img src="/src/assets/code_icon.svg" alt="icon" />
                     <h3>Lorem ipsum</h3>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
                         molestiae quas vel sint commodi repudiandae consequuntur.
                     </p>
                 </div>
                 <div class="item">
-                    <img src="<%= url("~/src/assets/light_icon.svg") %>" alt="icon" />
+                    <img src="/src/assets/light_icon.svg" alt="icon" />
                     <h3>Lorem ipsum</h3>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
                         molestiae quas vel sint commodi repudiandae consequuntur.
@@ -102,6 +100,6 @@
 
     <%- include('footer') %>
 
-    <script type="module" src="<%= url('~/src/js/base.js'); %>"></script>
+    <script type="module" src="/src/js/base.js"></script>
   </body>
 </html>

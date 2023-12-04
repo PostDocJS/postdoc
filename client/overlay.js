@@ -155,12 +155,12 @@ class PostDocOverlay extends HTMLElement {
         this.close();
       }
     });
-    window.addEventListener("keydown", this.#closeEscape);
+    addEventListener("keydown", this.#closeEscape);
   }
 
   close() {
     this.remove();
-    window.removeEventListener("keydown", this.#closeEscape);
+    removeEventListener("keydown", this.#closeEscape);
   }
 }
 
