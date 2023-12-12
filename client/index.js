@@ -1,5 +1,5 @@
 /**
- * <h2 id="overview>Overview</h2>
+ * <h2 id="overview">Overview</h2>
  *
  * Client is part of the PostDoc functionality that lives and works
  * in the browser and is responsible for fetching and morphing pages
@@ -28,7 +28,7 @@
  * a new _History_ entry should be added (when the value is falsey value)
  * or the current one should be replaced (the truthy value).
  *
- * <h2 id="lifecycle>Lifecycle</h2>
+ * <h2 id="lifecycle">Lifecycle</h2>
  *
  * When a page is morphed for the first time, all its scripts are executed.
  * The second time they are not executed any more. To work around that,
