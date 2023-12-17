@@ -6,6 +6,8 @@ import { mkdtemp, writeFile, rm } from "node:fs/promises";
 import Configuration from "../../lib/configuration.js";
 
 describe("Configuration module", function () {
+  const rootDirectory = process.cwd();
+
   let tmpDir;
   beforeEach(async function (_client, done) {
     tmpDir = await mkdtemp(join(tmpdir(), "test-doc"));
@@ -14,6 +16,7 @@ describe("Configuration module", function () {
   });
 
   afterEach(async function (_client, done) {
+    chdir(rootDirectory);
     await rm(tmpDir, { recursive: true });
     done();
   });
@@ -23,22 +26,22 @@ describe("Configuration module", function () {
       await writeFile(
         "postdoc.config.mjs",
         "export default {appSettings: {base: '/root1'}}",
-        "utf-8",
+        "utf-8"
       );
       await writeFile(
         "postdoc.config.cjs",
         "module.exports = {appSettings: {base: '/root2'}}",
-        "utf-8",
+        "utf-8"
       );
       await writeFile(
         "postdoc.config.js",
         "module.exports = {appSettings: {base: '/root3'}}",
-        "utf-8",
+        "utf-8"
       );
       await writeFile(
         "postdoc.config.json",
         '{"appSettings": {"base": "/root4"}}',
-        "utf-8",
+        "utf-8"
       );
       await writeFile("package.json", '{"name":"testing-file"}', "utf-8");
 
@@ -53,17 +56,17 @@ describe("Configuration module", function () {
       await writeFile(
         "postdoc.config.cjs",
         "module.exports = {appSettings: {base: '/root2'}}",
-        "utf-8",
+        "utf-8"
       );
       await writeFile(
         "postdoc.config.js",
         "module.exports = {appSettings: {base: '/root3'}}",
-        "utf-8",
+        "utf-8"
       );
       await writeFile(
         "postdoc.config.json",
         '{"appSettings": {"base": "/root4"}}',
-        "utf-8",
+        "utf-8"
       );
       await writeFile("package.json", '{"name":"testing-file"}', "utf-8");
 
@@ -78,12 +81,12 @@ describe("Configuration module", function () {
       await writeFile(
         "postdoc.config.js",
         "module.exports = {appSettings: {base: '/root3'}}",
-        "utf-8",
+        "utf-8"
       );
       await writeFile(
         "postdoc.config.json",
         '{"appSettings": {"base": "/root4"}}',
-        "utf-8",
+        "utf-8"
       );
       await writeFile("package.json", '{"name":"testing-file"}', "utf-8");
 
@@ -98,17 +101,17 @@ describe("Configuration module", function () {
       await writeFile(
         "postdoc.config.js",
         "export default {appSettings: {base: '/root3'}}",
-        "utf-8",
+        "utf-8"
       );
       await writeFile(
         "postdoc.config.json",
         '{"appSettings": {"base": "/root4"}}',
-        "utf-8",
+        "utf-8"
       );
       await writeFile(
         "package.json",
         '{"name":"testing-file", "type": "module"}',
-        "utf-8",
+        "utf-8"
       );
 
       await Configuration.initialise({});
@@ -122,12 +125,12 @@ describe("Configuration module", function () {
       await writeFile(
         "postdoc.config.json",
         '{"appSettings": {"base": "/root4"}}',
-        "utf-8",
+        "utf-8"
       );
       await writeFile(
         "package.json",
         '{"name":"testing-file", "type": "module"}',
-        "utf-8",
+        "utf-8"
       );
 
       await Configuration.initialise({});
@@ -143,7 +146,7 @@ describe("Configuration module", function () {
       await writeFile(
         "postdoc.config.js",
         'export default {appSettings: {base: "${PROP_ENV}"}}',
-        "utf-8",
+        "utf-8"
       );
       await writeFile("package.json", '{"type":"module"}', "utf-8");
 
