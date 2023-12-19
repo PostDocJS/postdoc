@@ -18,14 +18,13 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@eslint/js": "^8.52.0",
+    "@eslint/js": "^8.40.0",
     "@nightwatch/apitesting": "^3.1.1",
+    "@stylistic/eslint-plugin": "^1.5.1",
     "@types/marked": "^4.0.8",
     "@types/node": "^20.8.9",
-    "chromedriver": "^119.0.1",
-    "eslint": "^8.52.0",
-    "globals": "^13.23.0",
-    "mocha": "^10.2.0",
+    "eslint": "^8.40.0",
+    "globals": "^13.24.0",
     "mock-fs": "^5.2.0",
     "mock-require": "^3.0.3",
     "sinon": "^15.0.1"
