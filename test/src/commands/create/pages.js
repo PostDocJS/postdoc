@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
-import { join } from "node:path";
+import { join, parse } from "node:path";
 import { chdir } from "node:process";
 import { tmpdir } from "node:os";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
@@ -20,9 +20,8 @@ describe("create pages command", function () {
   );
 
   let tmpDir;
-  beforeEach(async function (_client, done) {
-    chdir(tmpdir());
-    tmpDir = await mkdtemp(".foo");
+  before(async function (_client, done) {
+    tmpDir = await mkdtemp(join(tmpdir(), ".foo"));
     chdir(tmpDir);
 
     spawnSync("node", [pathToPostdoc, "init", "--name", "."]);
@@ -40,7 +39,7 @@ describe("create pages command", function () {
     done();
   });
 
-  afterEach(async function (_client, done) {
+  after(async function (_client, done) {
     chdir(rootDirectory);
     await rm(tmpDir, { recursive: true });
     done();
@@ -78,6 +77,43 @@ describe("create pages command", function () {
 
     assert.equal(
       testSrcFiles.some((f) => f === `${filename}.js`),
+      true
+    );
+  });
+
+  test("providing a url with extension should create correct files", async function () {
+    const filenameWithExtension = "boo.md";
+    const filenameWithoutExtension = parse(filenameWithExtension).name;
+
+    spawnSync("npx.cmd", ["postdoc", "create", "pages", filenameWithExtension]);
+
+    await Configuration.initialise({});
+    const configuration = Configuration.get();
+
+    const pagesFiles = await readdir(
+      join(tmpDir, configuration.directories.pages)
+    );
+
+    assert.equal(
+      pagesFiles.some((f) => f === filenameWithExtension),
+      true
+    );
+
+    const testPageObjectsFiles = await readdir(
+      join(tmpDir, configuration.directories.tests, "page-objects")
+    );
+
+    assert.equal(
+      testPageObjectsFiles.some((f) => f === `${filenameWithoutExtension}.cjs`),
+      true
+    );
+
+    const testSrcFiles = await readdir(
+      join(tmpDir, configuration.directories.tests, "src")
+    );
+
+    assert.equal(
+      testSrcFiles.some((f) => f === `${filenameWithoutExtension}.js`),
       true
     );
   });
