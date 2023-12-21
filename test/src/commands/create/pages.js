@@ -28,6 +28,8 @@ describe("create pages command", function () {
 
     spawnSync("npm.cmd", ["install"]);
 
+    await Configuration.initialise({});
+
     done();
   });
 
@@ -42,12 +44,9 @@ describe("create pages command", function () {
 
     spawnSync("npx.cmd", ["postdoc", "create", "pages", filename]);
 
-    await Configuration.initialise({});
     const configuration = Configuration.get();
 
-    const pagesFiles = await readdir(
-      join(tmpDir, configuration.directories.pages)
-    );
+    const pagesFiles = await readdir(configuration.directories.pages);
 
     assert.equal(
       pagesFiles.some((f) => f === `${filename}.md`),
@@ -55,7 +54,7 @@ describe("create pages command", function () {
     );
 
     const testPageObjectsFiles = await readdir(
-      join(tmpDir, configuration.directories.tests, "page-objects")
+      join(configuration.directories.tests, "page-objects")
     );
 
     assert.equal(
@@ -64,7 +63,7 @@ describe("create pages command", function () {
     );
 
     const testSrcFiles = await readdir(
-      join(tmpDir, configuration.directories.tests, "src")
+      join(configuration.directories.tests, "src")
     );
 
     assert.equal(
@@ -79,12 +78,9 @@ describe("create pages command", function () {
 
     spawnSync("npx.cmd", ["postdoc", "create", "pages", filenameWithExtension]);
 
-    await Configuration.initialise({});
     const configuration = Configuration.get();
 
-    const pagesFiles = await readdir(
-      join(tmpDir, configuration.directories.pages)
-    );
+    const pagesFiles = await readdir(configuration.directories.pages);
 
     assert.equal(
       pagesFiles.some((f) => f === filenameWithExtension),
@@ -92,7 +88,7 @@ describe("create pages command", function () {
     );
 
     const testPageObjectsFiles = await readdir(
-      join(tmpDir, configuration.directories.tests, "page-objects")
+      join(configuration.directories.tests, "page-objects")
     );
 
     assert.equal(
@@ -101,7 +97,7 @@ describe("create pages command", function () {
     );
 
     const testSrcFiles = await readdir(
-      join(tmpDir, configuration.directories.tests, "src")
+      join(configuration.directories.tests, "src")
     );
 
     assert.equal(
