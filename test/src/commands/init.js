@@ -1,14 +1,13 @@
-import { resolve } from "node:path";
+import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
-import { mkdtempSync, readdirSync, rmSync } from "node:fs";
 import assert from "node:assert/strict";
-import { writeFile } from "node:fs/promises";
-
-const __filename = fileURLToPath(import.meta.url);
+import { mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { chdir } from "node:process";
 
 describe("init command", function () {
-  const pathToPostdoc = resolve(__filename, "../../../../bin/postdoc.js");
+  const rootDirectory = process.cwd();
+  const pathToPostdoc = resolve(rootDirectory, "bin/postdoc.js");
 
   const expectedNames = [
     "assets",
@@ -22,55 +21,54 @@ describe("init command", function () {
     "vite.config.js",
   ];
 
-  test("providing a --name option immediately start creating a project", function () {
-    const workingDirectory = mkdtempSync(".foo-");
-    const projectName = "my-project";
-
-    spawnSync("node", [pathToPostdoc, "init", "--name", projectName], {
-      cwd: workingDirectory,
-    });
-
-    const names = readdirSync(resolve(workingDirectory, projectName));
-
-    assert.deepEqual(names.sort(), expectedNames.sort());
-
-    rmSync(workingDirectory, { recursive: true });
+  let tmpDir;
+  beforeEach(async function (_, done) {
+    tmpDir = await mkdtemp(join(tmpdir(), ".foo"));
+    chdir(tmpDir);
+    done();
   });
 
-  test("providing a dot --name should create project in current directory", function () {
-    const workingDirectory = mkdtempSync(".foo-");
-    const projectName = ".";
+  afterEach(async function (_client, done) {
+    chdir(rootDirectory);
+    await rm(tmpDir, { recursive: true });
+    done();
+  });
 
-    spawnSync("node", [pathToPostdoc, "init", "--name", projectName], {
-      cwd: workingDirectory,
-    });
+  test("providing a --name option immediately start creating a project", async function () {
+    const projectName = "my-project";
 
-    const names = readdirSync(workingDirectory);
+    spawnSync("node", [pathToPostdoc, "init", "--name", projectName]);
+
+    const names = await readdir(projectName);
 
     assert.deepEqual(names.sort(), expectedNames.sort());
+  });
 
-    rmSync(workingDirectory, { recursive: true });
+  test("providing a dot --name should create project in current directory", async function () {
+    const projectName = ".";
+
+    spawnSync("node", [pathToPostdoc, "init", "--name", projectName]);
+
+    const names = await readdir(tmpDir);
+
+    assert.deepEqual(names.sort(), expectedNames.sort());
   });
 
   test("providing a dot --name in a non-empty folder should result in error message", async function () {
-    const workingDirectory = mkdtempSync(".foo-");
     const projectName = ".";
 
-    await writeFile(resolve(workingDirectory, "test.js"), "test");
+    await writeFile("test.js", "test");
 
-    const initProcess = spawnSync(
-      "node",
-      [pathToPostdoc, "init", "--name", projectName],
-      {
-        cwd: workingDirectory,
-      }
-    );
+    const initProcess = spawnSync("node", [
+      pathToPostdoc,
+      "init",
+      "--name",
+      projectName,
+    ]);
 
     assert.equal(
       initProcess.stdout.toString().includes("directory is not empty"),
       true
     );
-
-    rmSync(workingDirectory, { recursive: true });
   });
 });

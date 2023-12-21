@@ -1,5 +1,4 @@
 import { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { join, parse } from "node:path";
 import { chdir } from "node:process";
@@ -8,16 +7,9 @@ import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import Configuration from "../../../../lib/configuration.js";
 import assert from "node:assert/strict";
 
-const __filename = fileURLToPath(import.meta.url);
-
 describe("create pages command", function () {
   const rootDirectory = process.cwd();
-  const pathToPostdocRoot = resolve(__filename, "../../../../..");
-  const pathToPostdoc = resolve(
-    __filename,
-    pathToPostdocRoot,
-    "bin/postdoc.js"
-  );
+  const pathToPostdoc = resolve(rootDirectory, "bin/postdoc.js");
 
   let tmpDir;
   before(async function (_client, done) {
@@ -30,7 +22,7 @@ describe("create pages command", function () {
     const fileContent = await readFile(filename, "utf8");
     const finalContent = fileContent.replace(
       /"postdoc":\s*"(.*?)"/g,
-      `"postdoc": "file:${pathToPostdocRoot.replaceAll("\\", "/")}"`
+      `"postdoc": "file:${rootDirectory.replaceAll("\\", "/")}"`
     );
     await writeFile(filename, finalContent);
 
