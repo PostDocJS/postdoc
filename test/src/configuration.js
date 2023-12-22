@@ -1,16 +1,16 @@
-import { join } from "node:path";
-import { chdir } from "node:process";
-import { tmpdir } from "node:os";
-import { mkdtemp, writeFile, rm } from "node:fs/promises";
+import { join } from 'node:path';
+import { chdir } from 'node:process';
+import { tmpdir } from 'node:os';
+import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 
-import Configuration from "../../lib/configuration.js";
+import Configuration from '../../lib/configuration.js';
 
 describe("Configuration module", function () {
   const rootDirectory = process.cwd();
 
   let tmpDir;
   beforeEach(async function (_client, done) {
-    tmpDir = await mkdtemp(join(tmpdir(), "test-doc"));
+    tmpDir = await mkdtemp(join(tmpdir(), 'test-doc'));
     chdir(tmpDir);
     done();
   });
@@ -21,142 +21,142 @@ describe("Configuration module", function () {
     done();
   });
 
-  describe("files priority", function () {
-    it("should load the ES module config file at first", async function (client) {
+  describe('files priority', function () {
+    it('should load the ES module config file at first', async function (client) {
       await writeFile(
-        "postdoc.config.mjs",
-        "export default {appSettings: {base: '/root1'}}",
-        "utf-8"
+        'postdoc.config.mjs',
+        'export default {appSettings: {base: \'/root1\'}}',
+        'utf-8'
       );
       await writeFile(
-        "postdoc.config.cjs",
-        "module.exports = {appSettings: {base: '/root2'}}",
-        "utf-8"
+        'postdoc.config.cjs',
+        'module.exports = {appSettings: {base: \'/root2\'}}',
+        'utf-8'
       );
       await writeFile(
-        "postdoc.config.js",
-        "module.exports = {appSettings: {base: '/root3'}}",
-        "utf-8"
+        'postdoc.config.js',
+        'module.exports = {appSettings: {base: \'/root3\'}}',
+        'utf-8'
       );
       await writeFile(
-        "postdoc.config.json",
+        'postdoc.config.json',
         '{"appSettings": {"base": "/root4"}}',
-        "utf-8"
+        'utf-8'
       );
-      await writeFile("package.json", '{"name":"testing-file"}', "utf-8");
+      await writeFile('package.json', '{"name":"testing-file"}', 'utf-8');
 
       await Configuration.initialise({});
 
       const configuration = Configuration.get();
 
-      client.assert.equal(configuration.appSettings.base, "/root1");
+      client.assert.equal(configuration.appSettings.base, '/root1');
     });
 
-    it("should load CommonJS config if ES module is absent", async function (client) {
+    it('should load CommonJS config if ES module is absent', async function (client) {
       await writeFile(
-        "postdoc.config.cjs",
-        "module.exports = {appSettings: {base: '/root2'}}",
-        "utf-8"
+        'postdoc.config.cjs',
+        'module.exports = {appSettings: {base: \'/root2\'}}',
+        'utf-8'
       );
       await writeFile(
-        "postdoc.config.js",
-        "module.exports = {appSettings: {base: '/root3'}}",
-        "utf-8"
+        'postdoc.config.js',
+        'module.exports = {appSettings: {base: \'/root3\'}}',
+        'utf-8'
       );
       await writeFile(
-        "postdoc.config.json",
+        'postdoc.config.json',
         '{"appSettings": {"base": "/root4"}}',
-        "utf-8"
+        'utf-8'
       );
-      await writeFile("package.json", '{"name":"testing-file"}', "utf-8");
+      await writeFile('package.json', '{"name":"testing-file"}', 'utf-8');
 
       await Configuration.initialise({});
 
       const configuration = Configuration.get();
 
-      client.assert.equal(configuration.appSettings.base, "/root2");
+      client.assert.equal(configuration.appSettings.base, '/root2');
     });
 
-    it("should load CommonJS config if package.json does not contain type: module", async function (client) {
+    it('should load CommonJS config if package.json does not contain type: module', async function (client) {
       await writeFile(
-        "postdoc.config.js",
-        "module.exports = {appSettings: {base: '/root3'}}",
-        "utf-8"
+        'postdoc.config.js',
+        'module.exports = {appSettings: {base: \'/root3\'}}',
+        'utf-8'
       );
       await writeFile(
-        "postdoc.config.json",
+        'postdoc.config.json',
         '{"appSettings": {"base": "/root4"}}',
-        "utf-8"
+        'utf-8'
       );
-      await writeFile("package.json", '{"name":"testing-file"}', "utf-8");
+      await writeFile('package.json', '{"name":"testing-file"}', 'utf-8');
 
       await Configuration.initialise({});
 
       const configuration = Configuration.get();
 
-      client.assert.equal(configuration.appSettings.base, "/root3");
+      client.assert.equal(configuration.appSettings.base, '/root3');
     });
 
-    it("should load the config as ES module if package.json contains the type: module", async function (client) {
+    it('should load the config as ES module if package.json contains the type: module', async function (client) {
       await writeFile(
-        "postdoc.config.js",
-        "export default {appSettings: {base: '/root3'}}",
-        "utf-8"
+        'postdoc.config.js',
+        'export default {appSettings: {base: \'/root3\'}}',
+        'utf-8'
       );
       await writeFile(
-        "postdoc.config.json",
+        'postdoc.config.json',
         '{"appSettings": {"base": "/root4"}}',
-        "utf-8"
+        'utf-8'
       );
       await writeFile(
-        "package.json",
+        'package.json',
         '{"name":"testing-file", "type": "module"}',
-        "utf-8"
+        'utf-8'
       );
 
       await Configuration.initialise({});
 
       const configuration = Configuration.get();
 
-      client.assert.equal(configuration.appSettings.base, "/root3");
+      client.assert.equal(configuration.appSettings.base, '/root3');
     });
 
-    it("should load JSON config if no other types are present", async function (client) {
+    it('should load JSON config if no other types are present', async function (client) {
       await writeFile(
-        "postdoc.config.json",
+        'postdoc.config.json',
         '{"appSettings": {"base": "/root4"}}',
-        "utf-8"
+        'utf-8'
       );
       await writeFile(
-        "package.json",
+        'package.json',
         '{"name":"testing-file", "type": "module"}',
-        "utf-8"
+        'utf-8'
       );
 
       await Configuration.initialise({});
 
       const configuration = Configuration.get();
 
-      client.assert.equal(configuration.appSettings.base, "/root4");
+      client.assert.equal(configuration.appSettings.base, '/root4');
     });
   });
 
-  describe("Injecting environment variables", function () {
-    it("should replace the interpolation pattern with an environment variable with the pattern as the name", async function (client) {
+  describe('Injecting environment variables', function () {
+    it('should replace the interpolation pattern with an environment variable with the pattern as the name', async function (client) {
       await writeFile(
-        "postdoc.config.js",
+        'postdoc.config.js',
         'export default {appSettings: {base: "${PROP_ENV}"}}',
-        "utf-8"
+        'utf-8'
       );
-      await writeFile("package.json", '{"type":"module"}', "utf-8");
+      await writeFile('package.json', '{"type":"module"}', 'utf-8');
 
       await Configuration.initialise({
-        PROP_ENV: "secret root",
+        PROP_ENV: 'secret root'
       });
 
       const configuration = Configuration.get();
 
-      client.assert.equal(configuration.appSettings.base, "secret root");
+      client.assert.equal(configuration.appSettings.base, 'secret root');
     });
   });
 });

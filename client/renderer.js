@@ -1,4 +1,4 @@
-import Snapshot from "./snapshot.js";
+import Snapshot from './snapshot.js';
 
 export default class Renderer {
   #session;
@@ -27,7 +27,7 @@ export default class Renderer {
   registerCleanup(callback, options, registeredOn) {
     this.#cleanupCallbacks.push({
       test: this.#createURLMatchFunction(registeredOn, options?.forPage),
-      fn: callback,
+      fn: callback
     });
   }
 
@@ -74,17 +74,17 @@ export default class Renderer {
   }
 
   #setupAnchorTraps() {
-    Array.from(this.#currentSnapshot.body.querySelectorAll("a[href]"))
+    Array.from(this.#currentSnapshot.body.querySelectorAll('a[href]'))
       .filter((element) => element.host === location.host)
-      .filter((element) => !element.getAttribute("href").startsWith("#"))
+      .filter((element) => !element.getAttribute('href').startsWith('#'))
       .forEach((element) =>
-        element.addEventListener("click", async (event) => {
+        element.addEventListener('click', async (event) => {
           event.preventDefault();
 
           const url = new URL(element.href);
 
           await this.#session.navigator.navigateTo(url);
-        }),
+        })
       );
   }
 }

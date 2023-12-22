@@ -1,4 +1,4 @@
-import Snapshot from "./snapshot.js";
+import Snapshot from './snapshot.js';
 
 export default class Navigator {
   #session;
@@ -19,10 +19,10 @@ export default class Navigator {
 
     await this.#session.renderer.render(nextSnapshot);
 
-    history[replace ? "replaceState" : "pushState"](
+    history[replace ? 'replaceState' : 'pushState'](
       { postdoc: {} },
       url.toString(),
-      url,
+      url
     );
 
     await this.#session.renderer.callRenderCallbacks();
@@ -41,12 +41,12 @@ export default class Navigator {
   }
 
   #setup() {
-    addEventListener("load", async () => {
+    addEventListener('load', async () => {
       // Span execution until the next microtask, so the very first popstate event will be skipped.
       await Promise.resolve();
       this.#pageLoaded = true;
     });
-    addEventListener("popstate", async (event) => {
+    addEventListener('popstate', async (event) => {
       if (this.#shouldHandlePopStateEvent()) {
         const { postdoc } = event.state ?? {};
 
@@ -60,15 +60,15 @@ export default class Navigator {
   #shouldHandlePopStateEvent() {
     return (
       this.#pageLoaded ||
-      this.#session.renderer.currentSnapshot.readyState === "complete"
+      this.#session.renderer.currentSnapshot.readyState === 'complete'
     );
   }
 
   async #prepareSnapshotFor(url) {
     const response = await fetch(url, {
       headers: {
-        Accept: "text/html",
-      },
+        Accept: 'text/html'
+      }
     });
 
     const html = await response.text();

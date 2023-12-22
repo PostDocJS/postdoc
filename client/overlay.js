@@ -134,11 +134,11 @@ kbd {
 `;
 
 class PostDocOverlay extends HTMLElement {
-  #root = this.attachShadow({ mode: "open" });
+  #root = this.attachShadow({ mode: 'open' });
   #backdrop;
 
   #closeEscape = (event) => {
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       this.close();
     }
   };
@@ -148,20 +148,20 @@ class PostDocOverlay extends HTMLElement {
 
     this.#root.innerHTML = template;
 
-    this.#backdrop = this.#root.querySelector(".backdrop");
+    this.#backdrop = this.#root.querySelector('.backdrop');
 
-    this.shadowRoot.addEventListener("click", (event) => {
+    this.shadowRoot.addEventListener('click', (event) => {
       if (event.target === this.#backdrop) {
         this.close();
       }
     });
-    addEventListener("keydown", this.#closeEscape);
+    addEventListener('keydown', this.#closeEscape);
   }
 
   close() {
     this.remove();
-    removeEventListener("keydown", this.#closeEscape);
+    removeEventListener('keydown', this.#closeEscape);
   }
 }
 
-customElements.define("postdoc-overlay", PostDocOverlay);
+customElements.define('postdoc-overlay', PostDocOverlay);

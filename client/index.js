@@ -72,7 +72,7 @@
  * @name client
  */
 
-import Session from "./session.js";
+import Session from './session.js';
 
 globalThis.PostDoc ??= new Session();
 
