@@ -5,7 +5,9 @@ import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 
 import Configuration from '../../lib/configuration.js';
 
-describe('Configuration module', function () {
+describe("Configuration module", function () {
+  const rootDirectory = process.cwd();
+
   let tmpDir;
   beforeEach(async function (_client, done) {
     tmpDir = await mkdtemp(join(tmpdir(), 'test-doc'));
@@ -14,6 +16,7 @@ describe('Configuration module', function () {
   });
 
   afterEach(async function (_client, done) {
+    chdir(rootDirectory);
     await rm(tmpDir, { recursive: true });
     done();
   });
