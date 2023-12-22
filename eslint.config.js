@@ -1,5 +1,5 @@
 import js from '@eslint/js';
-import stylistic from '@stylistic/eslint-plugin'
+import stylistic from '@stylistic/eslint-plugin';
 import globals from 'globals';
 
 function mapGlobals(globals) {
@@ -17,10 +17,28 @@ export default [
   },
   js.configs.recommended,
   {
-    files: ['nightwatch.conf.cjs', 'lib/**/*.js', 'bin/*.js', 'eslint.config.js', 'client/*.js', 'test/**/*.js'],
+    files: ['nightwatch.conf.cjs', 'lib/**/*.js', 'bin/*.js', 'eslint.config.js'],
     languageOptions: {
-
       globals: mapGlobals(globals.node)
+    }
+  },
+  {
+    files: ['test/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...mapGlobals(globals.node),
+        it: 'readonly',
+        test: 'readonly',
+        describe: 'readonly',
+        afterEach: 'readonly',
+        beforeEach: 'readonly'
+      }
+    }
+  },
+  {
+    files: ['client/*.js'],
+    languageOptions: {
+      globals: mapGlobals(globals.browser)
     }
   },
   {
@@ -31,7 +49,7 @@ export default [
       'eqeqeq': ['error', 'smart'],
       'no-extra-boolean-cast': 0,
       'curly': ['error', 'all'],
-      'no-console': ['error', {'allow': ['error']}],
+      'no-console': ['error', { 'allow': ['error'] }],
       'no-debugger': 1,
       'no-trailing-spaces': 1,
       'no-else-return': 2,
@@ -46,20 +64,20 @@ export default [
       'no-underscore-dangle': 0,
       'no-lone-blocks': 0,
       'array-bracket-spacing': 2,
-      'brace-style': [2, '1tbs', {'allowSingleLine': true}],
+      'brace-style': [2, '1tbs', { 'allowSingleLine': true }],
       'comma-spacing': 2,
       'comma-style': 2,
       'key-spacing': 2,
       'one-var': ['error', 'never'],
       'semi-style': ['error', 'last'],
       'space-in-parens': ['error', 'never'],
-      'keyword-spacing': [2, {'before': true, 'after': true}],
+      'keyword-spacing': [2, { 'before': true, 'after': true }],
       'prefer-const': ['warn'],
       '@stylistic/js/quotes': ['error', 'single'],
-      '@stylistic/js/semi': ['error', 'always', {'omitLastInOneLineBlock': true}],
+      '@stylistic/js/semi': ['error', 'always', { 'omitLastInOneLineBlock': true }],
       '@stylistic/js/space-infix-ops': 1,
-      '@stylistic/js/padding-line-between-statements': ['error', {'blankLine': 'always', 'prev': '*', 'next': 'return'}],
-      '@stylistic/js/indent': ['error', 2, {'SwitchCase': 1}],
+      '@stylistic/js/padding-line-between-statements': ['error', { 'blankLine': 'always', 'prev': '*', 'next': 'return' }],
+      '@stylistic/js/indent': ['error', 2, { 'SwitchCase': 1 }],
       '@stylistic/js/object-curly-spacing': ['warn', 'always']
     }
   }

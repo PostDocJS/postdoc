@@ -2,7 +2,7 @@ export default class Snapshot {
   static #parser = new DOMParser();
 
   static from(html) {
-    return new this(this.#parser.parseFromString(html, "text/html"));
+    return new this(this.#parser.parseFromString(html, 'text/html'));
   }
 
   #head;
@@ -24,7 +24,7 @@ export default class Snapshot {
   }
 
   get #language() {
-    return this.#document.documentElement.getAttribute("lang");
+    return this.#document.documentElement.getAttribute('lang');
   }
 
   async into(activeSnapshot) {
@@ -43,20 +43,20 @@ export default class Snapshot {
     activeSnapshot.#document.adoptNode(this.#head);
 
     activeSnapshot.#mergeRegularHeadElements(
-      this.#getHeadElementsByType("regular"),
+      this.#getHeadElementsByType('regular')
     );
     await activeSnapshot.#mergeStyleHeadElements(
-      this.#getHeadElementsByType("style"),
+      this.#getHeadElementsByType('style')
     );
     activeSnapshot.#mergeScriptHeadElements(
-      this.#getHeadElementsByType("script"),
+      this.#getHeadElementsByType('script')
     );
   }
 
   #injectBodyInto(activeSnapshot) {
     const adoptedBody = activeSnapshot.#document.adoptNode(this.#document.body);
 
-    for (const scriptElement of adoptedBody.querySelectorAll("script")) {
+    for (const scriptElement of adoptedBody.querySelectorAll('script')) {
       scriptElement.replaceWith(this.#activateScriptElement(scriptElement));
     }
 
@@ -64,19 +64,19 @@ export default class Snapshot {
   }
 
   #mergeRegularHeadElements(newRegularHeadElements) {
-    for (const element of this.#getHeadElementsByType("regular")) {
+    for (const element of this.#getHeadElementsByType('regular')) {
       if (!this.#checkElementInListAndRemove(element, newRegularHeadElements)) {
         this.#head.removeChild(element);
       }
     }
 
     newRegularHeadElements.forEach((newElement) =>
-      this.#head.append(newElement),
+      this.#head.append(newElement)
     );
   }
 
   #mergeStyleHeadElements(newStyleHeadElements) {
-    for (const element of this.#getHeadElementsByType("style")) {
+    for (const element of this.#getHeadElementsByType('style')) {
       this.#checkElementInListAndRemove(element, newStyleHeadElements);
     }
 
@@ -92,17 +92,17 @@ export default class Snapshot {
   }
 
   #mergeScriptHeadElements(newScriptHeadElements) {
-    this.#getHeadElementsByType("script").forEach((element) =>
-      this.#head.removeChild(element),
+    this.#getHeadElementsByType('script').forEach((element) =>
+      this.#head.removeChild(element)
     );
 
     newScriptHeadElements.forEach((element) =>
-      this.#head.append(this.#activateScriptElement(element)),
+      this.#head.append(this.#activateScriptElement(element))
     );
   }
 
   #activateScriptElement(element) {
-    const createdScriptElement = this.createElement("script");
+    const createdScriptElement = this.createElement('script');
 
     createdScriptElement.textContent = element.textContent;
     createdScriptElement.async = false;
@@ -117,13 +117,13 @@ export default class Snapshot {
   #waitForLoad(element, timeout = 2000) {
     return new Promise((resolve) => {
       const onComplete = () => {
-        element.removeEventListener("error", onComplete);
-        element.removeEventListener("load", onComplete);
+        element.removeEventListener('error', onComplete);
+        element.removeEventListener('load', onComplete);
         resolve();
       };
 
-      element.addEventListener("load", onComplete, { once: true });
-      element.addEventListener("error", onComplete, { once: true });
+      element.addEventListener('load', onComplete, { once: true });
+      element.addEventListener('error', onComplete, { once: true });
       setTimeout(resolve, timeout);
     });
   }
@@ -146,44 +146,45 @@ export default class Snapshot {
 
   #setLanguage(language) {
     if (language) {
-      this.#document.documentElement.setAttribute("lang", language);
+      this.#document.documentElement.setAttribute('lang', language);
     } else {
-      this.#document.documentElement.removeAttribute("lang");
+      this.#document.documentElement.removeAttribute('lang');
     }
   }
 
   #getElementType(element) {
     if (this.#isStyle(element)) {
-      return "style";
+      return 'style';
     } else if (this.#isScript(element)) {
-      return "script";
-    } else {
-      return "regular";
+      return 'script';
     }
+
+    return 'regular';
+
   }
 
   #getHeadElementsByType(type) {
     return Array.from(this.#head.children).filter(
-      (element) => this.#getElementType(element) === type,
+      (element) => this.#getElementType(element) === type
     );
   }
 
   #isScript(element) {
-    return element.tagName === "SCRIPT";
+    return element.tagName === 'SCRIPT';
   }
 
   #isStyle(element) {
     return (
-      element.tagName === "STYLE" ||
-      (element.tagName === "LINK" &&
-        (element.rel === "stylesheet" || element.href.endsWith(".css")))
+      element.tagName === 'STYLE' ||
+      (element.tagName === 'LINK' &&
+        (element.rel === 'stylesheet' || element.href.endsWith('.css')))
     );
   }
 
   #moveStylesToHeadIfNeeded() {
     const walker = this.#document.createTreeWalker(
       this.#document.documentElement,
-      NodeFilter.SHOW_ELEMENT,
+      NodeFilter.SHOW_ELEMENT
     );
 
     while (walker.nextNode()) {
