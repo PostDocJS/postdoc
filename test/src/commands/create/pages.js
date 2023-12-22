@@ -39,7 +39,7 @@ describe("create pages command", function () {
     done();
   });
 
-  test("providing a url should create correct files", async function () {
+  test("providing a url without extension should create correct files", async function () {
     const filename = "foo";
 
     spawnSync("npx.cmd", ["postdoc", "create", "pages", filename]);
@@ -98,6 +98,81 @@ describe("create pages command", function () {
 
     const testSrcFiles = await readdir(
       join(configuration.directories.tests, "src")
+    );
+
+    assert.equal(
+      testSrcFiles.some((f) => f === `${filenameWithoutExtension}.js`),
+      true
+    );
+  });
+
+  test("providing a url without extension inside subfolder should create correct files", async function () {
+    const subfolder = "coo";
+    const filename = "foo";
+    const url = `${subfolder}/${filename}`;
+
+    spawnSync("npx.cmd", ["postdoc", "create", "pages", url]);
+
+    const configuration = Configuration.get();
+
+    const pagesFiles = await readdir(
+      join(configuration.directories.pages, subfolder)
+    );
+
+    assert.equal(
+      pagesFiles.some((f) => f === `${filename}.md`),
+      true
+    );
+
+    const testPageObjectsFiles = await readdir(
+      join(configuration.directories.tests, "page-objects", subfolder)
+    );
+
+    assert.equal(
+      testPageObjectsFiles.some((f) => f === `${filename}.cjs`),
+      true
+    );
+
+    const testSrcFiles = await readdir(
+      join(configuration.directories.tests, "src", subfolder)
+    );
+
+    assert.equal(
+      testSrcFiles.some((f) => f === `${filename}.js`),
+      true
+    );
+  });
+
+  test("providing a url with extension inside subfolder should create correct files", async function () {
+    const filenameWithExtension = "boo.md";
+    const filenameWithoutExtension = parse(filenameWithExtension).name;
+    const subfolder = "coo";
+    const url = `${subfolder}/${filenameWithExtension}`;
+
+    spawnSync("npx.cmd", ["postdoc", "create", "pages", url]);
+
+    const configuration = Configuration.get();
+
+    const pagesFiles = await readdir(
+      join(configuration.directories.pages, subfolder)
+    );
+
+    assert.equal(
+      pagesFiles.some((f) => f === filenameWithExtension),
+      true
+    );
+
+    const testPageObjectsFiles = await readdir(
+      join(configuration.directories.tests, "page-objects", subfolder)
+    );
+
+    assert.equal(
+      testPageObjectsFiles.some((f) => f === `${filenameWithoutExtension}.cjs`),
+      true
+    );
+
+    const testSrcFiles = await readdir(
+      join(configuration.directories.tests, "src", subfolder)
     );
 
     assert.equal(
