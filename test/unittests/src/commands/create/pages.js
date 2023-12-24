@@ -4,7 +4,7 @@ import { join, parse } from "node:path";
 import { chdir } from "node:process";
 import { tmpdir } from "node:os";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
-import Configuration from "../../../../lib/configuration.js";
+import Configuration from "../../../../../lib/configuration.js";
 import assert from "node:assert/strict";
 
 describe("create pages command", function () {
@@ -12,7 +12,7 @@ describe("create pages command", function () {
   const pathToPostdoc = resolve(rootDirectory, "bin/postdoc.js");
 
   let tmpDir;
-  before(async function (_client, done) {
+  before(async function (done) {
     tmpDir = await mkdtemp(join(tmpdir(), ".foo"));
     chdir(tmpDir);
 
@@ -33,7 +33,7 @@ describe("create pages command", function () {
     done();
   });
 
-  after(async function (_client, done) {
+  after(async function (done) {
     chdir(rootDirectory);
     await rm(tmpDir, { recursive: true });
     done();

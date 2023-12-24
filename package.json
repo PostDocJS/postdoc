@@ -14,12 +14,11 @@
     "./client": "./client/index.js"
   },
   "scripts": {
-    "test": "nightwatch",
+    "test:unit": "nightwatch --env unittests",
     "lint": "eslint ."
   },
   "devDependencies": {
     "@eslint/js": "^8.40.0",
-    "@nightwatch/apitesting": "^3.1.1",
     "@stylistic/eslint-plugin": "^1.5.1",
     "@types/marked": "^4.0.8",
     "@types/node": "^20.8.9",

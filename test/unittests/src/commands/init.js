@@ -22,13 +22,13 @@ describe("init command", function () {
   ];
 
   let tmpDir;
-  beforeEach(async function (_, done) {
+  beforeEach(async function (done) {
     tmpDir = await mkdtemp(join(tmpdir(), ".foo"));
     chdir(tmpDir);
     done();
   });
 
-  afterEach(async function (_client, done) {
+  afterEach(async function (done) {
     chdir(rootDirectory);
     await rm(tmpDir, { recursive: true });
     done();
