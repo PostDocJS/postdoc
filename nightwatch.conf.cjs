@@ -8,22 +8,32 @@
 //            |___/
 //
 
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  src_folders: ['test/src'],
-  globals_path: path.resolve(__dirname, 'test', 'lib', 'globals.cjs'),
-  plugins: ['@nightwatch/apitesting'],
-  start_session: false,
+  src_folders: ["test/unittests/src"],
+  globals_path: path.resolve(__dirname, "test", "lib", "globals.cjs"),
+
   webdriver: {
-    start_process: false
+    start_process: true,
+  },
+
+  test_settings: {
+    default: {
+      launch_url: "http://localhost",
+      desiredCapabilities: {
+        browserName: "chrome",
+      },
+      exclude: "test/unittests/src/**",
+    },
+    unittests: {
+      unit_tests_mode: true,
+      filter: "test/unittests/src/**",
+      exclude: "",
+    },
   },
 
   test_workers: {
-    enabled: false
+    enabled: false,
   },
-
-  '@nightwatch/apitesting': {
-    log_responses: true
-  }
 };
