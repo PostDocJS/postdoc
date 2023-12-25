@@ -1,17 +1,17 @@
-import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { chdir } from "node:process";
-import MarkdownCompiler from "../../../lib/markdown-compiler.js";
-import Configuration from "../../../lib/configuration.js";
+import assert from 'node:assert/strict';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { chdir } from 'node:process';
+import MarkdownCompiler from '../../../lib/markdown-compiler.js';
+import Configuration from '../../../lib/configuration.js';
 
-describe("MarkdownCompiler module", function () {
+describe('MarkdownCompiler module', function () {
   const rootDirectory = process.cwd();
 
   let tmpDir;
   before(async function (done) {
-    tmpDir = await mkdtemp(join(tmpdir(), "test-doc"));
+    tmpDir = await mkdtemp(join(tmpdir(), 'test-doc'));
     chdir(tmpDir);
 
     await Configuration.initialise({});
@@ -25,8 +25,8 @@ describe("MarkdownCompiler module", function () {
     done();
   });
 
-  test("should extract metadata from .md file", async function (client) {
-    const filename = "file.md";
+  test('should extract metadata from .md file', async function (client) {
+    const filename = 'file.md';
 
     await writeFile(
       filename,
@@ -39,10 +39,10 @@ title: This title
 
 > Intelligence is the ability to avoid doing work, yet getting the work done.
 > - Linus Torvalds`,
-      "utf-8"
+      'utf-8'
     );
 
-    const markdownContent = await readFile(filename, "utf8");
+    const markdownContent = await readFile(filename, 'utf8');
 
     const markdownCompiler = new MarkdownCompiler();
     await markdownCompiler.initialise();
@@ -52,6 +52,6 @@ title: This title
     );
 
     assert.equal(attributes.draft, true);
-    assert.equal(attributes.title, "This title");
+    assert.equal(attributes.title, 'This title');
   });
 });

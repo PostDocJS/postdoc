@@ -29,6 +29,8 @@ export default [
         ...mapGlobals(globals.node),
         it: 'readonly',
         test: 'readonly',
+        after: 'readonly',
+        before: 'readonly',
         describe: 'readonly',
         afterEach: 'readonly',
         beforeEach: 'readonly'
