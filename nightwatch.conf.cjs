@@ -11,7 +11,7 @@
 const path = require("path");
 
 module.exports = {
-  src_folders: ["test/unittests/src"],
+  src_folders: ["test/unittests/src", "test/e2e"],
   globals_path: path.resolve(__dirname, "test", "lib", "globals.cjs"),
 
   webdriver: {
@@ -20,7 +20,7 @@ module.exports = {
 
   test_settings: {
     default: {
-      launch_url: "http://localhost",
+      launch_url: "http://localhost:5173",
       desiredCapabilities: {
         browserName: "chrome",
       },
