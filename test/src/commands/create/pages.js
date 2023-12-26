@@ -4,7 +4,7 @@ import { join, parse } from 'node:path';
 import { chdir } from 'node:process';
 import { tmpdir } from 'node:os';
 import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
-import Configuration from '../../../../../lib/configuration.js';
+import Configuration from '../../../../lib/configuration.js';
 import assert from 'node:assert/strict';
 
 describe('create pages command', function () {

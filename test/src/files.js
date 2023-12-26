@@ -5,7 +5,7 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 
 import AsyncIterable from '@halo-lab/iterable/async';
 
-import { walkDirectory } from '../../../lib/fs.js';
+import { walkDirectory } from '../../lib/fs.js';
 
 describe('The FS walker', function () {
   let tmpDir;

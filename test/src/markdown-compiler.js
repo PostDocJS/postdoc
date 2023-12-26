@@ -3,8 +3,8 @@ import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { chdir } from 'node:process';
-import MarkdownCompiler from '../../../lib/markdown-compiler.js';
-import Configuration from '../../../lib/configuration.js';
+import MarkdownCompiler from '../../lib/markdown-compiler.js';
+import Configuration from '../../lib/configuration.js';
 
 describe('MarkdownCompiler module', function () {
   const rootDirectory = process.cwd();

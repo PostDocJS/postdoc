@@ -14,7 +14,7 @@
     "./client": "./client/index.js"
   },
   "scripts": {
-    "test:unit": "nightwatch --env unittests",
+    "test": "nightwatch",
     "lint": "eslint ."
   },
   "devDependencies": {

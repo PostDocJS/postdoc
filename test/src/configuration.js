@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 
-import Configuration from '../../../lib/configuration.js';
+import Configuration from '../../lib/configuration.js';
 
 describe('Configuration module', function () {
   const rootDirectory = process.cwd();
