@@ -80,7 +80,7 @@ export default [
       '@stylistic/js/space-infix-ops': 1,
       '@stylistic/js/padding-line-between-statements': ['error', { 'blankLine': 'always', 'prev': '*', 'next': 'return' }],
       '@stylistic/js/indent': ['error', 2, { 'SwitchCase': 1 }],
-      '@stylistic/js/object-curly-spacing': ['warn', 'always']
+      '@stylistic/js/object-curly-spacing': ['error', 'always']
     }
   }
 ];
