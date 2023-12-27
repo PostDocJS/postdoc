@@ -40,7 +40,7 @@ describe('Configuration module', function () {
         'utf-8'
       );
       await writeFile(
-        'postdoc.config.json',
+        'postdoc.json',
         '{"appSettings": {"base": "/root4"}}',
         'utf-8'
       );
@@ -65,7 +65,7 @@ describe('Configuration module', function () {
         'utf-8'
       );
       await writeFile(
-        'postdoc.config.json',
+        'postdoc.json',
         '{"appSettings": {"base": "/root4"}}',
         'utf-8'
       );
@@ -85,7 +85,7 @@ describe('Configuration module', function () {
         'utf-8'
       );
       await writeFile(
-        'postdoc.config.json',
+        'postdoc.json',
         '{"appSettings": {"base": "/root4"}}',
         'utf-8'
       );
@@ -105,7 +105,7 @@ describe('Configuration module', function () {
         'utf-8'
       );
       await writeFile(
-        'postdoc.config.json',
+        'postdoc.json',
         '{"appSettings": {"base": "/root4"}}',
         'utf-8'
       );
@@ -124,7 +124,7 @@ describe('Configuration module', function () {
 
     it('should load JSON config if no other types are present', async function () {
       await writeFile(
-        'postdoc.config.json',
+        'postdoc.json',
         '{"appSettings": {"base": "/root4"}}',
         'utf-8'
       );

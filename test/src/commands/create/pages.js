@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { join, parse } from 'node:path';
@@ -5,14 +6,14 @@ import { chdir } from 'node:process';
 import { tmpdir } from 'node:os';
 import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import Configuration from '../../../../lib/configuration.js';
-import assert from 'node:assert/strict';
+
 
 describe('create pages command', function () {
   const rootDirectory = process.cwd();
   const pathToPostdoc = resolve(rootDirectory, 'bin/postdoc.js');
 
   let tmpDir;
-  before(async function (done) {
+  before(async function () {
     tmpDir = await mkdtemp(join(tmpdir(), '.foo'));
     chdir(tmpDir);
 
@@ -29,17 +30,14 @@ describe('create pages command', function () {
     spawnSync('npm.cmd', ['install']);
 
     await Configuration.initialise({});
-
-    done();
   });
 
-  after(async function (done) {
+  after(async function () {
     chdir(rootDirectory);
     await rm(tmpDir, { recursive: true });
-    done();
   });
 
-  test('providing a url without extension should create correct files', async function () {
+  it('providing a url without extension should create correct files', async function () {
     const filename = 'foo';
 
     spawnSync('npx.cmd', ['postdoc', 'create', 'pages', filename]);
@@ -72,7 +70,7 @@ describe('create pages command', function () {
     );
   });
 
-  test('providing a url with extension should create correct files', async function () {
+  it('providing a url with extension should create correct files', async function () {
     const filenameWithExtension = 'boo.md';
     const filenameWithoutExtension = parse(filenameWithExtension).name;
 
@@ -106,7 +104,7 @@ describe('create pages command', function () {
     );
   });
 
-  test('providing a url without extension inside subfolder should create correct files', async function () {
+  it('providing a url without extension inside subfolder should create correct files', async function () {
     const subfolder = 'coo';
     const filename = 'foo';
     const url = `${subfolder}/${filename}`;
@@ -143,7 +141,7 @@ describe('create pages command', function () {
     );
   });
 
-  test('providing a url with extension inside subfolder should create correct files', async function () {
+  it('providing a url with extension inside subfolder should create correct files', async function () {
     const filenameWithExtension = 'boo.md';
     const filenameWithoutExtension = parse(filenameWithExtension).name;
     const subfolder = 'coo';
