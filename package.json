@@ -1,7 +1,7 @@
 {
   "name": "postdoc",
   "type": "module",
-  "version": "0.1.3",
+  "version": "0.2.0-preview",
   "license": "MIT",
   "description": "Build enhanced static documentation websites with ease.",
   "bin": {
