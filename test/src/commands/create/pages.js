@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
+import { chdir } from 'node:process';
+import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { join, parse } from 'node:path';
-import { chdir } from 'node:process';
-import { tmpdir } from 'node:os';
 import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
-import Configuration from '../../../../lib/configuration.js';
 
+import Configuration from '../../../../lib/configuration.js';
 
 describe('create pages command', function () {
   const rootDirectory = process.cwd();
@@ -44,7 +44,7 @@ describe('create pages command', function () {
 
     const configuration = Configuration.get();
 
-    const pagesFiles = await readdir(configuration.directories.pages);
+    const pagesFiles = await readdir(configuration.directories.content);
 
     assert.equal(
       pagesFiles.some((f) => f === `${filename}.md`),
@@ -78,7 +78,7 @@ describe('create pages command', function () {
 
     const configuration = Configuration.get();
 
-    const pagesFiles = await readdir(configuration.directories.pages);
+    const pagesFiles = await readdir(configuration.directories.content);
 
     assert.equal(
       pagesFiles.some((f) => f === filenameWithExtension),
@@ -114,7 +114,7 @@ describe('create pages command', function () {
     const configuration = Configuration.get();
 
     const pagesFiles = await readdir(
-      join(configuration.directories.pages, subfolder)
+      join(configuration.directories.content, subfolder)
     );
 
     assert.equal(
@@ -152,7 +152,7 @@ describe('create pages command', function () {
     const configuration = Configuration.get();
 
     const pagesFiles = await readdir(
-      join(configuration.directories.pages, subfolder)
+      join(configuration.directories.content, subfolder)
     );
 
     assert.equal(
