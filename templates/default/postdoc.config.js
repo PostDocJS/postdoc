@@ -25,7 +25,7 @@ export default {
   },
 
   directories: {
-    pages: "./docs",
+    content: "./docs",
     tests: "./test",
     output: "./out",
     layouts: "./src/layouts",
