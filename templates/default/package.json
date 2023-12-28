@@ -11,6 +11,8 @@
   },
   "devDependencies": {
     "postdoc": "${postdoc_version}",
-    "nightwatch": "${nightwatch_version}"
+    "nightwatch": "${nightwatch_version}",
+    "@nightwatch/browserstack": "${nightwatch_browserstack_version}",
+    "nightwatch-plugin-postdoc": "${nightwatch_plugin_postdoc_version}"
   }
 }
