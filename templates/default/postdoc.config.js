@@ -53,6 +53,12 @@ export default {
     noColors: false,
   },
 
+  nightwatch: {
+    headless: false,
+    browser: 'chrome',
+    watch: false
+  },
+
   appSettings: {},
 
   markdown: {
