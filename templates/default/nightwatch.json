@@ -1,6 +1,6 @@
 {
-  "src_folders": ["test/pages"],
-  "page_objects_path": "test/pages",
+  "src_folders": ["test/src"],
+  "page_objects_path": "test/page-objects",
   "plugins": [
     "nightwatch-plugin-postdoc"
   ],
