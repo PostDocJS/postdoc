@@ -92,6 +92,8 @@ export const text = 'some text'
         <% const testImport = await _import('../../js/test-import.js'); %>
         <span id="test-import"><%= testImport.text %></span>
 
+        <span id="page-url"><%= page.url %></span>
+
         <script type="module" src="/src/js/base.js"></script>
       </body>
     </html>
@@ -106,6 +108,7 @@ export const text = 'some text'
       .assert.textEquals("#filename", filenameAbsolutePath)
       .assert.textEquals("#dirname", dirname(filenameAbsolutePath))
       .assert.textEquals("#test-require", "some text")
-      .assert.textEquals("#test-import", "some text");
+      .assert.textEquals("#test-import", "some text")
+      .assert.textEquals("#page-url", `/${path}/index.html`);
   });
 });
