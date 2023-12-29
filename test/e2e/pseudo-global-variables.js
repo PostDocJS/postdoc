@@ -63,6 +63,13 @@ module.exports = { text: "some text" };
     );
 
     await writeFile(
+      join("src", "js", "test-import.js"),
+      `
+export const text = 'some text'
+`
+    );
+
+    await writeFile(
       filenameRelativePath,
       `
     <!DOCTYPE html>
@@ -78,8 +85,13 @@ module.exports = { text: "some text" };
       <body>
         <span id="filename"><%= __filename %></span>
         <span id="dirname"><%= __dirname %></span>
+
         <% const testRequire = require('../../js/test-require.cjs'); %>
         <span id="test-require"><%= testRequire.text %></span>
+
+        <% const testImport = await _import('../../js/test-import.js'); %>
+        <span id="test-import"><%= testImport.text %></span>
+
         <script type="module" src="/src/js/base.js"></script>
       </body>
     </html>
@@ -93,6 +105,7 @@ module.exports = { text: "some text" };
       .waitForElementVisible("body")
       .assert.textEquals("#filename", filenameAbsolutePath)
       .assert.textEquals("#dirname", dirname(filenameAbsolutePath))
-      .assert.textEquals("#test-require", "some text");
+      .assert.textEquals("#test-require", "some text")
+      .assert.textEquals("#test-import", "some text");
   });
 });
