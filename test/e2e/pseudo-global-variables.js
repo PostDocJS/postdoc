@@ -46,7 +46,7 @@ describe("Test pseudo global variables in ejs files", function () {
     });
   });
 
-  it("Search Nightwatch.js and check results", async function (browser) {
+  it("check if pseudo-global variables are available in ejs files", async function (browser) {
     const configuration = Configuration.get();
 
     const path = "globals";
