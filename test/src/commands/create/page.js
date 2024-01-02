@@ -1,33 +1,33 @@
-import assert from 'node:assert/strict';
-import { chdir } from 'node:process';
-import { tmpdir } from 'node:os';
-import { resolve } from 'node:path';
-import { spawnSync } from 'node:child_process';
-import { join, parse } from 'node:path';
-import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import assert from "node:assert/strict";
+import { chdir } from "node:process";
+import { tmpdir } from "node:os";
+import { resolve } from "node:path";
+import { spawnSync } from "node:child_process";
+import { join, parse } from "node:path";
+import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 
-import Configuration from '../../../../lib/configuration.js';
+import Configuration from "../../../../lib/configuration.js";
 
-describe('create pages command', function () {
+describe("create pages command", function () {
   const rootDirectory = process.cwd();
-  const pathToPostdoc = resolve(rootDirectory, 'bin/postdoc.js');
+  const pathToPostdoc = resolve(rootDirectory, "bin/postdoc.js");
 
   let tmpDir;
   before(async function () {
-    tmpDir = await mkdtemp(join(tmpdir(), '.foo'));
+    tmpDir = await mkdtemp(join(tmpdir(), ".foo"));
     chdir(tmpDir);
 
-    spawnSync('node', [pathToPostdoc, 'init', '--name', '.']);
+    spawnSync("node", [pathToPostdoc, "init", "--name", "."]);
 
-    const filename = 'package.json';
-    const fileContent = await readFile(filename, 'utf8');
+    const filename = "package.json";
+    const fileContent = await readFile(filename, "utf8");
     const finalContent = fileContent.replace(
       /"postdoc":\s*"(.*?)"/g,
-      `"postdoc": "file:${rootDirectory.replaceAll('\\', '/')}"`
+      `"postdoc": "file:${rootDirectory.replaceAll("\\", "/")}"`
     );
     await writeFile(filename, finalContent);
 
-    spawnSync('npm.cmd', ['install']);
+    spawnSync("npm.cmd", ["install"]);
 
     await Configuration.initialise({});
   });
@@ -37,10 +37,10 @@ describe('create pages command', function () {
     await rm(tmpDir, { recursive: true });
   });
 
-  it('providing a url without extension should create correct files', async function () {
-    const filename = 'foo';
+  it("providing a url without extension should create correct files", async function () {
+    const filename = "foo";
 
-    spawnSync('npx.cmd', ['postdoc', 'create', 'pages', filename]);
+    spawnSync("npx.cmd", ["postdoc", "create", "page", "-n", filename]);
 
     const configuration = Configuration.get();
 
@@ -52,7 +52,7 @@ describe('create pages command', function () {
     );
 
     const testPageObjectsFiles = await readdir(
-      join(configuration.directories.tests, 'page-objects')
+      join(configuration.directories.tests, "page-objects")
     );
 
     assert.equal(
@@ -61,7 +61,7 @@ describe('create pages command', function () {
     );
 
     const testSrcFiles = await readdir(
-      join(configuration.directories.tests, 'src')
+      join(configuration.directories.tests, "src")
     );
 
     assert.equal(
@@ -70,11 +70,11 @@ describe('create pages command', function () {
     );
   });
 
-  it('providing a url with extension should create correct files', async function () {
-    const filenameWithExtension = 'boo.md';
+  it("providing a url with extension should create correct files", async function () {
+    const filenameWithExtension = "boo.md";
     const filenameWithoutExtension = parse(filenameWithExtension).name;
 
-    spawnSync('npx.cmd', ['postdoc', 'create', 'pages', filenameWithExtension]);
+    spawnSync("npx.cmd", ["postdoc", "create", "page", "-n", filenameWithExtension]);
 
     const configuration = Configuration.get();
 
@@ -86,7 +86,7 @@ describe('create pages command', function () {
     );
 
     const testPageObjectsFiles = await readdir(
-      join(configuration.directories.tests, 'page-objects')
+      join(configuration.directories.tests, "page-objects")
     );
 
     assert.equal(
@@ -95,7 +95,7 @@ describe('create pages command', function () {
     );
 
     const testSrcFiles = await readdir(
-      join(configuration.directories.tests, 'src')
+      join(configuration.directories.tests, "src")
     );
 
     assert.equal(
@@ -104,12 +104,12 @@ describe('create pages command', function () {
     );
   });
 
-  it('providing a url without extension inside subfolder should create correct files', async function () {
-    const subfolder = 'coo';
-    const filename = 'foo';
+  it("providing a url without extension inside subfolder should create correct files", async function () {
+    const subfolder = "coo";
+    const filename = "foo";
     const url = `${subfolder}/${filename}`;
 
-    spawnSync('npx.cmd', ['postdoc', 'create', 'pages', url]);
+    spawnSync("npx.cmd", ["postdoc", "create", "page", "-n", url]);
 
     const configuration = Configuration.get();
 
@@ -123,7 +123,7 @@ describe('create pages command', function () {
     );
 
     const testPageObjectsFiles = await readdir(
-      join(configuration.directories.tests, 'page-objects', subfolder)
+      join(configuration.directories.tests, "page-objects", subfolder)
     );
 
     assert.equal(
@@ -132,7 +132,7 @@ describe('create pages command', function () {
     );
 
     const testSrcFiles = await readdir(
-      join(configuration.directories.tests, 'src', subfolder)
+      join(configuration.directories.tests, "src", subfolder)
     );
 
     assert.equal(
@@ -141,13 +141,13 @@ describe('create pages command', function () {
     );
   });
 
-  it('providing a url with extension inside subfolder should create correct files', async function () {
-    const filenameWithExtension = 'boo.md';
+  it("providing a url with extension inside subfolder should create correct files", async function () {
+    const filenameWithExtension = "boo.md";
     const filenameWithoutExtension = parse(filenameWithExtension).name;
-    const subfolder = 'coo';
+    const subfolder = "coo";
     const url = `${subfolder}/${filenameWithExtension}`;
 
-    spawnSync('npx.cmd', ['postdoc', 'create', 'pages', url]);
+    spawnSync("npx.cmd", ["postdoc", "create", "page", "-n", url]);
 
     const configuration = Configuration.get();
 
@@ -161,7 +161,7 @@ describe('create pages command', function () {
     );
 
     const testPageObjectsFiles = await readdir(
-      join(configuration.directories.tests, 'page-objects', subfolder)
+      join(configuration.directories.tests, "page-objects", subfolder)
     );
 
     assert.equal(
@@ -170,7 +170,7 @@ describe('create pages command', function () {
     );
 
     const testSrcFiles = await readdir(
-      join(configuration.directories.tests, 'src', subfolder)
+      join(configuration.directories.tests, "src", subfolder)
     );
 
     assert.equal(
