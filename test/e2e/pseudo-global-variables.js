@@ -1,7 +1,7 @@
 import { spawn, spawnSync } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, resolve, basename } from "node:path";
 import { chdir } from "node:process";
 import Configuration from "../../lib/configuration.js";
 import kill from "tree-kill";
@@ -50,10 +50,13 @@ describe("Test pseudo global variables in ejs files", function () {
     const configuration = Configuration.get();
 
     const path = "globals";
-    const pathToFolder = join(configuration.directories.layouts, path);
-    const filenameRelativePath = join(pathToFolder, "index.ejs");
+    const pathToLayoutsFolder = join(configuration.directories.layouts, path);
+    const pathToContentFolder = join(configuration.directories.content, path);
+    const relativePathToFilenameInsideLayoutsFolder = join(pathToLayoutsFolder, "index.ejs");
+    const relativePathToFilenameInsideContentFolder = join(pathToContentFolder, "index.md");
 
-    await mkdir(pathToFolder);
+    await mkdir(pathToContentFolder);
+    await mkdir(pathToLayoutsFolder);
 
     await writeFile(
       join("src", "js", "test-require.cjs"),
@@ -70,7 +73,7 @@ export const text = 'some text'
     );
 
     await writeFile(
-      filenameRelativePath,
+      relativePathToFilenameInsideLayoutsFolder,
       `
     <!DOCTYPE html>
     <html lang="en">
@@ -94,21 +97,36 @@ export const text = 'some text'
 
         <span id="page-url"><%= page.url %></span>
 
+        <span id="page-content"><%- page.content %></span>
+
         <script type="module" src="/src/js/base.js"></script>
       </body>
     </html>
     `
     );
 
-    const filenameAbsolutePath = resolve(filenameRelativePath);
+    await writeFile(relativePathToFilenameInsideContentFolder, `
+# What is {{appSettings.name}}
+
+## Part 1
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+## Part 2
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.    
+    `)
+
+    const absolutePathToFilenameInsideLayoutsFolder = resolve(relativePathToFilenameInsideLayoutsFolder);
 
     browser
       .navigateTo(`${browser.baseUrl}/${path}/`)
       .waitForElementVisible("body")
-      .assert.textEquals("#filename", filenameAbsolutePath)
-      .assert.textEquals("#dirname", dirname(filenameAbsolutePath))
+      .assert.textEquals("#filename", absolutePathToFilenameInsideLayoutsFolder)
+      .assert.textEquals("#dirname", dirname(absolutePathToFilenameInsideLayoutsFolder))
       .assert.textEquals("#test-require", "some text")
       .assert.textEquals("#test-import", "some text")
-      .assert.textEquals("#page-url", `/${path}/index.html`);
+      .assert.textEquals("#page-url", `/${path}/index.html`)
+      .assert.textContains("#page-content", `What is ${basename(tmpDir)}`);
   });
 });
