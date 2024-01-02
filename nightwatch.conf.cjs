@@ -18,8 +18,6 @@ module.exports = {
     start_process: true,
   },
 
-  unit_tests_mode: true,
-
   test_settings: {
     default: {
       launch_url: "http://localhost:5173",
