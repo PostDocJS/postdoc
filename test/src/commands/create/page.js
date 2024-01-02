@@ -27,7 +27,7 @@ describe("create pages command", function () {
     );
     await writeFile(filename, finalContent);
 
-    spawnSync("npm.cmd", ["install"]);
+    spawnSync("npm", ["install"], {shell: true});
 
     await Configuration.initialise({});
   });
@@ -40,7 +40,7 @@ describe("create pages command", function () {
   it("providing a url without extension should create correct files", async function () {
     const filename = "foo";
 
-    spawnSync("npx.cmd", ["postdoc", "create", "page", "-n", filename]);
+    spawnSync("npx", ["postdoc", "create", "page", "-n", filename], {shell: true});
 
     const configuration = Configuration.get();
 
@@ -74,7 +74,7 @@ describe("create pages command", function () {
     const filenameWithExtension = "boo.md";
     const filenameWithoutExtension = parse(filenameWithExtension).name;
 
-    spawnSync("npx.cmd", ["postdoc", "create", "page", "-n", filenameWithExtension]);
+    spawnSync("npx", ["postdoc", "create", "page", "-n", filenameWithExtension], {shell: true});
 
     const configuration = Configuration.get();
 
@@ -109,7 +109,7 @@ describe("create pages command", function () {
     const filename = "foo";
     const url = `${subfolder}/${filename}`;
 
-    spawnSync("npx.cmd", ["postdoc", "create", "page", "-n", url]);
+    spawnSync("npx", ["postdoc", "create", "page", "-n", url], {shell: true});
 
     const configuration = Configuration.get();
 
@@ -147,7 +147,7 @@ describe("create pages command", function () {
     const subfolder = "coo";
     const url = `${subfolder}/${filenameWithExtension}`;
 
-    spawnSync("npx.cmd", ["postdoc", "create", "page", "-n", url]);
+    spawnSync("npx", ["postdoc", "create", "page", "-n", url], {shell: true});
 
     const configuration = Configuration.get();
 

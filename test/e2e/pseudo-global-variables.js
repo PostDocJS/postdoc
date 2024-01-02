@@ -27,13 +27,13 @@ describe("Test pseudo global variables in ejs files", function () {
     );
     await writeFile(filename, finalContent);
 
-    spawnSync("npm.cmd", ["install"]);
+    spawnSync("npm", ["install"], {shell: true});
 
     await Configuration.initialise({});
 
     await Logger.initialise();
 
-    commandProcess = spawn("npm.cmd", ["start"]);
+    commandProcess = spawn("npm", ["start"], {shell: true});
 
     done();
   });
