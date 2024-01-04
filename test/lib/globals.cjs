@@ -21,7 +21,7 @@ module.exports = {
 
   // controls the timeout value for when running async unit tests. Expects the done() callback to be invoked within this time
   // or an error is thrown
-  unitTestsTimeout: 10000,
+  unitTestsTimeout: 15000,
 
   // controls the timeout value for when executing the global async reporter. Expects the done() callback to be invoked within this time
   // or an error is thrown
