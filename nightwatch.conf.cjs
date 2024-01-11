@@ -8,32 +8,32 @@
 //            |___/
 //
 
-const path = require("path");
+const path = require('path');
 
 module.exports = {
-  src_folders: ["test/src", "test/e2e"],
-  globals_path: path.resolve(__dirname, "test", "lib", "globals.cjs"),
+  src_folders: ['test/src', 'test/e2e'],
+  globals_path: path.resolve(__dirname, 'test', 'lib', 'globals.cjs'),
 
   webdriver: {
-    start_process: true,
+    start_process: true
   },
 
   test_settings: {
     default: {
-      launch_url: "http://localhost:5173",
+      launch_url: 'http://localhost:5173',
       desiredCapabilities: {
-        browserName: "chrome",
+        browserName: 'chrome'
       },
-      exclude: "test/src/**",
+      exclude: 'test/src/**'
     },
     unittests: {
       unit_tests_mode: true,
-      filter: "test/src/**",
-      exclude: "",
-    },
+      filter: 'test/src/**',
+      exclude: ''
+    }
   },
 
   test_workers: {
-    enabled: false,
-  },
+    enabled: false
+  }
 };

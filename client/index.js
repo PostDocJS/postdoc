@@ -38,11 +38,11 @@
  *
  * - `onRender` - register **after page is rendered** callback.
  *   ```ts
- *   function onRender(callback: VoidFunction, options?: CallbackOptions): void;
+ *   function onRender(callback: (currentUrl: URL) => void, options?: CallbackOptions): void;
  *   ```
  * - `onLeave` - register **before page is rendered** callback.
  *   ```ts
- *   function onLeave(callback: VoidFunction, options?: CallbackOptions): void;
+ *   function onLeave(callback: (currentUrl: URL, nextUrl: URL) => void, options?: CallbackOptions): void;
  *   ```
  *
  * The `CallbackOptions` allows configuring where, when and how a callback is executed.
@@ -77,13 +77,13 @@ import Session from './session.js';
 globalThis.PostDoc ??= new Session();
 
 export function onLeave(callback, options) {
-  globalThis.PostDoc.onLeave(callback, options);
+  globalThis.PostDoc.navigator.registerOnLeaveCallback(callback, options);
 }
 
 export function onRender(callback, options) {
-  globalThis.PostDoc.onEnter(callback, options);
+  globalThis.PostDoc.navigator.registerOnRenderCallback(callback, options);
 }
 
 export async function go(url, replace) {
-  await globalThis.PostDoc.navigateTo(url, replace);
+  await globalThis.PostDoc.navigator.navigateTo(url, replace);
 }

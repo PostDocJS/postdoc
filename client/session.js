@@ -9,25 +9,6 @@ export default class Session {
     this.#setupViteConnection();
   }
 
-  onLeave(callback, options) {
-    this.renderer.registerCleanup(callback, options, this.navigator.currentUrl);
-  }
-
-  onEnter(callback, options) {
-    this.renderer.registerRender(callback, options, this.navigator.currentUrl);
-  }
-
-  async navigateTo(url, replace) {
-    if (
-      typeof url === 'string' &&
-      !url.startsWith(this.navigator.currentUrl.origin)
-    ) {
-      url = new URL(url, this.navigator.currentUrl.origin);
-    }
-
-    await this.navigator.navigateTo(url, replace);
-  }
-
   #setupViteConnection() {
     if (import.meta.hot) {
       import.meta.hot.on('postdoc:reload-page', () => this.navigator.reload());
