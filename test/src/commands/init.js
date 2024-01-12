@@ -14,7 +14,6 @@ describe('init command', function () {
     'docs',
     'src',
     'test',
-    'node_modules',
     'nightwatch.json',
     'package.json',
     'postdoc.config.js',
