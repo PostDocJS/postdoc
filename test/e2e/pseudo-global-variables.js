@@ -127,7 +127,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       .assert.textEquals('#dirname', dirname(absolutePathToFilenameInsideLayoutsFolder))
       .assert.textEquals('#test-require', 'some text')
       .assert.textEquals('#test-import', 'some text')
-      .assert.textEquals('#page-url', `/globals.html`)
+      .assert.textEquals('#page-url', '/globals.html')
       .assert.textContains('#page-content', `What is ${basename(tmpDir)}`);
   });
 });
