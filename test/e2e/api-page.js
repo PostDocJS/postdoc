@@ -1,10 +1,9 @@
 import { spawn, spawnSync } from 'child_process';
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'fs/promises';
+import { rmSync } from 'fs';
+import { mkdir, mkdtemp, readFile, writeFile } from 'fs/promises';
 import { tmpdir } from 'os';
 import { join, resolve } from 'path';
 import { chdir } from 'process';
-import Configuration from '../../lib/configuration.js';
-import Logger from '../../lib/logger.js';
 import kill from 'tree-kill';
 
 describe('Test api page', function () {
@@ -34,28 +33,40 @@ describe('Test api page', function () {
     postdocConfigContent = postdocConfigContent.replace(/\bsource: null\b/, `source: "./${apiPagesFolder}"`);
     await writeFile(postdocConfigFilename, postdocConfigContent);
 
+    await mkdir(apiPagesFolder);
+
     spawnSync('npm', ['install'], { shell: true });
 
-    await Configuration.initialise({});
+    commandProcess = await new Promise((resolve, reject) => {
+      const childProcess = spawn('npm', ['start'], {
+        cwd: tmpDir,
+        stdio: ['ignore', 'pipe', 'pipe']
+      });
 
-    await Logger.initialise();
+      let output = '';
+      childProcess.stdout.on('data', (chunk) => {
+        output += chunk.toString();
 
-    commandProcess = spawn('npm', ['start'], { shell: true });
+        if (/https?:\/\/\S+/.test(output)) {
+          resolve(childProcess);
+        }
+      });
+
+      childProcess.on('exit', reject);
+    });
 
     done();
   });
 
-  after(async function (browser, done) {
-    kill(commandProcess.pid, 'SIGTERM', async function (err) {
+  after(function (browser, done) {
+    kill(commandProcess.pid, 'SIGTERM', function () {
       chdir(rootDirectory);
-      await rm(tmpDir, { recursive: true });
+      rmSync(tmpDir, { recursive: true });
       done();
     });
   });
 
   it('Check if api-page has proper comments', async function(browser) {
-    await mkdir(apiPagesFolder);
-
     const pageFilename = 'boo';
 
     await writeFile(join(apiPagesFolder, `${pageFilename}.js`), `

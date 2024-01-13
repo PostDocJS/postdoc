@@ -1,11 +1,10 @@
+import { rmSync } from 'node:fs';
 import { spawn, spawnSync } from 'node:child_process';
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve, basename } from 'node:path';
 import { chdir } from 'node:process';
-import Configuration from '../../lib/configuration.js';
 import kill from 'tree-kill';
-import Logger from '../../lib/logger.js';
 
 describe('Test pseudo global variables in ejs files', function () {
   const rootDirectory = process.cwd();
@@ -29,34 +28,38 @@ describe('Test pseudo global variables in ejs files', function () {
 
     spawnSync('npm', ['install'], { shell: true });
 
-    await Configuration.initialise({});
+    commandProcess = await new Promise((resolve, reject) => {
+      const childProcess = spawn('npm', ['start'], {
+        cwd: tmpDir,
+        stdio: ['ignore', 'pipe', 'pipe']
+      });
 
-    await Logger.initialise();
+      let output = '';
+      childProcess.stdout.on('data', (chunk) => {
+        output += chunk.toString();
 
-    commandProcess = spawn('npm', ['start'], { shell: true });
+        if (/https?:\/\/\S+/.test(output)) {
+          resolve(childProcess);
+        }
+      });
+
+      childProcess.on('exit', reject);
+    });
 
     done();
   });
 
-  after(async function (browser, done) {
-    kill(commandProcess.pid, 'SIGTERM', async function (err) {
+  after(function (browser, done) {
+    kill(commandProcess.pid, 'SIGTERM',  function (err) {
       chdir(rootDirectory);
-      await rm(tmpDir, { recursive: true });
+      rmSync(tmpDir, { recursive: true });
       done();
     });
   });
 
   it('check if pseudo-global variables are available in ejs files', async function (browser) {
-    const configuration = Configuration.get();
-
-    const path = 'globals';
-    const pathToLayoutsFolder = join(configuration.directories.layouts, path);
-    const pathToContentFolder = join(configuration.directories.content, path);
-    const relativePathToFilenameInsideLayoutsFolder = join(pathToLayoutsFolder, 'index.ejs');
-    const relativePathToFilenameInsideContentFolder = join(pathToContentFolder, 'index.md');
-
-    await mkdir(pathToContentFolder);
-    await mkdir(pathToLayoutsFolder);
+    const layoutPath = join('src', 'layouts', 'globals.ejs');
+    const contentPath = join('docs', 'globals.md');
 
     await writeFile(
       join('src', 'js', 'test-require.cjs'),
@@ -73,7 +76,7 @@ export const text = 'some text'
     );
 
     await writeFile(
-      relativePathToFilenameInsideLayoutsFolder,
+      layoutPath,
       `
     <!DOCTYPE html>
     <html lang="en">
@@ -98,14 +101,12 @@ export const text = 'some text'
         <span id="page-url"><%= page.url %></span>
 
         <span id="page-content"><%- page.content %></span>
-
-        <script type="module" src="/src/js/base.js"></script>
       </body>
     </html>
     `
     );
 
-    await writeFile(relativePathToFilenameInsideContentFolder, `
+    await writeFile(contentPath, `
 # What is {{appSettings.name}}
 
 ## Part 1
@@ -117,16 +118,16 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.    
     `);
 
-    const absolutePathToFilenameInsideLayoutsFolder = resolve(relativePathToFilenameInsideLayoutsFolder);
+    const absolutePathToFilenameInsideLayoutsFolder = resolve(layoutPath);
 
     browser
-      .navigateTo(`${browser.baseUrl}/${path}/`)
+      .navigateTo(`${browser.baseUrl}/globals.html`)
       .waitForElementVisible('body')
       .assert.textEquals('#filename', absolutePathToFilenameInsideLayoutsFolder)
       .assert.textEquals('#dirname', dirname(absolutePathToFilenameInsideLayoutsFolder))
       .assert.textEquals('#test-require', 'some text')
       .assert.textEquals('#test-import', 'some text')
-      .assert.textEquals('#page-url', `/${path}/index.html`)
+      .assert.textEquals('#page-url', `/globals.html`)
       .assert.textContains('#page-content', `What is ${basename(tmpDir)}`);
   });
 });
