@@ -12,6 +12,7 @@
   "devDependencies": {
     "postdoc": "${postdoc_version}",
     "nightwatch": "${nightwatch_version}",
-    "nightwatch-plugin-postdoc": "${nightwatch_plugin_postdoc_version}"
+    "nightwatch-plugin-postdoc": "${nightwatch_plugin_postdoc_version}",
+    "marked-custom-heading-id": "^2.0.7"
   }
 }

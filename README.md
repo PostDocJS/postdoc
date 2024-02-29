@@ -1,13 +1,13 @@
 <p style="text-align: center;">
-   <a href="#">PostDoc</a> is a simple documentation website build tool.
+   <a href="https://postdoc.dev">PostDoc</a> allows you to create delightful documentation with ease.
 </p>
 
 ## Install
 
-The **recommended** way to install PostDoc is by running
+The **recommended** way to install PostDoc is by running:
 
 ```bash
-npm create postdoc@latest
+npm init postdoc@latest
 ```
 
 Or you can add PostDoc to an existing project manually: 
@@ -16,9 +16,11 @@ Or you can add PostDoc to an existing project manually:
 npm i -D postdoc
 ```
 
+and then run `npx postdoc init` to create a new PostDoc project.
+
 ## Documentation
 
-Visit [the official documentation](#).
+Visit [the official documentation](https://postdoc.dev).
 
 ## Support
 
@@ -34,4 +36,4 @@ Having trouble? Get help in the [Discussions](https://github.com/PostDocJS/postd
 ## Links
 
 - [License (MIT)](LICENSE)
-- [Website](#)
+- [Website](https://postdoc.dev)
