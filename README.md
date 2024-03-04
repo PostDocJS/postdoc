@@ -37,3 +37,13 @@ Having trouble? Get help in the [Discussions](https://github.com/PostDocJS/postd
 
 - [License (MIT)](LICENSE)
 - [Website](https://postdoc.dev)
+
+
+## WIP
+
+Temporarly removed nightwatch issues on install (to be added back to dependencies when fixed)
+"nightwatch": "^3.3.2"
+
+2 warnings in dependencies:
+npm WARN deprecated rollup-plugin-terser@7.0.2: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
+npm WARN deprecated sourcemap-codec@1.4.8: Please use @jridgewell/sourcemap-codec instead
