@@ -1,7 +1,7 @@
 {
   "name": "postdoc",
   "type": "module",
-  "version": "0.2.0-preview",
+  "version": "0.3.0-preview",
   "license": "MIT",
   "description": "Create delightful documentation websites with ease.",
   "bin": {
