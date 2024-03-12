@@ -31,7 +31,6 @@ export default class Snapshot {
     activeSnapshot.#setLanguage(this.#language);
 
     await this.#mergeHeadInto(activeSnapshot);
-
     this.#injectBodyInto(activeSnapshot);
   }
 
@@ -42,15 +41,11 @@ export default class Snapshot {
   async #mergeHeadInto(activeSnapshot) {
     activeSnapshot.#document.adoptNode(this.#head);
 
-    activeSnapshot.#mergeRegularHeadElements(
-      this.#getHeadElementsByType('regular')
-    );
-    await activeSnapshot.#mergeStyleHeadElements(
-      this.#getHeadElementsByType('style')
-    );
-    activeSnapshot.#mergeScriptHeadElements(
-      this.#getHeadElementsByType('script')
-    );
+    activeSnapshot.#mergeRegularHeadElements(this.#getHeadElementsByType('regular'));
+
+    await activeSnapshot.#mergeStyleHeadElements(this.#getHeadElementsByType('style'));
+
+    activeSnapshot.#mergeScriptHeadElements(this.#getHeadElementsByType('script'));
   }
 
   #injectBodyInto(activeSnapshot) {
@@ -75,20 +70,37 @@ export default class Snapshot {
     );
   }
 
-  #mergeStyleHeadElements(newStyleHeadElements) {
-    for (const element of this.#getHeadElementsByType('style')) {
-      this.#checkElementInListAndRemove(element, newStyleHeadElements);
-    }
+  async #mergeStyleHeadElements(newStyleHeadElements) {
+    // for (const element of this.#getHeadElementsByType('style')) {
+    //   this.#checkElementInListAndRemove(element, newStyleHeadElements);
+    // }
+    //
+    // const pendingStyles = newStyleHeadElements.map((element) => {
+    //   const promise = this.#waitForLoad(element);
+    //
+    //   this.#head.append(element);
+    //
+    //   return promise;
+    // });
+    //
+    // return Promise.all(pendingStyles);
 
-    const pendingStyles = newStyleHeadElements.map((element) => {
-      const promise = this.#waitForLoad(element);
+    const existingStyles = this.#getHeadElementsByType('style');
+    const pendingStyles = newStyleHeadElements
+      .filter(newEl => !existingStyles.some(existing => existing.isEqualNode(newEl)))
+      .map(newEl => {
+        const promise = this.#waitForLoad(newEl);
+        this.#head.append(newEl);
+        return promise;
+      });
 
-      this.#head.append(element);
+    await Promise.all(pendingStyles);
 
-      return promise;
+    existingStyles.forEach(existing => {
+      if (!newStyleHeadElements.some(newEl => newEl.isEqualNode(existing))) {
+        existing.remove();
+      }
     });
-
-    return Promise.all(pendingStyles);
   }
 
   #mergeScriptHeadElements(newScriptHeadElements) {
@@ -155,7 +167,9 @@ export default class Snapshot {
   #getElementType(element) {
     if (this.#isStyle(element)) {
       return 'style';
-    } else if (this.#isScript(element)) {
+    }
+
+    if (this.#isScript(element)) {
       return 'script';
     }
 
@@ -170,15 +184,23 @@ export default class Snapshot {
   }
 
   #isScript(element) {
-    return element.tagName === 'SCRIPT';
+    return element.tagName.toLowerCase() === 'script';
   }
 
   #isStyle(element) {
-    return (
-      element.tagName === 'STYLE' ||
-      (element.tagName === 'LINK' &&
-        (element.rel === 'stylesheet' || element.href.endsWith('.css')))
-    );
+    if (element.tagName.toLowerCase() === 'style') {
+      return true;
+    }
+
+    if (element.tagName.toLowerCase() !== 'link') {
+      return false;
+    }
+
+    if (element.rel.toLowerCase() === 'stylesheet') {
+      return true;
+    }
+
+    return element.href.endsWith('.css');
   }
 
   #moveStylesToHeadIfNeeded() {

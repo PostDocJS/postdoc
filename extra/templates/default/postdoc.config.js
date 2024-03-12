@@ -1,9 +1,8 @@
 import {sep} from 'node:path';
-import customHeadingId from 'marked-custom-heading-id';
 
 export default {
   pwa: {
-    enabled: true
+    enabled: false
   },
 
   directories: {
@@ -45,8 +44,7 @@ export default {
   appSettings: {},
 
   markdown: {
-    options: {async: true},
-    extensions: [customHeadingId()],
+    extensions: [],
     shikiOptions: {}
   },
 
