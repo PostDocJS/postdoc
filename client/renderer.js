@@ -40,8 +40,7 @@ export default class Renderer {
     const body = this.#currentSnapshot.body;
 
     body.addEventListener('click', this.#handleClick.bind(this));
-
-    return
+    /*
     Array.from(this.#currentSnapshot.body.querySelectorAll('a[href]'))
       .filter((element) => element.host === location.host)
       .filter((element) => !element.getAttribute('href').startsWith('#'))
@@ -54,12 +53,16 @@ export default class Renderer {
           await this.#session.navigator.navigateTo(url);
         })
       );
+     */
   }
 
   #handleClick(event) {
     const element = event.target.closest('a[href]');
+
     if (element && element.host === location.host && !element.getAttribute('href').startsWith('#')) {
       event.preventDefault();
+      event.stopPropagation();
+
       const url = new URL(element.href);
       this.#session.navigator.navigateTo(url).catch(err => console.error('Navigation error:', err));
     }

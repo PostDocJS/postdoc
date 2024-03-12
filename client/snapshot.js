@@ -71,20 +71,6 @@ export default class Snapshot {
   }
 
   async #mergeStyleHeadElements(newStyleHeadElements) {
-    // for (const element of this.#getHeadElementsByType('style')) {
-    //   this.#checkElementInListAndRemove(element, newStyleHeadElements);
-    // }
-    //
-    // const pendingStyles = newStyleHeadElements.map((element) => {
-    //   const promise = this.#waitForLoad(element);
-    //
-    //   this.#head.append(element);
-    //
-    //   return promise;
-    // });
-    //
-    // return Promise.all(pendingStyles);
-
     const existingStyles = this.#getHeadElementsByType('style');
     const pendingStyles = newStyleHeadElements
       .filter(newEl => !existingStyles.some(existing => existing.isEqualNode(newEl)))
