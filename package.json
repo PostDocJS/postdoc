@@ -20,6 +20,16 @@
     "test:unit": "nightwatch --env unittests",
     "lint": "eslint ."
   },
+  "files": [
+    "bin",
+    "client",
+    "extra",
+    "lib",
+    "LICENSE",
+    "README.md",
+    "package.json",
+    "package-lock.json"
+  ],
   "devDependencies": {
     "@eslint/js": "^8.40.0",
     "@stylistic/eslint-plugin": "^1.5.1",
