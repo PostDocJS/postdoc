@@ -74,16 +74,7 @@
 
 import Session from './session.js';
 
-globalThis.PostDoc ??= new Session();
+const _session = new Session();
+globalThis.PostDoc ??= _session
 
-export function onLeave(callback, options) {
-  globalThis.PostDoc.navigator.registerOnLeaveCallback(callback, options);
-}
-
-export function onRender(callback, options) {
-  globalThis.PostDoc.navigator.registerOnRenderCallback(callback, options);
-}
-
-export async function go(url, replace) {
-  await globalThis.PostDoc.navigator.navigateTo(url, replace);
-}
+export const session = _session;
