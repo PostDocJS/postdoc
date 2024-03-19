@@ -37,3 +37,64 @@ Having trouble? Get help in the [Discussions](https://github.com/PostDocJS/postd
 
 - [License (MIT)](LICENSE)
 - [Website](https://postdoc.dev)
+
+
+## Sphinx documentation
+
+Postdoc can handle sphinx documentation as well. 
+ 
+Now run this postdoc command:
+
+```shell
+postdoc build-sphinx /absolute/path/to/sphinx/docs
+```
+
+`postdoc` will run a `sphinx-build xml` command which will generate some xml files in the build directory. Once the xml files are available `postdoc` will parse them and generate equivalent html files.  
+
+In case `postdoc build-sphinx` command failed make sure the follwing apply to your python project as well.  
+
+Usually, setup for sphinx documentation has the following structure:
+
+```
+
+/docs: Main directory for Sphinx documentation. <---- we need this path!
+    /source: Your sphinx configuration and documentation in .md, .rst files.
+        conf.py: Config file for Sphinx
+        index.rst: Entrypoint for Sphinx docs (main page)
+        modules.rst: Lists the modules of your Python package.
+    /build: The output directory where Sphinx saves the generated documentation.
+    Makefile: A file with commands to build the docs in various formats.
+
+/your_python_package: The directory containing your Python package code.
+    __init__.py: Indicates that this directory is a Python package.
+    module1.py: A module in your package.
+    module2.py: Another module in your package.
+    setup.py: The setup script for installing the package.
+
+```
+
+
+In your python project repository directory run the following CLI command:
+
+```shell
+sphinx-build -M xml ./docs/source ./docs/build/ -W --keep-going
+```
+
+TIP: If you get some imports errors make sure in the `conf.py` you added this code at the top:  
+
+```py
+import sys
+
+absPathToPyPackage = __file__.split("docs")[0]
+
+sys.path.append(absPathToPyPackage)
+
+```
+
+
+
+
+
+
+
+
