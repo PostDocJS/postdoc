@@ -43,7 +43,7 @@ Having trouble? Get help in the [Discussions](https://github.com/PostDocJS/postd
 
 Postdoc can handle sphinx documentation as well. 
  
-Now run this postdoc command:
+Run this postdoc command:
 
 ```shell
 postdoc build-sphinx /absolute/path/to/sphinx/docs
@@ -51,7 +51,9 @@ postdoc build-sphinx /absolute/path/to/sphinx/docs
 
 `postdoc` will run a `sphinx-build xml` command which will generate some xml files in the build directory. Once the xml files are available `postdoc` will parse them and generate equivalent html files.  
 
-In case `postdoc build-sphinx` command failed make sure the follwing apply to your python project as well.  
+**Something went wrong?**
+
+In case `postdoc build-sphinx` command failed make sure the follwing applies to your python project as well.  
 
 Usually, setup for sphinx documentation has the following structure:
 
@@ -83,6 +85,8 @@ sphinx-build -M xml ./docs/source ./docs/build/ -W --keep-going
 TIP: If you get some imports errors make sure in the `conf.py` you added this code at the top:  
 
 ```py
+# conf.py
+
 import sys
 
 absPathToPyPackage = __file__.split("docs")[0]
@@ -91,8 +95,9 @@ sys.path.append(absPathToPyPackage)
 
 ```
 
+With that change sphinx will be able to get doc strings from python classes and functions.
 
-
+**Important: You sould be able to generate sphinx docs before running postdoc build-sphinx command**
 
 
 
