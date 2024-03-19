@@ -18,9 +18,9 @@
  * function go(url: string | URL, replace?: boolean): Promise<void>;
  * ```
  *
- * > The public API is available at the `postdoc/client` path;
+ * > The public API is available at the `postdoc/page` path;
  * > ```js
- * > import {} from 'postdoc/client';
+ * > import {} from 'postdoc/page';
  * > ```
  *
  * The first `url` parameter expects a URL of the next page.
@@ -78,16 +78,3 @@ const _session = new Session();
 globalThis.PostDoc ??= _session
 
 export const session = _session;
-
-
-export async function navigateTo(url, replace) {
-    await globalThis.PostDoc.navigator.navigateTo(url, replace);
-}
-
-export function onLeave(callback, options) {
-    globalThis.PostDoc.navigator.registerOnLeaveCallback(callback, options);
-}
-
-export function onRender(callback, options) {
-    globalThis.PostDoc.navigator.registerOnRenderCallback(callback, options);
-}

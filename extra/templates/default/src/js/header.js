@@ -1,4 +1,4 @@
-import { onRender } from "postdoc/client";
+import { onRender } from "postdoc/page";
 
 onRender(
   () => {
