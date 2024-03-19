@@ -53,9 +53,9 @@ postdoc build-sphinx /absolute/path/to/sphinx/docs
 
 **Something went wrong?**
 
-In case `postdoc build-sphinx` command failed make sure the follwing applies to your python project as well.  
+In case `postdoc build-sphinx` command failed, make sure the following applies to your python project as well.  
 
-Usually, setup for sphinx documentation has the following structure:
+Usually, setup for sphinx documentation has the following directory structure:
 
 ```
 
@@ -74,7 +74,6 @@ Usually, setup for sphinx documentation has the following structure:
     setup.py: The setup script for installing the package.
 
 ```
-
 
 In your python project repository directory run the following CLI command:
 
