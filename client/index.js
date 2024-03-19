@@ -18,9 +18,9 @@
  * function go(url: string | URL, replace?: boolean): Promise<void>;
  * ```
  *
- * > The public API is available at the `postdoc/client` path;
+ * > The public API is available at the `postdoc/page` path;
  * > ```js
- * > import {} from 'postdoc/client';
+ * > import {} from 'postdoc/page';
  * > ```
  *
  * The first `url` parameter expects a URL of the next page.
