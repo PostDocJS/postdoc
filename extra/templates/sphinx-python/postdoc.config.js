@@ -1,7 +1,7 @@
 import { sep } from 'node:path';
 
 export default {
-  template: 'default',
+  template: 'sphinx-python',
 
   pwa: {
     enabled: false

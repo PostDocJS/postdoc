@@ -1,0 +1,17 @@
+{
+  "name": "${project_name}",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "test": "postdoc test",
+    "start": "postdoc run",
+    "build": "postdoc build",
+    "preview": "postdoc preview"
+  },
+  "devDependencies": {
+    "postdoc": "${postdoc_version}",
+    "nightwatch": "${nightwatch_version}",
+    "nightwatch-plugin-postdoc": "${nightwatch_plugin_postdoc_version}"
+  }
+}
