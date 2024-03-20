@@ -42,18 +42,29 @@ Having trouble? Get help in the [Discussions](https://github.com/PostDocJS/postd
 ## Sphinx documentation
 
 Postdoc can handle sphinx documentation as well. 
- 
-Run this postdoc command:
+
+In your python project repository directory run the following CLI command:
 
 ```shell
-postdoc build-sphinx /absolute/path/to/sphinx/docs
+sphinx-build -M xml ./docs/source ./docs/build/ -W --keep-going
 ```
 
-`postdoc` will run a `sphinx-build xml` command which will generate some xml files in the build directory. Once the xml files are available `postdoc` will parse them and generate equivalent html files.  
+**Important**: You sould be able to generate sphinx docs before running `postdoc sphinx` command.
+
+
+Once sphinx-build finishes run this postdoc command:
+
+```shell
+postdoc sphinx /absolute/path/to/sphinx/docs
+```
+
+`postdoc` will parse the xml files generated and compile them into postodoc format.
+
+
 
 **Something went wrong?**
 
-In case `postdoc build-sphinx` command failed, make sure the following applies to your python project as well.  
+In case `sphinx-build` command failed, make sure the following applies to your python project as well.  
 
 Usually, setup for sphinx documentation has the following directory structure:
 
@@ -75,12 +86,6 @@ Usually, setup for sphinx documentation has the following directory structure:
 
 ```
 
-In your python project repository directory run the following CLI command:
-
-```shell
-sphinx-build -M xml ./docs/source ./docs/build/ -W --keep-going
-```
-
 TIP: If you get some imports errors make sure in the `conf.py` you added this code at the top:  
 
 ```py
@@ -95,9 +100,6 @@ sys.path.append(absPathToPyPackage)
 ```
 
 With that change sphinx will be able to get doc strings from python classes and functions.
-
-**Important: You sould be able to generate sphinx docs before running postdoc build-sphinx command**
-
 
 
 
