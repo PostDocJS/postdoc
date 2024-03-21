@@ -49,18 +49,14 @@ In your python project repository directory run the following CLI command:
 sphinx-build -M xml ./docs/source ./docs/build/ -W --keep-going
 ```
 
-**Important**: You sould be able to generate sphinx docs before running `postdoc sphinx` command.
+**Important**: You sould be able to generate sphinx docs before running `postdoc init` command.
 
+On `postdoc init` command to handle the sphinx docs select the `sphinx-python` template and paste path to sphinx docs folder (where you have the Makefile and source folder).
 
-Once sphinx-build finishes run this postdoc command:
-
-```shell
-postdoc sphinx /absolute/path/to/sphinx/docs
 ```
-
-`postdoc` will parse the xml files generated and compile them into postodoc format.
-
-
+? Select the UI template to used: sphinx-python
+? Enter path to python sphinx docs: absolute/path/to/sphinx/docs
+```
 
 **Something went wrong?**
 
