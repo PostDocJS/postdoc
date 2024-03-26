@@ -1,22 +1,22 @@
-<p style="text-align: center;">
-   <a href="https://postdoc.dev">PostDoc</a> allows you to create delightful documentation with ease.
-</p>
+# Postodc
+
+<a href="https://postdoc.dev">Postdoc</a> enables you to create delightful documentation with ease.
 
 ## Install
 
-The **recommended** way to install PostDoc is by running:
+The **recommended** way to install Postdoc is by running:
 
 ```bash
 npm init postdoc@latest
 ```
 
-Or you can add PostDoc to an existing project manually: 
+Or you can add Postdoc to an existing project manually: 
 
 ```bash
 npm i -D postdoc
 ```
 
-and then run `npx postdoc init` to create a new PostDoc project.
+and then run `npx postdoc init` to create a new Postdoc project.
 
 ## Documentation
 

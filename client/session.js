@@ -9,6 +9,11 @@ export default class Session {
     this.#setupViteConnection();
   }
 
+  init() {
+    this.renderer.init();
+    this.navigator.setup();
+  }
+
   #setupViteConnection() {
     if (import.meta.hot) {
       import.meta.hot.on('postdoc:reload-page', () => this.navigator.reload());
