@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5.0, minimum-scale=0.86" />
+    <title>
+        <%= appSettings.name %> Project
+    </title>
+    <style id="fonts">
+        @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700&display=swap');
+    </style>
+    <style id="base-styles">
+        @import "/src/css/base.css";
+    </style>
+    <link rel="stylesheet" href="/src/css/homepage.css" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_16.png" />
+    <link rel="icon" type="image/png" sizes="180x180" href="/favicon_180.png" />
+</head>
+
+<body>
+    <%- include('header') %>
+
+        <main>
+            <h1>Sphinx Python docs!</h1>
+        </main>
+
+    <%- include('footer') %>
+
+    <script type="module" src="/src/js/base.js"></script>
+
+</body>
+
+</html>

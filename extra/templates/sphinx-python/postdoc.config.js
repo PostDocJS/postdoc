@@ -1,7 +1,8 @@
 import { sep } from 'node:path';
 
 export default {
-  template: 'default',
+  template: 'sphinx-python',
+  sphinx_docs_path: "${sphinx_docs_path}",
 
   pwa: {
     enabled: false
